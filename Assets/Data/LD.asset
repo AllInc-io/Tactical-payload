@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0691be7dad081e409c1dcea2a767a6c, type: 3}
+  m_Name: LD
+  m_EditorClassIdentifier: 
+  damagePerSecondWhenOnFire: 10
+  maxZombiesProjectionForceWhenKilled: 50
+  levelUnlockSecondChara: 1
+  levelUnlockThirdChara: 89546356
+  charactersScale: 0.75
+  moneyWonPerLevel: 500
+  moneyWonPerZombieKilled: 3
+  wavesAmountMultiplierCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wavesStartMultiplier: 1
+  wavesMaxMultiplier: 10
+  maxLevel: 100
+  possibleCharactersPrefabs:
+  - {fileID: 5620198467259125731, guid: 53f33498f1f12714d8515cffa8bd2243, type: 3}
+  - {fileID: 8692110966995393380, guid: 3bc75bba4d7cb614a91415fcd45cfc9d, type: 3}
+  - {fileID: 8692110966995393380, guid: 20bd3e6021760124599a47caf8924145, type: 3}
+  - {fileID: 3482484702487420864, guid: 4b89cea34fad5ac4dad7ea5645ce95ae, type: 3}
+  - {fileID: 8925821719511628689, guid: 9b4e8f9a65c663348bc6aea36bc40efb, type: 3}
+  - {fileID: 8692110966995393380, guid: e7ecc503da6bfa24486f1cfd17e51b23, type: 3}
+  - {fileID: 8925821719511628689, guid: 267243dc3a19e204d919ab7f36d0da7b, type: 3}
+  - {fileID: 3482484702487420864, guid: ba6f593b232d04e4d8caf9d79d830bd0, type: 3}
+  - {fileID: 8692110966995393380, guid: a32a1b408c319ed47b257c1edf79b920, type: 3}
+  - {fileID: 3482484702487420864, guid: c17ee16d8ed6b8345b4cf51f04936463, type: 3}
+  newCharacterEveryX: 1
+  characterMaxLevel: 30
+  characterUpgradePriceCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  characterUpgradeBasePrice: 10
+  characterUpgradeMaxMultiplier: 100
+  characterSpeedBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  characterSpeedMaxAdditionalMultiplier: 3
+  characterDamageBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  characterDamageMaxAdditionalMultiplier: 3
+  characterFireRateBoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  characterFireRateMaxAdditionalMultiplier: 3
