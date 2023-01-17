@@ -15,12 +15,14 @@ public class Level : MonoBehaviour
 
     [SerializeField] Wave[] waves;
 
-    [SerializeField] PathCreator path;
+    //[SerializeField] PathCreator path;
 
     public int totalEnemiesKilled;
     public int enemiesAlive;
 
     [SerializeField] public NavMeshSurface surface;
+
+    [SerializeField] Transform oneRoadBlock;
 
 
 
@@ -31,6 +33,12 @@ public class Level : MonoBehaviour
     public bool pauseWaves;
 
     int enemiesToSpawn;
+
+    public int totalPathLength;
+
+    public float nextLevelSpawn = 25f;
+
+    public Vector3 cameraPos;
 
     public void Init()
     {
@@ -63,9 +71,12 @@ public class Level : MonoBehaviour
         surface.BuildNavMesh();
 
         //zones[0].SetUpCamera();
-        payload.Init(path);
+        payload.Init();
+
 
         StartCoroutine(EnemyWavesCoroutine());
+
+        
     }
 
 
@@ -95,8 +106,6 @@ public class Level : MonoBehaviour
         while (!stop)
         {
 
-
-
             /*foreach(int entry in waveEntrances)
             {
                 Vector3 entrance = enemySpawns[entry].position;
@@ -109,10 +118,10 @@ public class Level : MonoBehaviour
             yield return new WaitForSeconds(3);
             */
 
+            int progress = Mathf.RoundToInt(cameraPos.z / 3f);
+            int totalZombiesAmount = Random.Range(R.get.levelDesign.EvaluateWaveAmount(progress, waves[i % waves.Length].zombieMinAmount), R.get.levelDesign.EvaluateWaveAmount(progress, waves[i % waves.Length].zombieMaxAmount));
 
-            int totalZombiesAmount = Random.Range(R.get.levelDesign.EvaluateWaveAmount(R.get.lastLevelFinished, waves[i % waves.Length].zombieMinAmount), R.get.levelDesign.EvaluateWaveAmount(R.get.lastLevelFinished, waves[i % waves.Length].zombieMaxAmount));
-
-            Vector3 entrance = payload.transform.position + Vector3.right * 5 * U.RandomSign() + payload.transform.forward * 5f; 
+            Vector3 entrance = payload.transform.position + Vector3.right * 15 * U.RandomSign() + payload.transform.forward * 10f; 
                 Vector3 dir = (entrance).normalized;
                 R.get.ui.menuIngame.IndicateWaveIncoming(dir, i + 1, waves.Length);
 
@@ -141,10 +150,6 @@ public class Level : MonoBehaviour
 
     }
 
-    public void EnemyWave(Wave wave, Light entranceLight, int amount, Vector3 from, float waveSpawningDuration = 1f)
-    {
-        StartCoroutine(EnemyWaveCoroutine(wave, amount, from, waveSpawningDuration));
-    }
 
     private IEnumerator EnemyWaveCoroutine(Wave wave, int amount, Vector3 from, float waveSpawningDuration = 1f)
     {
@@ -212,7 +217,7 @@ public class Level : MonoBehaviour
     public void SetUpCamera()
     {
         
-        Vector3 cameraPos = Vector3.zero;
+        cameraPos = Vector3.zero;
         int amount = 0;
         foreach (Hero hero in R.get.game.heroes)
         {
@@ -227,7 +232,13 @@ public class Level : MonoBehaviour
 
         cameraPos /= amount;
 
-        R.get.mainCamera.transform.position = cameraPos + Vector3.up * 30 - Vector3.forward * 5f; //TEMP
+        R.get.mainCamera.transform.position = cameraPos + Vector3.up * 60 - Vector3.forward * 30f; //TEMP
+
+        if(cameraPos.z >= nextLevelSpawn)
+        {
+            nextLevelSpawn += 50f;
+            Instantiate(oneRoadBlock, Vector3.forward * (nextLevelSpawn + 25f), default);
+        }
     }
 }
 

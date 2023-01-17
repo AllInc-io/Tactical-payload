@@ -6,7 +6,7 @@ using PathCreation;
 public class Payload : MonoBehaviour
 {
 
-    PathCreator path;
+    //PathCreator path;
     [SerializeField] LayerMask canStopLayermask;
     [SerializeField] float speed = 0.05f;
 
@@ -18,9 +18,9 @@ public class Payload : MonoBehaviour
     [SerializeField] int maxPvs;
     [HideInInspector] public int PVs;
 
-    public void Init(PathCreator path)
+    public void Init()
     {
-        this.path = path;
+
         isInit = true;
 
         PVs = maxPvs;
@@ -33,7 +33,7 @@ public class Payload : MonoBehaviour
 
         bool canMove = true;
 
-        if (Physics.OverlapBox(transform.position + transform.forward, new Vector3(transform.lossyScale.x, 1, 1.5f), default, canStopLayermask).Length > 0) canMove = false;
+        if (Physics.OverlapBox(transform.position + transform.forward, new Vector3(transform.lossyScale.x, 1, 1f), default, canStopLayermask).Length > 0) canMove = false;
         //casts in front to check that it can move;
         if (canMove && !stop) MoveForwardOnPath();
 
@@ -41,17 +41,13 @@ public class Payload : MonoBehaviour
 
     public void MoveForwardOnPath()
     {
-        t += Time.deltaTime * speed;
+        /*t += Time.deltaTime * speed/ path.path.length;
 
-        Vector3 point = path.path.GetPointAtTime(t, EndOfPathInstruction.Stop);
-        transform.forward = point - transform.position;
-        transform.position = point;
+        Vector3 point = path.path.GetPointAtTime(t, EndOfPathInstruction.Stop);*/
 
-        if(t >= 1)
-        {
-            R.get.game.Win();
-            stop = true;
-        }
+        transform.position += transform.forward * Time.deltaTime * speed;
+
+        
     }
 
     public void TakeDamage(int amount)
@@ -62,6 +58,7 @@ public class Payload : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawCube(transform.position + transform.forward, new Vector3(transform.lossyScale.x, 1, 1.5f));
+        Gizmos.color = new Color(1, 1, 0, 0.3f);
+        Gizmos.DrawCube(transform.position + transform.forward, new Vector3(transform.lossyScale.x, 1, 1f) * 2f);
     }
 }

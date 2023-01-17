@@ -37,6 +37,8 @@ public class Hero : Character
     Vector3 nextGoal;
     [SerializeField] LayerMask ennemisLayerMask;
     [SerializeField] LayerMask alliesLayerMask;
+    [SerializeField] LayerMask canShootLayerMask;
+    [SerializeField] LayerMask destructiblesLayerMask;
 
     [SerializeField] bool slowsDown; //effect ray is visionRay
     [SerializeField, ShowIf("slowsDown")] float slowDownMultiplier = 0.5f;
@@ -347,6 +349,8 @@ public class Hero : Character
 
         if (gun != null)
         {
+            Collider interestCollider = null;
+            bool previousColliderIn = false;
 
             float currentDistance = gun.isGrenade ? 0 : visionRay * 2f;
 
@@ -354,8 +358,7 @@ public class Hero : Character
             if (results.Length > 0)
             {
                 float distanceToCollider;
-                Collider interestCollider = null;
-                bool previousColliderIn = false;
+
                 foreach (Collider collider in results)
                 {
                     distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
@@ -372,6 +375,37 @@ public class Hero : Character
 
                 }
 
+
+
+            }
+            else
+            {
+
+
+                results = Physics.OverlapSphere(transform.position, visionRay, destructiblesLayerMask, QueryTriggerInteraction.Collide);
+                if (results.Length > 0)
+                {
+                    float distanceToCollider;
+
+                    foreach (Collider collider in results)
+                    {
+                        distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
+                        Vector3 direction = collider.transform.position - gun.transform.position;
+                        //direction.y = 0;
+                        if (collider.TryGetComponent(out Destructible destructible) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                        {
+                            if (collider == previousTarget) previousColliderIn = true;
+                            interestCollider = collider;
+                            interestPoint = collider.transform.position;
+                            currentDistance = Vector3.Distance(interestPoint, transform.position);
+                            noTarget = false;
+                        }
+
+                    }
+
+                }
+
+
                 //avoids "flickering" of rotation when two targets are about the same distance by favoring the one it was targeting previously even if it's a little further
                 if (!gun.isGrenade && !noTarget && interestCollider != previousTarget && previousColliderIn && Vector3.Distance(previousTarget.transform.position, transform.position) <= currentDistance * 2f)
                 {
@@ -387,287 +421,288 @@ public class Hero : Character
                 //pauseOnPath = !noTarget;
 
 
-
             }
+
+            if(results.Length > 0)
+            {
+                if (gun != null)
+                {
+                    //if there is a target they can shoot, player will try to shoot (which will only happen if there is a bullet ready)
+                    if (shootsConstantly || (canShoot && !noTarget && (Physics.Raycast(gun.bulletSource.position, gun.bulletSource.forward - gun.bulletSource.forward.y * Vector3.up, visionRay, canShootLayerMask))))
+                    {
+                        gun.lamp.DOKill();
+                        gun.lamp.DOIntensity(initLampIntensity, 0.3f);
+                        //inflict damage and triggers the firing animation
+                        if (gun.TryShoot()) animator.SetTrigger("Fire");
+                    }
+                    else if (canShoot && !noTarget && Vector3.Distance(interestPoint, transform.position) < Vector3.Distance(transform.position, gun.bulletSource.position))
+                    {
+                        //inflict damage and triggers the firing animation
+                        if (Physics.Raycast(transform.position, interestPoint - transform.position, out RaycastHit hit, gun.bulletRange, canShootLayerMask)) if (gun.TryShoot(true)) animator.SetTrigger("Fire");
+
+                    }
+                }
+            }
+
+            Vector3 dir = (interestPoint - transform.position).normalized;
+
+            Vector3 horizontalDir = dir;
+            horizontalDir.y = 0;
+
+            if (!noTarget)
+            {
+
+                targetGO.transform.position = interestPoint;
+                /*
+                   Vector3 _direction = (aim.position - transform.position).normalized;
+
+                   //create the rotation we need to be in to look at the target
+                   Quaternion _lookRotation = Quaternion.LookRotation(interestPoint);
+
+                   //rotate us over time according to speed until we are in the required rotation
+                   aim.rotation = Quaternion.Slerp(aim.rotation, _lookRotation, Time.deltaTime * 90f);
+
+                   */
+
+                animator.SetTrigger("Aim");
+
+
+                //turns the aim towards the target, and the legs follow if there is a big enough rotation to avoid breaking the poor guy's spine
+                //Debug.Log(Vector3.SignedAngle(transform.forward, aim.forward, Vector3.up));
+
+                if (Vector3.Angle(horizontalDir.normalized, transform.forward) > 60) transform.forward = Vector3.Lerp(transform.forward, Vector3.RotateTowards(transform.forward, horizontalDir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
+                else aim.forward = Vector3.Lerp(aim.forward, Vector3.RotateTowards(aim.forward, Quaternion.Euler(0, rigAimOffsetDegrees, 0) * dir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
+            }
+            else
+            {
+                //aim.rotation = transform.rotation * Quaternion.Euler(0, 33, 0);
+                animator.SetTrigger("Down");
+                gun.lamp.DOKill();
+                gun.lamp.DOIntensity(0, 0.3f);
+
+
+                //turns the forward of both the transform and the aim towards the next point on the path
+
+                if (path != null && path.Count > 0)
+                {
+                    transform.forward = Vector3.Lerp(transform.forward, Vector3.RotateTowards(transform.forward, new Vector3(horizontalDir.x, 0, horizontalDir.z).normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
+                    aim.forward = Vector3.Lerp(aim.forward, Vector3.RotateTowards(aim.forward, Quaternion.Euler(0, rigAimOffsetDegrees, 0) * horizontalDir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
+
+                }
+            }
+
+            
         }
 
 
+    }
 
-        Vector3 dir = (interestPoint - transform.position).normalized;
-
-        Vector3 horizontalDir = dir;
-        horizontalDir.y = 0;
-
-        if (!noTarget)
+        public void GoToPointWithAgent(Vector3 point, float delay, float margin = 0.25f)
         {
 
-            targetGO.transform.position = interestPoint;
-            /*
-               Vector3 _direction = (aim.position - transform.position).normalized;
-
-               //create the rotation we need to be in to look at the target
-               Quaternion _lookRotation = Quaternion.LookRotation(interestPoint);
-
-               //rotate us over time according to speed until we are in the required rotation
-               aim.rotation = Quaternion.Slerp(aim.rotation, _lookRotation, Time.deltaTime * 90f);
-
-               */
-
-            animator.SetTrigger("Aim");
-
-
-            //turns the aim towards the target, and the legs follow if there is a big enough rotation to avoid breaking the poor guy's spine
-            //Debug.Log(Vector3.SignedAngle(transform.forward, aim.forward, Vector3.up));
-
-            if (Vector3.Angle(horizontalDir.normalized, transform.forward) > 60) transform.forward = Vector3.Lerp(transform.forward, Vector3.RotateTowards(transform.forward, horizontalDir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
-            else aim.forward = Vector3.Lerp(aim.forward, Vector3.RotateTowards(aim.forward, Quaternion.Euler(0, rigAimOffsetDegrees, 0) * dir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
+            StartCoroutine(GoToPointCoroutine(point, delay, margin));
         }
-        else
+
+        IEnumerator GoToPointCoroutine(Vector3 point, float delay, float margin = 0.25f)
         {
-            //aim.rotation = transform.rotation * Quaternion.Euler(0, 33, 0);
+
+            inCinematic = true;
+
             animator.SetTrigger("Down");
             gun.lamp.DOKill();
             gun.lamp.DOIntensity(0, 0.3f);
 
+            if (delay > 0) yield return new WaitForSeconds(delay);
 
-            //turns the forward of both the transform and the aim towards the next point on the path
 
-            if (path != null && path.Count > 0)
+
+            col.enabled = false;
+            Vector3 safePos = transform.position;
+
+            ResetPath();
+            Collider[] results = Physics.OverlapCapsule(transform.position + (agent.radius + 0.1f) * Vector3.up, transform.position + (agent.radius + 0.1f) * 2f * Vector3.up, agent.radius * 2f, obstacles);
+            if (results.Length > 0)
             {
-                transform.forward = Vector3.Lerp(transform.forward, Vector3.RotateTowards(transform.forward, new Vector3(horizontalDir.x, 0, horizontalDir.z).normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
-                aim.forward = Vector3.Lerp(aim.forward, Vector3.RotateTowards(aim.forward, Quaternion.Euler(0, rigAimOffsetDegrees, 0) * horizontalDir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
-
-            }
-        }
-
-        if (gun != null)
-        {
-
-            //if there is a target they can shoot, player will try to shoot (which will only happen if there is a bullet ready)
-            if (shootsConstantly || (canShoot && !noTarget && (Physics.Raycast(gun.bulletSource.position, gun.bulletSource.forward - gun.bulletSource.forward.y * Vector3.up, visionRay, ennemisLayerMask))))
-            {
-                gun.lamp.DOKill();
-                gun.lamp.DOIntensity(initLampIntensity, 0.3f);
-                //inflict damage and triggers the firing animation
-                if (gun.TryShoot()) animator.SetTrigger("Fire");
-            }
-            else if (canShoot && !noTarget && Vector3.Distance(interestPoint, transform.position) < Vector3.Distance(transform.position, gun.bulletSource.position))
-            {
-                //inflict damage and triggers the firing animation
-                if (Physics.Raycast(transform.position + Vector3.up * 0.5f, interestPoint - transform.position, out RaycastHit hit, gun.bulletRange, ennemisLayerMask)) if (gun.TryShoot(true)) animator.SetTrigger("Fire");
-
-            }
-        }
+                agent.enabled = false;
+                Debug.Log("Was blocked by : " + results[0]);
 
 
-    }
-
-    public void GoToPointWithAgent(Vector3 point, float delay, float margin = 0.25f)
-    {
-
-        StartCoroutine(GoToPointCoroutine(point, delay, margin));
-    }
-
-    IEnumerator GoToPointCoroutine(Vector3 point, float delay, float margin = 0.25f)
-    {
-
-        inCinematic = true;
-
-        animator.SetTrigger("Down");
-        gun.lamp.DOKill();
-        gun.lamp.DOIntensity(0, 0.3f);
-
-        if (delay > 0) yield return new WaitForSeconds(delay);
-
- 
-
-        col.enabled = false;
-        Vector3 safePos = transform.position;
-
-        ResetPath();
-        Collider[] results = Physics.OverlapCapsule(transform.position + (agent.radius + 0.1f) * Vector3.up, transform.position + (agent.radius + 0.1f) * 2f * Vector3.up, agent.radius * 2f, obstacles);
-        if(results.Length > 0)
-        {
-            agent.enabled = false;
-            Debug.Log("Was blocked by : " + results[0]);
+                //tries to find a "safe" point by looking for safe points around it
+                //otherwise, if the agent is enabled while it's considered "in" an object, the agent will ignore ALL obstacles which uh , sucks
+                Vector3[] pointsToCheck = new Vector3[13];
+                float angle = 0;
 
 
-            //tries to find a "safe" point by looking for safe points around it
-            //otherwise, if the agent is enabled while it's considered "in" an object, the agent will ignore ALL obstacles which uh , sucks
-            Vector3[] pointsToCheck = new Vector3[13];
-            float angle = 0;
-
-          
-            for(int i= 0; i < 13; i++)
-            {
-                float x = Mathf.Sin(Mathf.Deg2Rad * angle) * (agent.radius * 3f);
-                float y = Mathf.Cos(Mathf.Deg2Rad * angle) * (agent.radius * 3f);
-
-                pointsToCheck[i] = new Vector3(x, 0.1f, y) + transform.position;
-
-                angle += (380f / 11);
-            }
-
-            foreach(Vector3 pointAround in pointsToCheck)
-            {
-                if (Physics.OverlapCapsule(pointAround + (agent.radius + 0.1f) * Vector3.up, pointAround + (agent.radius + 0.1f) * 3f * Vector3.up, agent.radius * 3f, obstacles).Length == 0)
+                for (int i = 0; i < 13; i++)
                 {
-                    safePos = pointAround;
-                    break;
+                    float x = Mathf.Sin(Mathf.Deg2Rad * angle) * (agent.radius * 3f);
+                    float y = Mathf.Cos(Mathf.Deg2Rad * angle) * (agent.radius * 3f);
+
+                    pointsToCheck[i] = new Vector3(x, 0.1f, y) + transform.position;
+
+                    angle += (380f / 11);
                 }
+
+                foreach (Vector3 pointAround in pointsToCheck)
+                {
+                    if (Physics.OverlapCapsule(pointAround + (agent.radius + 0.1f) * Vector3.up, pointAround + (agent.radius + 0.1f) * 3f * Vector3.up, agent.radius * 3f, obstacles).Length == 0)
+                    {
+                        safePos = pointAround;
+                        break;
+                    }
+                }
+
+                //agent.transform.position = safePos;
+                NavMeshHit myNavHit;
+                if (NavMesh.SamplePosition(safePos, out myNavHit, 5, -1))
+                {
+                    safePos = myNavHit.position;
+                }
+
+                if (safePos != transform.position)
+                {
+                    Debug.Log("safePos found : " + transform.position);
+                    while (Vector3.Distance(transform.position, safePos) > 0.05f)
+                    {
+                        transform.forward = safePos - transform.position;
+                        MoveTowards(safePos);
+                        yield return null;
+                    }
+
+                }
+
             }
+
+
+            yield return new WaitForSeconds(0.1f);
+
+            agent.enabled = true;
+
+
+            Debug.Log(heroName + " Owner : " + agent.navMeshOwner);
+            Debug.Log(heroName + " IsOnNavmesh : " + agent.isOnNavMesh);
 
             //agent.transform.position = safePos;
-            NavMeshHit myNavHit;
-            if (NavMesh.SamplePosition(safePos, out myNavHit, 5, -1))
+            NavMeshHit navHitDestination;
+            if (NavMesh.SamplePosition(point, out navHitDestination, 5, -1))
             {
-                safePos = myNavHit.position;
+                point = navHitDestination.position;
             }
 
-            if (safePos != transform.position)
-            {
-                Debug.Log("safePos found : " + transform.position);
-                while(Vector3.Distance(transform.position, safePos) > 0.05f)
-                {
-                    transform.forward = safePos - transform.position;
-                    MoveTowards(safePos);
-                    yield return null;
-                }
+            if (!agent.SetDestination(point)) Debug.Log("Failed smh");
 
-            }
+            yield return new WaitWhile(() => agent.pathPending);
+
+            //agent.SetDestination(point);
+
+            animator.ResetTrigger("Idle");
+            animator.SetTrigger("Run");
+            animator.SetFloat("WalkingSpeed", 3);
+
+            yield return new WaitWhile(() => Vector3.Distance(point, transform.position) >= margin);
+
+            UpdateLifeCircle();
+            animator.SetFloat("WalkingSpeed", speed / 3f);
+
+            col.enabled = true;
+
+            agent.enabled = (false);
+            inCinematic = false;
+            animator.SetTrigger("Idle");
 
         }
-
-
-        yield return new WaitForSeconds(0.1f);
-
-        agent.enabled = true;
-
-
-        Debug.Log(heroName + " Owner : " + agent.navMeshOwner);
-        Debug.Log(heroName + " IsOnNavmesh : " + agent.isOnNavMesh);
-
-        //agent.transform.position = safePos;
-        NavMeshHit navHitDestination;
-        if (NavMesh.SamplePosition(point, out navHitDestination, 5, -1))
-        {
-            point = navHitDestination.position;
-        }
-
-        if (!agent.SetDestination(point)) Debug.Log("Failed smh");
-
-        yield return new WaitWhile (() => agent.pathPending) ;
-
-        //agent.SetDestination(point);
-
-        animator.ResetTrigger("Idle");
-        animator.SetTrigger("Run");
-        animator.SetFloat("WalkingSpeed", 3);
-
-        yield return new WaitWhile(() => Vector3.Distance(point, transform.position) >= margin);
-
-        UpdateLifeCircle();
-        animator.SetFloat("WalkingSpeed", speed / 3f);
-
-        col.enabled = true;
-
-        agent.enabled = (false);
-        inCinematic = false;
-        animator.SetTrigger("Idle");
-
-    }
-
-    public void ResetPath()
-    {
-
-        if(path != null) path.Clear();
-        line.gameObject.SetActive(false);
-    }
-
-    private void DisableRigSuppTemporarily(float time)
-    {
-        StartCoroutine(DisableRigSuppCoroutine(time));
-    }
-
-    IEnumerator DisableRigSuppCoroutine(float time)
-    {
-        UnityEngine.Animations.Rigging.Rig rig = aim.parent.GetComponent<UnityEngine.Animations.Rigging.Rig>();
-        rig.weight = 0;
-        yield return new WaitForSeconds(time * 0.75f);
-        float t = 0;
-        while(t < time * 0.25)
-        {
-            rig.weight = t / (time * 0.25f);
-            t += Time.deltaTime;
-            yield return null;
-        }
-        rig.weight = 1;
-    }
-
     
-    public void GetBoosterCrate(float firerateMultiplier, bool turnsInvulnerable, float bonusDuration)
-    {
-        if (crateBonusCoroutine != null) StopCoroutine(crateBonusCoroutine);
-
-        ResetAllCrateBonuses();
-
-        crateBonusCoroutine = StartCoroutine(CrateBonusCoroutine(firerateMultiplier, turnsInvulnerable, bonusDuration));
-    }
-
-    IEnumerator CrateBonusCoroutine(float firerateMultiplier, bool turnsInvulnerable, float bonusDuration)
-    {
-
-        gun.firerateMultiplier = firerateMultiplier;
-
-        List<ParticleSystemRenderer> renderers = new List<ParticleSystemRenderer>();
-        if (firerateMultiplier > 1)
+        public void ResetPath()
         {
-            boost.Play();
-            renderers.AddRange(boost.GetComponentsInChildren<ParticleSystemRenderer>());
+
+            if (path != null) path.Clear();
+            line.gameObject.SetActive(false);
         }
-        if (turnsInvulnerable)
+
+        private void DisableRigSuppTemporarily(float time)
         {
-            shield.Play();
-            renderers.AddRange(shield.GetComponentsInChildren<ParticleSystemRenderer>());
+            StartCoroutine(DisableRigSuppCoroutine(time));
         }
-        isInvulnerable = turnsInvulnerable;
-        //probably enable an fx or something like that
 
-        float t = 0;
+        IEnumerator DisableRigSuppCoroutine(float time)
+        {
+            UnityEngine.Animations.Rigging.Rig rig = aim.parent.GetComponent<UnityEngine.Animations.Rigging.Rig>();
+            rig.weight = 0;
+            yield return new WaitForSeconds(time * 0.75f);
+            float t = 0;
+            while (t < time * 0.25)
+            {
+                rig.weight = t / (time * 0.25f);
+                t += Time.deltaTime;
+                yield return null;
+            }
+            rig.weight = 1;
+        }
 
-        if(turnsInvulnerable || firerateMultiplier > 1)
+
+        public void GetBoosterCrate(float firerateMultiplier, bool turnsInvulnerable, float bonusDuration)
+        {
+            if (crateBonusCoroutine != null) StopCoroutine(crateBonusCoroutine);
+
+            ResetAllCrateBonuses();
+
+            crateBonusCoroutine = StartCoroutine(CrateBonusCoroutine(firerateMultiplier, turnsInvulnerable, bonusDuration));
+        }
+
+        IEnumerator CrateBonusCoroutine(float firerateMultiplier, bool turnsInvulnerable, float bonusDuration)
         {
 
-            float blinkDuration = 2f;
-            float clignotementCounter = 0;
+            gun.firerateMultiplier = firerateMultiplier;
 
-            //countDown.gameObject.SetActive(true);
-            yield return new WaitForSeconds(Mathf.Max(0, bonusDuration - blinkDuration));
+            List<ParticleSystemRenderer> renderers = new List<ParticleSystemRenderer>();
+            if (firerateMultiplier > 1)
+            {
+                boost.Play();
+                renderers.AddRange(boost.GetComponentsInChildren<ParticleSystemRenderer>());
+            }
+            if (turnsInvulnerable)
+            {
+                shield.Play();
+                renderers.AddRange(shield.GetComponentsInChildren<ParticleSystemRenderer>());
+            }
+            isInvulnerable = turnsInvulnerable;
+            //probably enable an fx or something like that
 
+            float t = 0;
 
-            while (t < 1)
+            if (turnsInvulnerable || firerateMultiplier > 1)
             {
 
-                if (clignotementCounter > 0.2f)
+                float blinkDuration = 2f;
+                float clignotementCounter = 0;
+
+                //countDown.gameObject.SetActive(true);
+                yield return new WaitForSeconds(Mathf.Max(0, bonusDuration - blinkDuration));
+
+
+                while (t < 1)
                 {
-                    clignotementCounter = 0;
-                    Debug.Log("Blink");
-                    if (renderers[0].enabled) foreach(ParticleSystemRenderer renderer in renderers) renderer.enabled = false;
-                    else foreach (ParticleSystemRenderer renderer in renderers) renderer.enabled = true;
+
+                    if (clignotementCounter > 0.2f)
+                    {
+                        clignotementCounter = 0;
+                        Debug.Log("Blink");
+                        if (renderers[0].enabled) foreach (ParticleSystemRenderer renderer in renderers) renderer.enabled = false;
+                        else foreach (ParticleSystemRenderer renderer in renderers) renderer.enabled = true;
+
+                    }
+                    t += Time.deltaTime / blinkDuration;
+                    clignotementCounter += Time.deltaTime;
+                    yield return null;
 
                 }
-                t += Time.deltaTime / blinkDuration;
-                clignotementCounter += Time.deltaTime;
-                yield return null;
-
             }
+
+
+
+            ResetAllCrateBonuses();
         }
-        
-
-        
-        ResetAllCrateBonuses();
-    }
-
+    
     public void ResetAllCrateBonuses()
     {
         countDown.gameObject.SetActive(false);
