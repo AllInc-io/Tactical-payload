@@ -105,6 +105,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destructionFXPrefab: {fileID: 3978568406777741947, guid: 04361bd458a0f344eb620d2fc0a98e52, type: 3}
   PVs: 500
+  boostDropProbability: 0.2
+  possibleBoosts:
+  - {fileID: 2060884666081844911, guid: 0852c7efbc72c7446a2690d7b9ee9e69, type: 3}
+  - {fileID: 2060884666081844911, guid: b82160f772a929e4ea2201b3de67de2e, type: 3}
+  - {fileID: 2060884666081844911, guid: 4884646722f03f745bc49074991d4b3f, type: 3}
 --- !u!208 &3101519228179335791
 NavMeshObstacle:
   m_ObjectHideFlags: 0

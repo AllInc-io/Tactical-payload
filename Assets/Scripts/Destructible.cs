@@ -7,7 +7,9 @@ public class Destructible : MonoBehaviour
 
     [SerializeField] ParticleSystem destructionFXPrefab;
     [SerializeField] int PVs;
-
+    [SerializeField] float boostDropProbability;
+    [SerializeField] Crate[] possibleBoosts;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bullet"))
@@ -16,10 +18,22 @@ public class Destructible : MonoBehaviour
             Destroy(other.gameObject);
             if (PVs <= 0)
             {
-                Instantiate(destructionFXPrefab, transform.position, default);
-                Destroy(this.gameObject);
+                OnDestroyed();
             }
 
         }
+    }
+
+    private void OnDestroyed()
+    {
+        if(Random.value <= boostDropProbability)
+        {
+            Vector3 pos = transform.position;
+            pos.y = 0.5f;
+            Instantiate(possibleBoosts[Random.Range(0, possibleBoosts.Length)], pos, default);
+        }
+
+        Instantiate(destructionFXPrefab, transform.position, default);
+        Destroy(this.gameObject);
     }
 }

@@ -46,6 +46,7 @@ public class Payload : MonoBehaviour
 
         R.get.ui.menuIngame.IndicatePayload(transform.position);
 
+
     }
 
     public void MoveForwardOnPath()
