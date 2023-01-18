@@ -148,16 +148,15 @@ public static class U
         return points;
     }
 
-    
     public static Vector2 WorldToUIPos(Vector3 worldPos, Camera camera, CanvasScaler canvasScaler)
     {
 
-        if (canvasScaler.matchWidthOrHeight != 0) Debug.LogWarning("Canvas scaler matchWidthOrHeight value isnt 0, worldToUIPos will not work properly");
+        if (canvasScaler.matchWidthOrHeight != 1) Debug.LogWarning("Canvas scaler matchWidthOrHeight value isnt 1, worldToUIPos will not work properly");
         Vector2 res = canvasScaler.referenceResolution;
         //Vector2 ratio = new Vector2(res.x / canvasScaler.matchWidthOrHeight * Screen.width, res.y / Screen.height);
 
-        //because it's in matchWidth fully !!
-        float ratioFloat = res.x / Screen.width;
+        //because it's in matchHeight fully !!
+        float ratioFloat = res.y / Screen.height;
         Vector2 resPos;
 
 

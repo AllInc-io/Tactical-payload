@@ -44,6 +44,8 @@ public class Payload : MonoBehaviour
         //casts in front to check that it can move;
         if (canMove && !stop) MoveForwardOnPath();
 
+        R.get.ui.menuIngame.IndicatePayload(transform.position);
+
     }
 
     public void MoveForwardOnPath()

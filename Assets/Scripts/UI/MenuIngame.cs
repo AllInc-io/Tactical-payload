@@ -32,6 +32,10 @@ public class MenuIngame : MonoBehaviour
     [SerializeField] Image xpBar;
     [SerializeField] RectTransform ameliorationMenu;
 
+
+    [SerializeField] RectTransform towardsPayloadPointer;
+
+
     public void Init()
     {
         waveIncomingText.transform.localScale = Vector3.zero;
@@ -208,6 +212,22 @@ public class MenuIngame : MonoBehaviour
     {
         HideAmeliorationMenu();
         R.get.game.StopPause();
+    }
+
+
+    public void IndicatePayload(Vector3 pos)
+    {
+        if (R.get.game.CheckIfEnemyIsInView(pos)) towardsPayloadPointer.gameObject.SetActive(false);
+        else
+        {
+            towardsPayloadPointer.gameObject.SetActive(true);
+            Vector2 newPos = U.WorldToUIPos(pos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
+            newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width);
+            newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
+            towardsPayloadPointer.anchoredPosition = newPos;
+
+            towardsPayloadPointer.rotation = Quaternion.Euler(0,0,-Vector2.SignedAngle(Vector2.up, new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition));
+        }
     }
 
 }
