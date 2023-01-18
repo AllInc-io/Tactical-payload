@@ -18,9 +18,12 @@ public class GameManager : SerializedMonoBehaviour
 
     bool won = false;
 
+    public int currentLevel = 1;
+    public int currentXP { get; private set; }
 
+    [SerializeField] int startXPToNextLevel; // will double every level
 
-
+    int xpToNextLevel;
 
     public void Init()
     {
@@ -63,7 +66,7 @@ public class GameManager : SerializedMonoBehaviour
             heroes[2].gameObject.SetActive(false);
         }
 
-
+        xpToNextLevel = startXPToNextLevel;
 
     }
 
@@ -121,4 +124,9 @@ public class GameManager : SerializedMonoBehaviour
         R.get.ui.menuLose.Show();
     }
 
+    public void GetXP(int amount)
+    {
+        currentXP += amount;
+        if(currentXP >= )
+    }
 }

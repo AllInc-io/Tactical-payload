@@ -29,7 +29,7 @@ public class MenuIngame : MonoBehaviour
 
     private List<GameObject> dots;
 
-    
+    [SerializeField] Image xpBar;
 
     public void Init()
     {
@@ -156,6 +156,11 @@ public class MenuIngame : MonoBehaviour
 
     }
 
-
+    public void SetXPBar(float fill)
+    {
+        xpBar.DOKill();
+        if (fill > xpBar.fillAmount) xpBar.DOFillAmount(fill, 0.3f);
+        else xpBar.fillAmount = fill;
+    }
 
 }
