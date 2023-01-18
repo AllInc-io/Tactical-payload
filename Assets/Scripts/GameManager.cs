@@ -17,6 +17,7 @@ public class GameManager : SerializedMonoBehaviour
     public bool isOn = false;
 
     bool won = false;
+    public bool lost = false;
 
     public int currentLevel = 1;
     public int currentXP { get; private set; }
@@ -118,6 +119,8 @@ public class GameManager : SerializedMonoBehaviour
 
     public void Lose()
     {
+        lost = true;
+
         controls.Stop();
 
         R.get.ui.menuIngame.Hide();

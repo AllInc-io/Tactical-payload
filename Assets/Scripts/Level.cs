@@ -22,7 +22,7 @@ public class Level : MonoBehaviour
 
     [SerializeField] public NavMeshSurface surface;
 
-    [SerializeField] Transform oneRoadBlock;
+    [SerializeField] Transform[] oneRoadBlocks;
 
 
 
@@ -237,7 +237,7 @@ public class Level : MonoBehaviour
         if(cameraPos.z >= nextLevelSpawn)
         {
             nextLevelSpawn += 10f;
-            Instantiate(oneRoadBlock, Vector3.forward * (nextLevelSpawn + 25f), default);
+            Instantiate(oneRoadBlocks[Random.Range(0, oneRoadBlocks.Length)], Vector3.forward * (nextLevelSpawn + 25f), default);
             surface.BuildNavMesh();
         }
     }

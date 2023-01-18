@@ -225,6 +225,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: gun
       objectReference: {fileID: 0}
+    - target: {fileID: 5180048792098528107, guid: 550519697483bbe4e840047dc9444062, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8079535298210604886, guid: 550519697483bbe4e840047dc9444062, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

@@ -457,6 +457,22 @@ PrefabInstance:
       propertyPath: canStopLayermask.m_Bits
       value: 8960
       objectReference: {fileID: 0}
+    - target: {fileID: 4890024971760046968, guid: c602086d95796744b9e242befefa1d69, type: 3}
+      propertyPath: oneRoadBlocks.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890024971760046968, guid: c602086d95796744b9e242befefa1d69, type: 3}
+      propertyPath: oneRoadBlocks.Array.data[0]
+      value: 
+      objectReference: {fileID: 5003430899288452131, guid: 0c7974111f885844d9c1dd4165677626, type: 3}
+    - target: {fileID: 4890024971760046968, guid: c602086d95796744b9e242befefa1d69, type: 3}
+      propertyPath: oneRoadBlocks.Array.data[1]
+      value: 
+      objectReference: {fileID: 5003430899288452131, guid: 156bdf58200ab1a47898d72c1ce40bd9, type: 3}
+    - target: {fileID: 4890024971760046968, guid: c602086d95796744b9e242befefa1d69, type: 3}
+      propertyPath: oneRoadBlocks.Array.data[2]
+      value: 
+      objectReference: {fileID: 5003430899288452131, guid: 33e7321e7ecd25247adcf1fb04d60ca3, type: 3}
     - target: {fileID: 4890024971760046970, guid: c602086d95796744b9e242befefa1d69, type: 3}
       propertyPath: m_Name
       value: LevelTest
@@ -1403,6 +1419,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   isOn: 0
+  lost: 0
   currentLevel: 1
   startXPToNextLevel: 12
 --- !u!114 &1544444010

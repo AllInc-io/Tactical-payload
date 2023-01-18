@@ -220,7 +220,7 @@ public class Enemy : Character
     void Attack()
     {
 
-        if (attackCounter < attackEveryXSeconds) return;
+        if (attackCounter < attackEveryXSeconds || R.get.game.lost) return;
 
         attackCounter = 0;
         //hurts every character in range
@@ -233,7 +233,7 @@ public class Enemy : Character
                 if(result.GetComponent<Hero>() != null) result.GetComponent<Hero>().TakeDamage(damagePerHit, Vector3.zero);
             }
         }
-        if (Vector3.Distance(R.get.levelManager.level.payload.transform.position, transform.position) < attackRange) R.get.levelManager.level.payload.TakeDamage(1);
+        if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < attackRange) R.get.levelManager.level.payload.TakeDamage(1);
 
     }
 
@@ -274,7 +274,7 @@ public class Enemy : Character
 
     bool LookForInterestPoint(out Vector3 target)
     {
-        target = R.get.levelManager.level.payload.transform.position + R.get.levelManager.level.payload.transform.forward * attackRange / 2f;
+        target = R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position);
 
         Collider[] results = Physics.OverlapSphere(transform.position, visionDistance, heroes, QueryTriggerInteraction.Collide);
             if (results != null && results.Length > 0 &&

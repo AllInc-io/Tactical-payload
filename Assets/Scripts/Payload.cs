@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
+using TMPro;
 
 public class Payload : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Payload : MonoBehaviour
     //PathCreator path;
     [SerializeField] LayerMask canStopLayermask;
     [SerializeField] float speed = 0.05f;
+    [SerializeField] TextMeshPro lifeText;
+    [SerializeField] ParticleSystem explosionFX;
 
     float t = 0;
 
@@ -27,6 +30,7 @@ public class Payload : MonoBehaviour
         isInit = true;
 
         PVs = maxPvs;
+        lifeText.text = PVs.ToString();
     }
 
 
@@ -56,7 +60,14 @@ public class Payload : MonoBehaviour
     public void TakeDamage(int amount)
     {
         PVs -= amount;
-        if (PVs <= 0) R.get.game.Lose();
+        lifeText.text = PVs.ToString();
+        if (PVs <= 0)
+        {
+            R.get.game.Lose();
+            Explode();
+        }
+
+
     }
 
     private void OnDrawGizmos()
@@ -73,7 +84,13 @@ public class Payload : MonoBehaviour
     public void SetMorePVs(float multiplier)
     {
         maxPvs = Mathf.RoundToInt(maxPvs * multiplier);
-        PVs = Mathf.RoundToInt(PVs * multiplier);
+        PVs += Mathf.RoundToInt(maxPvs * (multiplier - 1));
 
+    }
+
+    public void Explode()
+    {
+        Instantiate(explosionFX, transform.position, default);
+        gameObject.SetActive(false);
     }
 }
