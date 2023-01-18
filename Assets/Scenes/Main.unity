@@ -1409,7 +1409,7 @@ MonoBehaviour:
   isOn: 0
   lost: 0
   currentLevel: 1
-  startXPToNextLevel: 12
+  startXPToNextLevel: 120
 --- !u!114 &1544444010
 MonoBehaviour:
   m_ObjectHideFlags: 0

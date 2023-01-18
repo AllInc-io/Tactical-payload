@@ -154,4 +154,10 @@ public class GameManager : SerializedMonoBehaviour
         Time.timeScale = 1;
         R.get.ui.menuIngame.HideAmeliorationMenu();
     }
+
+    public bool CheckIfEnemyIsInView(Vector3 enemyPos)
+    {
+        Vector2 viewportPos = R.get.mainCamera.WorldToViewportPoint(enemyPos);
+        return (viewportPos.x >= 0.05f && viewportPos.x <= 0.995f && viewportPos.y >= -0.05f && viewportPos.y <= 0.995f);
+    }
 }

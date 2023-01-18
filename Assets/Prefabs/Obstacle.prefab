@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2395313814734105559}
   - component: {fileID: 2395313814734105556}
   - component: {fileID: 2395313814734105557}
+  - component: {fileID: 3101519228179335791}
   m_Layer: 13
   m_Name: Obstacle
   m_TagString: Destructible
@@ -104,6 +105,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destructionFXPrefab: {fileID: 3978568406777741947, guid: 04361bd458a0f344eb620d2fc0a98e52, type: 3}
   PVs: 500
+--- !u!208 &3101519228179335791
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395313814734105514}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.8, y: 0.79, z: 1.01}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.77, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &2395313815018051020
 PrefabInstance:
   m_ObjectHideFlags: 0

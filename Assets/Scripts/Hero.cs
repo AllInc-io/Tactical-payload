@@ -107,7 +107,7 @@ public class Hero : Character
         nextGoal = transform.position;
 
         lifeCircle.color = lineColor;
-        lifeCircle.fillAmount = 0;
+        lifeCircle.fillAmount = 1;
 
         SetUpCircle();
 
@@ -384,7 +384,7 @@ public class Hero : Character
                     distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
                     Vector3 direction = collider.transform.position - gun.transform.position;
                     //direction.y = 0;
-                    if (collider.TryGetComponent(out Enemy enemy) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !enemy.dead && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                    if (collider.TryGetComponent(out Enemy enemy) && R.get.game.CheckIfEnemyIsInView(enemy.transform.position) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !enemy.dead && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
                     {
                         if (collider == previousTarget) previousColliderIn = true;
                         interestCollider = collider;
@@ -412,7 +412,7 @@ public class Hero : Character
                         distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
                         Vector3 direction = collider.transform.position - gun.transform.position;
                         //direction.y = 0;
-                        if (collider.TryGetComponent(out Destructible destructible) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                        if (collider.TryGetComponent(out Destructible destructible) && R.get.game.CheckIfEnemyIsInView(destructible.transform.position) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
                         {
                             if (collider == previousTarget) previousColliderIn = true;
                             interestCollider = collider;

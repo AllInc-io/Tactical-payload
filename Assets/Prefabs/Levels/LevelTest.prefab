@@ -466,6 +466,10 @@ PrefabInstance:
       propertyPath: speed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2184733311407107645, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: maxPvs
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2571358910313080050, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.1

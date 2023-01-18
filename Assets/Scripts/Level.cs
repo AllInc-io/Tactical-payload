@@ -99,7 +99,6 @@ public class Level : MonoBehaviour
     {
         int i = 0;
 
-        yield return new WaitForSeconds(5);
 
         yield return new WaitWhile(() => enemiesAlive > 0 || pauseWaves);
 
@@ -121,7 +120,7 @@ public class Level : MonoBehaviour
             int progress = Mathf.RoundToInt(cameraPos.z / 3f);
             int totalZombiesAmount = Random.Range(R.get.levelDesign.EvaluateWaveAmount(progress, waves[i % waves.Length].zombieMinAmount), R.get.levelDesign.EvaluateWaveAmount(progress, waves[i % waves.Length].zombieMaxAmount));
 
-            Vector3 entrance = payload.transform.position + Vector3.right * 15 * U.RandomSign() + payload.transform.forward * 10f; 
+            Vector3 entrance = payload.transform.position + Vector3.right * 10f * Random.value + payload.transform.forward * 30f; 
                 Vector3 dir = (entrance).normalized;
                 R.get.ui.menuIngame.IndicateWaveIncoming(dir, i + 1, waves.Length);
 
