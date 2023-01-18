@@ -43,7 +43,7 @@ public class GameManager : SerializedMonoBehaviour
 
         for(int i = 0; i < 3; i++)
         {
-            Vector3 pos = Vector3.forward * i * 2f;
+            Vector3 pos = Vector3.forward * i * -3f;
             Vector3 scale = Vector3.one * R.get.levelDesign.charactersScale;
 
             heroes[i] = Instantiate(R.get.levelDesign.possibleCharactersPrefabs.Where(hero => hero.name.Equals(heroesNames[i])).FirstOrDefault());

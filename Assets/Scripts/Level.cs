@@ -236,8 +236,9 @@ public class Level : MonoBehaviour
 
         if(cameraPos.z >= nextLevelSpawn)
         {
-            nextLevelSpawn += 50f;
+            nextLevelSpawn += 10f;
             Instantiate(oneRoadBlock, Vector3.forward * (nextLevelSpawn + 25f), default);
+            surface.BuildNavMesh();
         }
     }
 }
