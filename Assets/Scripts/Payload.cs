@@ -18,6 +18,9 @@ public class Payload : MonoBehaviour
     [SerializeField] int maxPvs;
     [HideInInspector] public int PVs;
 
+    [SerializeField] Vector3 boxSize;
+    [SerializeField] Vector3 boxOffset;
+
     public void Init()
     {
 
@@ -33,7 +36,7 @@ public class Payload : MonoBehaviour
 
         bool canMove = true;
 
-        if (Physics.OverlapBox(transform.position + transform.forward, new Vector3(transform.lossyScale.x, 1, 1f), default, canStopLayermask).Length > 0) canMove = false;
+        if (Physics.OverlapBox(transform.position + boxOffset, boxSize, default, canStopLayermask).Length > 0) canMove = false;
         //casts in front to check that it can move;
         if (canMove && !stop) MoveForwardOnPath();
 
@@ -59,6 +62,18 @@ public class Payload : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1, 1, 0, 0.3f);
-        Gizmos.DrawCube(transform.position + transform.forward, new Vector3(transform.lossyScale.x, 1, 1f) * 2f);
+        Gizmos.DrawCube(transform.position + boxOffset, boxSize * 2f);
+    }
+
+    public void SetFaster(float multiplier)
+    {
+        speed *= multiplier;
+    }
+
+    public void SetMorePVs(float multiplier)
+    {
+        maxPvs = Mathf.RoundToInt(maxPvs * multiplier);
+        PVs = Mathf.RoundToInt(PVs * multiplier);
+
     }
 }

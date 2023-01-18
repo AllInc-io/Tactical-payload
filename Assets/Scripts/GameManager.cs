@@ -46,7 +46,7 @@ public class GameManager : SerializedMonoBehaviour
 
         for(int i = 0; i < 3; i++)
         {
-            Vector3 pos = Vector3.forward * i * -3f;
+            Vector3 pos = Vector3.forward * i * -2f - Vector3.forward * 2f;
             Vector3 scale = Vector3.one * R.get.levelDesign.charactersScale;
 
             heroes[i] = Instantiate(R.get.levelDesign.possibleCharactersPrefabs.Where(hero => hero.name.Equals(heroesNames[i])).FirstOrDefault());
@@ -127,6 +127,28 @@ public class GameManager : SerializedMonoBehaviour
     public void GetXP(int amount)
     {
         currentXP += amount;
-        if(currentXP >= )
+        if(currentXP >= xpToNextLevel)
+        {
+            currentLevel++;
+            int newXP = currentXP - xpToNextLevel;
+            xpToNextLevel += currentXP;
+            //pause game and offer upgrades
+            SetPause();
+            currentXP = newXP;
+        }
+
+        R.get.ui.menuIngame.SetXPBar((float)currentXP / xpToNextLevel);
+    }
+
+    public void SetPause()
+    {
+        Time.timeScale = 0;
+        R.get.ui.menuIngame.ShowAmeliorationMenu();
+    }
+
+    public void StopPause()
+    {
+        Time.timeScale = 1;
+        R.get.ui.menuIngame.HideAmeliorationMenu();
     }
 }

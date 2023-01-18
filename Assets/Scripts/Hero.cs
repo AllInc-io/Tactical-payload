@@ -81,6 +81,7 @@ public class Hero : Character
 
     float levelSpeedMultiplier;
 
+    int level = 1;
 
     public override void Init()
     {
@@ -115,11 +116,12 @@ public class Hero : Character
             if (gun.data.bulletSpeed != 0) gun.data.bulletLifetime = visionRay / gun.data.bulletSpeed;
             gun.data.ennemiesLayerMask = ennemisLayerMask;
 
-            gun.data.bulletsPerSecond *= R.get.levelDesign.EvaluateCharaFirerateMultiplier(PlayerPrefs.GetInt("Level" + heroName));
-            gun.data.damagePerBullet *= R.get.levelDesign.EvaluateCharaDamageMultiplier(PlayerPrefs.GetInt("Level" + heroName));
+
         }
 
-        levelSpeedMultiplier = R.get.levelDesign.EvaluateCharaSpeedMultiplier(PlayerPrefs.GetInt("Level" + heroName));
+        level = 1;
+
+        GetValuesFromLevel();
 
         visionCircle.transform.SetParent(null);
 
@@ -128,7 +130,25 @@ public class Hero : Character
         if (canShootWhileWalking) canShoot = true;
     }
 
+    void GetValuesFromLevel()
+    {
+        if (gun != null)
+        {
 
+            gun.data.bulletsPerSecond *= R.get.levelDesign.EvaluateCharaFirerateMultiplier(PlayerPrefs.GetInt("Level" + heroName));
+            gun.data.damagePerBullet *= R.get.levelDesign.EvaluateCharaDamageMultiplier(PlayerPrefs.GetInt("Level" + heroName));
+        }
+
+        levelSpeedMultiplier = R.get.levelDesign.EvaluateCharaSpeedMultiplier(PlayerPrefs.GetInt("Level" + heroName));
+    }
+
+
+    public void LevelUp()
+    {
+        level++;
+        GetValuesFromLevel();
+    }
+    
     void SetUpCircle()
     {
         visionCircle.Radius = visionRay*1.2f;

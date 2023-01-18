@@ -48,6 +48,7 @@ public class Enemy : Character
     bool sawSomething = false;
 
     [SerializeField] CollectibleCoin coin;
+    [SerializeField] int xpWhenKilled = 10;
 
     public bool isCrawling;
 
@@ -450,7 +451,7 @@ public class Enemy : Character
     {
         base.Die(ragdollForce);
 
-
+        R.get.game.GetXP(xpWhenKilled);
         StopAllCoroutines();
         col.enabled = false;
         agent.enabled = false;

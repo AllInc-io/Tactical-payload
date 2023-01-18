@@ -30,6 +30,7 @@ public class MenuIngame : MonoBehaviour
     private List<GameObject> dots;
 
     [SerializeField] Image xpBar;
+    [SerializeField] RectTransform ameliorationMenu;
 
     public void Init()
     {
@@ -42,6 +43,10 @@ public class MenuIngame : MonoBehaviour
 
         HideTutorialText();
         HidePointer();
+
+        SetXPBar(0);
+
+        ameliorationMenu.gameObject.SetActive(false);
     }
 
     public void Show()
@@ -156,11 +161,53 @@ public class MenuIngame : MonoBehaviour
 
     }
 
+    public void ShowAmeliorationMenu()
+    {
+        ameliorationMenu.gameObject.SetActive(true);
+    }
+
+    public void HideAmeliorationMenu()
+    {
+        ameliorationMenu.gameObject.SetActive(false);
+    }
+
     public void SetXPBar(float fill)
     {
         xpBar.DOKill();
         if (fill > xpBar.fillAmount) xpBar.DOFillAmount(fill, 0.3f);
         else xpBar.fillAmount = fill;
+    }
+
+    public void LevelUpCharacters()
+    {
+        foreach(Hero hero in R.get.game.heroes)
+        {
+            hero.LevelUp();
+        }
+
+
+        OnBoostChosen();
+
+    }
+
+    public void FasterPayload()
+    {
+        R.get.levelManager.level.payload.SetFaster(1.5f);
+
+        OnBoostChosen();
+    }
+
+    public void MorePayloadPVs()
+    {
+        R.get.levelManager.level.payload.SetMorePVs(1.5f);
+
+        OnBoostChosen();
+    }
+
+    void OnBoostChosen()
+    {
+        HideAmeliorationMenu();
+        R.get.game.StopPause();
     }
 
 }
