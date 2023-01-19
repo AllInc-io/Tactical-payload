@@ -8,10 +8,10 @@ public class CharacterSelectionButton : MonoBehaviour
 {
 
     public TextMeshProUGUI charaName;
-    public TextMeshProUGUI charaLevelText;
+    //public TextMeshProUGUI charaLevelText;
     public Image icon;
-    public RectTransform upgradeButton;
-    public TextMeshProUGUI upgradePriceText;
+    //public RectTransform upgradeButton;
+    //public TextMeshProUGUI upgradePriceText;
     [SerializeField] RectTransform locked;
     [SerializeField] TextMeshProUGUI lockedText;
     [SerializeField] Image lockedIcon;
@@ -40,19 +40,19 @@ public class CharacterSelectionButton : MonoBehaviour
             bg.color = chara.lineColor;
             icon.sprite = chara.icon;
 
-            if (charaLevelText != null) charaLevelText.text = (PlayerPrefs.GetInt("Level" + chara.heroName) + 1).ToString();
+            //if (charaLevelText != null) charaLevelText.text = (PlayerPrefs.GetInt("Level" + chara.heroName) + 1).ToString();
 
             UpdateValues(PlayerPrefs.GetInt("Level" + chara.heroName));
 
             level = PlayerPrefs.GetInt("Level" + chara.heroName);
             upgradePrice = R.get.levelDesign.EvaluateUpgradePrice(level);
 
-            if (upgradeButton != null)
+            /*if (upgradeButton != null)
             {
                 if (level + 1 >= R.get.levelDesign.characterMaxLevel) upgradeButton.gameObject.SetActive(false);
 
                 upgradePriceText.text = upgradePrice.ToString();
-            }
+            }*/
 
 
             CheckScoreForUpdateButton();
@@ -91,8 +91,8 @@ public class CharacterSelectionButton : MonoBehaviour
     public void CheckScoreForUpdateButton()
     {
 
-        if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
-        else upgradeButton.Find("Locked").gameObject.SetActive(false);
+        /*if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
+        else upgradeButton.Find("Locked").gameObject.SetActive(false);*/
 
     }
 
@@ -114,19 +114,19 @@ public class CharacterSelectionButton : MonoBehaviour
 
         UpdateValues(level);
 
-
+        /*
         if (level + 1 >= R.get.levelDesign.characterMaxLevel) upgradeButton.gameObject.SetActive(false);
         upgradePrice = R.get.levelDesign.EvaluateUpgradePrice(level);
         upgradePriceText.text = upgradePrice.ToString();
 
         if (charaLevelText != null) charaLevelText.text = "Level " + (level + 1);
-
+        */
 
     }
 
     public void UpdateValues(int level)
     {
-        if(charaLevelText != null) charaLevelText.text = "Level " + (level + 1).ToString();
+        //if(charaLevelText != null) charaLevelText.text = "Level " + (level + 1).ToString();
 
         speedText.text = "Speed : " + chara.speed * R.get.levelDesign.EvaluateCharaSpeedMultiplier(level);
         firerateText.text = "Firerate : " + chara.startGunData.bulletsPerSecond * R.get.levelDesign.EvaluateCharaFirerateMultiplier(level);

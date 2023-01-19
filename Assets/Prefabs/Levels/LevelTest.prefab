@@ -608,18 +608,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].enemiesPrefabs.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].enemiesPercentage.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].enemiesPrefabs.Array.data[0]
       value: 
       objectReference: {fileID: 5672928003935517592, guid: 8bd506b6cfd04d0419a1c6098a528986, type: 3}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: waves.Array.data[0].enemiesPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 6201610739731696077, guid: d185143bd75e81c4aaeff40b64c320ec, type: 3}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: waves.Array.data[0].enemiesPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 3002917380952172868, guid: 0bb600fb30e6db540ba1d9819682d8a9, type: 3}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: waves.Array.data[0].enemiesPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 5672928003935517592, guid: b4465dfbd9827cc408e3d8aea62aac13, type: 3}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].enemiesPercentage.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: waves.Array.data[0].enemiesPercentage.Array.data[1]
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: waves.Array.data[0].enemiesPercentage.Array.data[2]
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: waves.Array.data[0].enemiesPercentage.Array.data[3]
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8518309882268012565, guid: 1756654246dcf104bad02562e2c4d995, type: 3}

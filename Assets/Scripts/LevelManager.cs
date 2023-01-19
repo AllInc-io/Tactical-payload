@@ -9,7 +9,8 @@ public class LevelManager : MonoBehaviour
     
     public void Init()
     {
-        int currentLevel = R.get.lastLevelFinished == 0 ? 0 : R.get.lastLevelFinished % ((levels.Count - 1)) + 1;
+        int currentLevel = 0;
+        //int currentLevel = R.get.lastLevelFinished == 0 ? 0 : R.get.lastLevelFinished % ((levels.Count - 1)) + 1;
 
         
 

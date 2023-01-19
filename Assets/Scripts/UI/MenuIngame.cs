@@ -34,7 +34,7 @@ public class MenuIngame : MonoBehaviour
 
 
     [SerializeField] RectTransform towardsPayloadPointer;
-
+    [SerializeField] Transform buttonsParent;
 
     public void Init()
     {
@@ -168,6 +168,25 @@ public class MenuIngame : MonoBehaviour
     public void ShowAmeliorationMenu()
     {
         ameliorationMenu.gameObject.SetActive(true);
+
+        List<int> buttonsActivated = new List<int>();
+        int newButton;
+        for (int i = 0; i < 3; i++)
+        {
+            do
+            {
+                newButton = Random.Range(0, buttonsParent.childCount);
+
+            } while (buttonsActivated.Contains(newButton));
+            buttonsActivated.Add(newButton);
+
+
+        }
+        foreach(Transform child in buttonsParent)
+        {
+            if (!buttonsActivated.Contains(child.GetSiblingIndex())) child.gameObject.SetActive(false);
+            else child.gameObject.SetActive(true);
+        }
     }
 
     public void HideAmeliorationMenu()
@@ -206,6 +225,50 @@ public class MenuIngame : MonoBehaviour
         R.get.levelManager.level.payload.SetMorePVs(1.5f);
 
         OnBoostChosen();
+    }
+
+
+    public void HealTeam()
+    {
+        R.get.levelManager.level.payload.SetMorePVs(1.5f);
+
+        OnBoostChosen();
+    }
+
+    public void HealCharacters()
+    {
+        foreach (Hero hero in R.get.game.heroes)
+        {
+            hero.Heal(10);
+        }
+
+
+        OnBoostChosen();
+
+    }
+
+    public void FirerateBoostCharacters()
+    {
+        foreach (Hero hero in R.get.game.heroes)
+        {
+            hero.GetBoosterCrate(2f, false, 10);
+        }
+
+
+        OnBoostChosen();
+
+    }
+
+    public void ShieldBoostCharacters()
+    {
+        foreach (Hero hero in R.get.game.heroes)
+        {
+            hero.GetBoosterCrate(1, true, 10);
+        }
+
+
+        OnBoostChosen();
+
     }
 
     void OnBoostChosen()

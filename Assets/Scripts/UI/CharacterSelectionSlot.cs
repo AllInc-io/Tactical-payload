@@ -8,10 +8,10 @@ public class CharacterSelectionSlot : MonoBehaviour
 {
 
     public TextMeshProUGUI charaName;
-    public TextMeshProUGUI charaLevelText;
+    //public TextMeshProUGUI charaLevelText;
 
-    public RectTransform upgradeButton;
-    public TextMeshProUGUI upgradePriceText;
+    //public RectTransform upgradeButton;
+    //public TextMeshProUGUI upgradePriceText;
 
     [SerializeField] Transform locked;
     [SerializeField] TextMeshProUGUI unlockAtLevelText;
@@ -32,19 +32,19 @@ public class CharacterSelectionSlot : MonoBehaviour
 
 
 
-        if (charaLevelText != null) charaLevelText.text = "level " + (PlayerPrefs.GetInt("Level" + chara.heroName) + 1).ToString();
+        //if (charaLevelText != null) charaLevelText.text = "level " + (PlayerPrefs.GetInt("Level" + chara.heroName) + 1).ToString();
 
 
         level = PlayerPrefs.GetInt("Level" + chara.heroName);
         upgradePrice = R.get.levelDesign.EvaluateUpgradePrice(level);
 
-        if (upgradeButton != null)
+        /*if (upgradeButton != null)
         {
             if (level + 1 >= R.get.levelDesign.characterMaxLevel) upgradeButton.gameObject.SetActive(false);
 
             upgradePriceText.text = upgradePrice.ToString();
             CheckScoreForUpdateButton();
-        }
+        }*/
 
     }
 
@@ -72,21 +72,21 @@ public class CharacterSelectionSlot : MonoBehaviour
         //level up fx
         R.get.startMenu.characterSelectionMenu.heroParents[index].GetComponentInChildren<ParticleSystem>().Play();
 
-        if (level + 1 >= R.get.levelDesign.characterMaxLevel) upgradeButton.gameObject.SetActive(false);
+        /*if (level + 1 >= R.get.levelDesign.characterMaxLevel) upgradeButton.gameObject.SetActive(false);
         upgradePrice = R.get.levelDesign.EvaluateUpgradePrice(level);
         upgradePriceText.text = upgradePrice.ToString();
 
         if (charaLevelText != null) charaLevelText.text = "level " + (level + 1);
 
         if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
-        else upgradeButton.Find("Locked").gameObject.SetActive(false);
+        else upgradeButton.Find("Locked").gameObject.SetActive(false);*/
     }
 
     public void CheckScoreForUpdateButton()
     {
 
-        if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
-        else upgradeButton.Find("Locked").gameObject.SetActive(false);
+        /*if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
+        else upgradeButton.Find("Locked").gameObject.SetActive(false);*/
 
     }
 

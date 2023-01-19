@@ -662,6 +662,8 @@ public class Hero : Character
 
         public void GetBoosterCrate(float firerateMultiplier, bool turnsInvulnerable, float bonusDuration)
         {
+        if (dead) return;
+        
             if (crateBonusCoroutine != null) StopCoroutine(crateBonusCoroutine);
 
             ResetAllCrateBonuses();

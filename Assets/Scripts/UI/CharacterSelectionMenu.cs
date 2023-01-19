@@ -31,7 +31,7 @@ public class CharacterSelectionMenu : MonoBehaviour
         for(int i = 0; i < R.get.levelDesign.possibleCharactersPrefabs.Length; i++)
         {
             CharacterSelectionButton button = Instantiate(listButtonPrefab, buttonsListParent);
-            button.Init(R.get.levelDesign.possibleCharactersPrefabs[i], i < unlockedCharactersAmount);
+            button.Init(R.get.levelDesign.possibleCharactersPrefabs[i], true);
             buttonsList.Add(button);
         }
 
@@ -94,34 +94,17 @@ public class CharacterSelectionMenu : MonoBehaviour
                 renderer.material = lockedCharaMat;
             }
         }
-        if (R.get.lastLevelFinished < R.get.levelDesign.levelUnlockThirdChara - 1)
-        {
-            slots[2].SetLocked(R.get.levelDesign.levelUnlockThirdChara);
-
-            R.get.game.heroes[2] = Instantiate(R.get.levelDesign.possibleCharactersPrefabs[2], heroParents[2]);
-            R.get.game.heroes[2].transform.localPosition = Vector3.zero;
-            R.get.game.heroes[2].transform.localScale = Vector3.one;
-            R.get.game.heroes[2].transform.localRotation = Quaternion.Euler(Vector3.zero);
-            R.get.game.heroes[2].lifeCircle.gameObject.SetActive(false);
-            R.get.game.heroes[2].gun.gameObject.SetActive(false);
-            R.get.game.heroes[2].animator.SetLayerWeight(1, 0);
-
-
-            foreach (SkinnedMeshRenderer renderer in heroParents[2].GetComponentsInChildren<SkinnedMeshRenderer>())
-            {
-                renderer.material = lockedCharaMat;
-            }
-        }
+        
     }
 
 
     void SetListParentSize()
     {
 
-        float width = 520;
+        float height = 550;
         int activeButtonsCount = buttonsList.Count;
-        buttonsListParent.sizeDelta = new Vector2( activeButtonsCount * width, buttonsListParent.sizeDelta.y);
-        buttonsListParent.anchoredPosition = new Vector2(activeButtonsCount * width / 2f, buttonsListParent.anchoredPosition.y);
+        buttonsListParent.sizeDelta = new Vector2(buttonsListParent.sizeDelta.x, activeButtonsCount * height);
+        buttonsListParent.anchoredPosition = new Vector2(buttonsListParent.anchoredPosition.x, activeButtonsCount * height / 2f);
     }
 
     public void ChangeSelectedChara(int value)
@@ -200,11 +183,11 @@ public class CharacterSelectionMenu : MonoBehaviour
     {
         foreach(CharacterSelectionSlot slot in slots)
         {
-            slot.CheckScoreForUpdateButton();
+            //slot.CheckScoreForUpdateButton();
         }
         foreach(CharacterSelectionButton button in GetComponentsInChildren<CharacterSelectionButton>())
         {
-            button.CheckScoreForUpdateButton();
+            //button.CheckScoreForUpdateButton();
         }
     }
 

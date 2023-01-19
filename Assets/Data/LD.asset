@@ -57,7 +57,7 @@ MonoBehaviour:
   - {fileID: 3482484702487420864, guid: ba6f593b232d04e4d8caf9d79d830bd0, type: 3}
   - {fileID: 8692110966995393380, guid: a32a1b408c319ed47b257c1edf79b920, type: 3}
   - {fileID: 3482484702487420864, guid: c17ee16d8ed6b8345b4cf51f04936463, type: 3}
-  newCharacterEveryX: 1
+  newCharacterEveryX: 0
   characterMaxLevel: 30
   characterUpgradePriceCurve:
     serializedVersion: 2
