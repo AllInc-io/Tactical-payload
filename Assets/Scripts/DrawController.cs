@@ -481,6 +481,9 @@ public class DrawController : Controller
         }
     }
 
+
+    bool throwingBombMode;
+
     Vector3 pointToGizmo;
 
     Vector3 dir1;

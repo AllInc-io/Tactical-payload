@@ -591,16 +591,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: destructiblesDensity
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].zombieMaxAmount
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].zombieMinAmount
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].secondsUntilNext
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].totalEntrancesPercentage

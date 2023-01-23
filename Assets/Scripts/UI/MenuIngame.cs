@@ -71,7 +71,7 @@ public class MenuIngame : MonoBehaviour
         DOTween.Kill(this, "WaveIncomingUI");
         Sequence sequence = DOTween.Sequence().SetId("WaveIncomingUI");
 
-        waveIncomingText.text = "Wave incoming : " + index + "/" + totalAmount;
+        waveIncomingText.text = "Wave incoming";
         Vector3 refPos = R.get.levelManager.level.payload.transform.position;
 
         //waveIncomingArrow.up = new Vector3(direction.x, direction.z, 0);
@@ -271,9 +271,34 @@ public class MenuIngame : MonoBehaviour
 
     }
 
+    public void PauseWavess()
+    {
+        R.get.levelManager.level.PauseWaves(10);
+
+        OnBoostChosen();
+
+    }
+
+    public void GainMoreEXP()
+    {
+        R.get.game.currentXPMultiplier *= 1.5f;
+
+        OnBoostChosen();
+    }
+
+    public void ThrowMegaBomb()
+    {
+        
+    }
+
+
+
     void OnBoostChosen()
     {
         HideAmeliorationMenu();
+
+        R.get.haptics.Haptic(HapticForce.Medium);
+
         R.get.game.StopPause();
     }
 
@@ -292,5 +317,7 @@ public class MenuIngame : MonoBehaviour
             towardsPayloadPointer.rotation = Quaternion.Euler(0,0,-Vector2.SignedAngle(Vector2.up, new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition));
         }
     }
+
+
 
 }

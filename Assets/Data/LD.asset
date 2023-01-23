@@ -47,11 +47,11 @@ MonoBehaviour:
   wavesMaxMultiplier: 10
   maxLevel: 100
   possibleCharactersPrefabs:
-  - {fileID: 5620198467259125731, guid: 53f33498f1f12714d8515cffa8bd2243, type: 3}
   - {fileID: 8692110966995393380, guid: 3bc75bba4d7cb614a91415fcd45cfc9d, type: 3}
+  - {fileID: 8925821719511628689, guid: 9b4e8f9a65c663348bc6aea36bc40efb, type: 3}
+  - {fileID: 5620198467259125731, guid: 53f33498f1f12714d8515cffa8bd2243, type: 3}
   - {fileID: 8692110966995393380, guid: 20bd3e6021760124599a47caf8924145, type: 3}
   - {fileID: 3482484702487420864, guid: 4b89cea34fad5ac4dad7ea5645ce95ae, type: 3}
-  - {fileID: 8925821719511628689, guid: 9b4e8f9a65c663348bc6aea36bc40efb, type: 3}
   - {fileID: 8692110966995393380, guid: e7ecc503da6bfa24486f1cfd17e51b23, type: 3}
   - {fileID: 8925821719511628689, guid: 267243dc3a19e204d919ab7f36d0da7b, type: 3}
   - {fileID: 3482484702487420864, guid: ba6f593b232d04e4d8caf9d79d830bd0, type: 3}

@@ -25,6 +25,8 @@ public class GameManager : SerializedMonoBehaviour
     [SerializeField] int startXPToNextLevel; // will double every level
 
     int xpToNextLevel;
+    [HideInInspector] public float currentXPMultiplier = 1;
+    
 
     public void Init()
     {
@@ -68,7 +70,7 @@ public class GameManager : SerializedMonoBehaviour
         }
 
         xpToNextLevel = startXPToNextLevel;
-
+        currentXPMultiplier = 1;
     }
 
     public void MenuInit()
@@ -129,7 +131,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public void GetXP(int amount)
     {
-        currentXP += amount;
+        currentXP += Mathf.RoundToInt(amount * currentXPMultiplier);
         if(currentXP >= xpToNextLevel)
         {
             currentLevel++;

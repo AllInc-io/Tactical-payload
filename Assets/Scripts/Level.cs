@@ -24,7 +24,9 @@ public class Level : MonoBehaviour
 
     [SerializeField] Transform[] oneRoadBlocks;
 
+    [SerializeField] Destructible[] possibleDestructibles;
 
+    [SerializeField, Range(0,1)] float destructiblesDensity;
 
     public List<Enemy> enemiesPool;
 
@@ -36,9 +38,11 @@ public class Level : MonoBehaviour
 
     public int totalPathLength;
 
-    public float nextLevelSpawn = 25f;
+    public float nextLevelSpawn = -25f;
 
     public Vector3 cameraPos;
+
+    public LayerMask ground;
 
     public void Init()
     {
@@ -66,7 +70,8 @@ public class Level : MonoBehaviour
         }
 
         //apply weather to level : TODO
-        
+
+        SpawnNewBlockInFront();
 
         surface.BuildNavMesh();
 
@@ -120,8 +125,17 @@ public class Level : MonoBehaviour
             int progress = Mathf.RoundToInt(cameraPos.z / 3f);
             int totalZombiesAmount = Random.Range(R.get.levelDesign.EvaluateWaveAmount(progress, waves[i % waves.Length].zombieMinAmount), R.get.levelDesign.EvaluateWaveAmount(progress, waves[i % waves.Length].zombieMaxAmount));
 
-            Vector3 entrance = payload.transform.position + Vector3.right * 10f * Random.value + payload.transform.forward * 30f; 
-                Vector3 dir = (entrance).normalized;
+
+
+            int maxSlope = 45;
+            Vector3 entrance = payload.transform.position + Vector3.right * 10f * Random.Range(-1, 1);
+
+            Ray ray = R.get.mainCamera.ViewportPointToRay(new Vector2(0.5f, 1.25f));
+
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground, QueryTriggerInteraction.UseGlobal) && Vector3.Angle(Vector3.up, hit.normal) < maxSlope) entrance.z = hit.point.z;
+            else entrance.z = payload.transform.position.z + 20;
+
+            Vector3 dir = (entrance).normalized;
                 R.get.ui.menuIngame.IndicateWaveIncoming(dir, i + 1, waves.Length);
 
                 StartCoroutine(EnemyWaveCoroutine(waves[i % waves.Length], totalZombiesAmount, entrance, totalZombiesAmount / 10f));
@@ -140,8 +154,7 @@ public class Level : MonoBehaviour
 
             R.get.haptics.Haptic(HapticForce.Heavy);
 
-            yield return new WaitForSeconds(2f);
-            
+
         }
 
 
@@ -233,14 +246,59 @@ public class Level : MonoBehaviour
 
         R.get.mainCamera.transform.position = cameraPos + Vector3.up * 60 - Vector3.forward * 30f; //TEMP
 
-        if(cameraPos.z >= nextLevelSpawn)
+        if(cameraPos.z >= nextLevelSpawn - 25f)
         {
-            nextLevelSpawn += 10f;
-            Instantiate(oneRoadBlocks[Random.Range(0, oneRoadBlocks.Length)], Vector3.forward * (nextLevelSpawn + 25f), default);
-            surface.BuildNavMesh();
+            SpawnNewBlockInFront();
         }
     }
+
+    void SpawnNewBlockInFront()
+    {
+
+        Transform newBlock = Instantiate(oneRoadBlocks[Random.Range(0, oneRoadBlocks.Length)], transform);
+        newBlock.transform.position = Vector3.forward * (nextLevelSpawn + 25f);
+        surface.BuildNavMesh();
+
+        int length = 50;
+        int width = 30;
+
+        int step = 2;
+
+        Vector3 startPos = new Vector3(-width/2f, 0, (nextLevelSpawn));
+
+        //spawn crates
+        for (int x = 0; x < width; x+= step)
+        {
+            for(int z = 0; z < length; z+= step)
+            {
+                float value = Random.value;
+                if (value < destructiblesDensity) Instantiate(possibleDestructibles[0], new Vector3(x + startPos.x, 0.5f, z + startPos.z), default);
+            }
+
+        }
+
+
+        nextLevelSpawn += 50f;
+
+    }
+
+    public void PauseWaves(float duration)
+    {
+        StartCoroutine(PauseWavesCoroutine(duration));
+    }
+
+    IEnumerator PauseWavesCoroutine(float duration)
+    {
+        pauseWaves = true;
+        yield return new WaitForSeconds(duration);
+        pauseWaves = false;
+    }
+
+
 }
+
+
+
 
 
 

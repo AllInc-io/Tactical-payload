@@ -83,6 +83,8 @@ public class Hero : Character
 
     int level = 1;
 
+
+
     public override void Init()
     {
 
@@ -395,7 +397,7 @@ public class Hero : Character
 
                 }
 
-
+                interestPoint += Vector3.up * gun.bulletSource.transform.position.y;
 
             }
             else
@@ -464,8 +466,8 @@ public class Hero : Character
                 }
             }
 
-            Vector3 dir = (interestPoint - transform.position).normalized;
-
+            //Vector3 dir = (interestPoint - transform.position).normalized;
+            Vector3 dir = (interestPoint - gun.bulletSource.position).normalized;
             Vector3 horizontalDir = dir;
             horizontalDir.y = 0;
 
@@ -500,6 +502,8 @@ public class Hero : Character
                 gun.lamp.DOKill();
                 gun.lamp.DOIntensity(0, 0.3f);
 
+                horizontalDir = (interestPoint - transform.position).normalized;
+                horizontalDir.y = 0;
 
                 //turns the forward of both the transform and the aim towards the next point on the path
 
