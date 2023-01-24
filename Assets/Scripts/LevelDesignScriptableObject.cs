@@ -16,6 +16,13 @@ public class LevelDesignScriptableObject : ScriptableObject
     [FoldoutGroup("General settings")] public int moneyWonPerLevel = 500;
     [FoldoutGroup("General settings")] public int moneyWonPerZombieKilled = 3;
 
+    [FoldoutGroup("General Settings")] public int[] firstLandmarks;
+    [FoldoutGroup("General Settings")] public int landmarksEveryXAfter = 100;
+
+    [FoldoutGroup("General Settings")] public float payloadLifeLevelUpMultiplier = 1.3f;
+    [FoldoutGroup("General Settings")] public float payloadSpeedMultiplier = 1.3f;
+
+
 
     [FoldoutGroup("Difficulty curve")] public AnimationCurve wavesAmountMultiplierCurve;
     [FoldoutGroup("Difficulty curve")] public float wavesStartMultiplier = 1;
@@ -24,8 +31,6 @@ public class LevelDesignScriptableObject : ScriptableObject
 
     [FoldoutGroup("Character")] public Hero[] possibleCharactersPrefabs;
     [FoldoutGroup("Character")] public int newCharacterEveryX;
-
-
     [FoldoutGroup("Character")] public int characterMaxLevel;
 
     [FoldoutGroup("Character")] public AnimationCurve characterUpgradePriceCurve;
@@ -75,5 +80,12 @@ public class LevelDesignScriptableObject : ScriptableObject
         float t = (float)level / maxLevel;
         float value = wavesStartMultiplier + wavesStartMultiplier * wavesAmountMultiplierCurve.Evaluate(t) * wavesMaxMultiplier ;
         return Mathf.RoundToInt(baseAmount * value);
+    }
+
+    public int GetNextLandmark(int landmarkIndex)
+    {
+        int indexAfterFirstLandmarks = landmarkIndex - firstLandmarks.Length;
+
+        return landmarkIndex >= firstLandmarks.Length ? firstLandmarks[firstLandmarks.Length - 1] + indexAfterFirstLandmarks * landmarksEveryXAfter : firstLandmarks[landmarkIndex];
     }
 }

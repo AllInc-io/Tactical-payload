@@ -89,8 +89,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.843734, y: 3.2106864, z: 2.087535}
-  m_Center: {x: -0.0132187605, y: 1.5544034, z: 0.015651226}
+  m_Size: {x: 1.843734, y: 3.3935583, z: 2.087535}
+  m_Center: {x: -0.0132187605, y: 1.4629675, z: 0.015651226}
 --- !u!114 &2395313814734105557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   - {fileID: 2060884666081844911, guid: 0852c7efbc72c7446a2690d7b9ee9e69, type: 3}
   - {fileID: 2060884666081844911, guid: b82160f772a929e4ea2201b3de67de2e, type: 3}
   - {fileID: 2060884666081844911, guid: 4884646722f03f745bc49074991d4b3f, type: 3}
+  - {fileID: 860444749157989688, guid: 354309b1df882fe41af4bec0003a02d8, type: 3}
 --- !u!208 &3101519228179335791
 NavMeshObstacle:
   m_ObjectHideFlags: 0

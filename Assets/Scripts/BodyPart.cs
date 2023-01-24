@@ -28,7 +28,7 @@ public class BodyPart : MonoBehaviour
 
     }
 
-    public void Ressucite()
+    public void Ressucitate()
     {
         destroyFX.gameObject.SetActive(false);
 

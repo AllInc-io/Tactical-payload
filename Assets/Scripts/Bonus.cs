@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Crate : MonoBehaviour
+public class Bonus : MonoBehaviour
 {
     [SerializeField] bool turnsInvulnerable = false;
     [SerializeField] int currencyAmount = 0;
@@ -11,6 +11,7 @@ public class Crate : MonoBehaviour
     [SerializeField] float fireRateMultiplier = 1;
     [SerializeField] float bonusDuration = 10;
     [SerializeField] float lifetime = 5f;
+    [SerializeField] bool levelsUp;
 
     float liveCounter;
 
@@ -25,6 +26,7 @@ public class Crate : MonoBehaviour
             if(fireRateMultiplier > 1 || turnsInvulnerable) hero.GetBoosterCrate(fireRateMultiplier, turnsInvulnerable, bonusDuration);
             if(healAmount > 0) hero.Heal(healAmount);
             if (currencyAmount > 0) R.get.ui.menuBank.AnimateRessourcesGoingIntoBank(transform.position, currencyAmount, new Vector2(Screen.width *0.05f, Screen.height * 0.05f));
+            if (levelsUp) hero.LevelUp();
             //R.get.levelManager.level.currentZone.cratesPickedUp ++;
             Destroy(this.gameObject);
         }

@@ -60,6 +60,9 @@ public class R : MonoBehaviour
             {
                 PlayerPrefs.SetInt("Level" + hero.heroName, 0);
             }
+
+            PlayerPrefs.SetInt("PayloadLifeLevel", 1);
+            PlayerPrefs.SetInt("PayloadSpeedLevel", 1);
         }
 
         lastLevelFinished = PlayerPrefs.GetInt("LastLevelFinished", 0);

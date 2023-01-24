@@ -57,7 +57,7 @@ public class Zombie : MonoBehaviour
         SetDissolveValue(0);
         foreach(BodyPart bodyPart in GetComponentsInChildren<BodyPart>())
         {
-            bodyPart.Ressucite();
+            bodyPart.Ressucitate();
         }
     }
 }

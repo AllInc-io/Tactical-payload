@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.AI;
 using System.Linq;
 using PathCreation;
+using TMPro;
 
 public class Level : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Level : MonoBehaviour
     [SerializeField] public NavMeshSurface surface;
 
     [SerializeField] Transform[] oneRoadBlocks;
+    [SerializeField] Transform landmarkIndicator;
 
     [SerializeField] Destructible[] possibleDestructibles;
 
@@ -43,6 +45,9 @@ public class Level : MonoBehaviour
     public Vector3 cameraPos;
 
     public LayerMask ground;
+
+    public int nextProgressionLandmark;
+    int landmarkIndex;
 
     public void Init()
     {
@@ -75,13 +80,22 @@ public class Level : MonoBehaviour
 
         surface.BuildNavMesh();
 
+
+
+        landmarkIndex = 0;
+
+        nextProgressionLandmark = R.get.levelDesign.firstLandmarks[landmarkIndex];
+
+        Transform landmark = Instantiate(landmarkIndicator, (payload.transform.position.z + nextProgressionLandmark) * Vector3.forward, default);
+        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + "m";
+
         //zones[0].SetUpCamera();
         payload.Init();
 
 
         StartCoroutine(EnemyWavesCoroutine());
 
-        
+
     }
 
 
@@ -90,6 +104,21 @@ public class Level : MonoBehaviour
 
     }
 
+    public void PassLandmark()
+    {
+        landmarkIndex++;
+
+        nextProgressionLandmark = R.get.levelDesign.GetNextLandmark(landmarkIndex);
+
+        Transform landmark = Instantiate(landmarkIndicator, (payload.startZOffset + nextProgressionLandmark) * Vector3.forward, default);
+        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + "m";
+
+        foreach (Hero hero in R.get.game.heroes)
+        {
+            hero.LevelUp();
+        }
+
+    }
 
     public void Update()
     {

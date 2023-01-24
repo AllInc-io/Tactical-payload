@@ -19,6 +19,8 @@ MonoBehaviour:
   charactersScale: 0.75
   moneyWonPerLevel: 500
   moneyWonPerZombieKilled: 3
+  firstLandmarks: 190000003200000064000000
+  landmarksEveryXAfter: 100
   wavesAmountMultiplierCurve:
     serializedVersion: 2
     m_Curve:

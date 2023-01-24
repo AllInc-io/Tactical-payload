@@ -349,6 +349,7 @@ MonoBehaviour:
   enemiesAlive: 0
   surface: {fileID: 8308104784448176562}
   oneRoadBlocks: []
+  landmarkIndicator: {fileID: 2980465415036663745, guid: b341ae3d0304c814782feb65d19bf73f, type: 3}
   possibleDestructibles: []
   destructiblesDensity: 0
   enemiesPool: []
@@ -360,6 +361,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 0
+  nextProgressionLandmark: 0
 --- !u!114 &8308104784448176562
 MonoBehaviour:
   m_ObjectHideFlags: 0

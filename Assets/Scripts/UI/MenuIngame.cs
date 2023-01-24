@@ -169,9 +169,11 @@ public class MenuIngame : MonoBehaviour
         }
     }
 
-    public void IndicateProgression(int meters)
+    public void IndicateProgression(int meters, bool passingLandmark)
     {
         progressionText.text = meters + "m";
+
+        if (passingLandmark) progressionText.transform.DOPunchScale(Vector3.one * 1.5f, 0.5f);
     }
 
 

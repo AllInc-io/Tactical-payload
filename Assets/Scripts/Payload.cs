@@ -24,6 +24,8 @@ public class Payload : MonoBehaviour
     [SerializeField] Vector3 boxSize;
     [SerializeField] Vector3 boxOffset;
 
+    [HideInInspector] public float startZOffset;
+
     public void Init()
     {
 
@@ -31,6 +33,12 @@ public class Payload : MonoBehaviour
 
         PVs = maxPvs;
         lifeText.text = PVs.ToString();
+
+        startZOffset = transform.position.z;
+
+        StartCoroutine(UpdateProgressionCoroutine());
+
+        
     }
 
 
@@ -46,7 +54,6 @@ public class Payload : MonoBehaviour
 
         R.get.ui.menuIngame.IndicatePayload(transform.position);
 
-        R.get.ui.menuIngame.IndicateProgression(Mathf.RoundToInt(Mathf.Max(0, transform.position.z)));
     }
 
     public void MoveForwardOnPath()
@@ -89,11 +96,36 @@ public class Payload : MonoBehaviour
         maxPvs = Mathf.RoundToInt(maxPvs * multiplier);
         PVs += Mathf.RoundToInt(maxPvs * (multiplier - 1));
 
+        lifeText.text = PVs.ToString();
     }
 
     public void Explode()
     {
         Instantiate(explosionFX, transform.position, default);
         gameObject.SetActive(false);
+    }
+
+    IEnumerator UpdateProgressionCoroutine()
+    {
+        bool stop = false;
+        bool passingLandmark = false;
+        int z = 0;
+        while(!stop && PVs > 0)
+        {
+            z = Mathf.RoundToInt(transform.position.z - startZOffset);
+
+            passingLandmark = false;
+
+            if (z == R.get.levelManager.level.nextProgressionLandmark)
+            {
+                passingLandmark = true;
+                R.get.levelManager.level.PassLandmark();
+            }
+            R.get.ui.menuIngame.IndicateProgression(Mathf.RoundToInt(transform.position.z - startZOffset), passingLandmark);
+
+
+
+            yield return new WaitWhile(() => transform.position.z == z);
+        }
     }
 }

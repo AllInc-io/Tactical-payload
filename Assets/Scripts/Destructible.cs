@@ -8,7 +8,7 @@ public class Destructible : MonoBehaviour
     [SerializeField] ParticleSystem destructionFXPrefab;
     [SerializeField] int PVs;
     [SerializeField] float boostDropProbability;
-    [SerializeField] Crate[] possibleBoosts;
+    [SerializeField] Bonus[] possibleBoosts;
     
     private void OnTriggerEnter(Collider other)
     {

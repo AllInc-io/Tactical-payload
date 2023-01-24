@@ -21,6 +21,7 @@ public class Hero : Character
     [FoldoutGroup("Refs"), SerializeField] private ParticleSystem heal;
     [FoldoutGroup("Refs"), SerializeField] private ParticleSystem shield;
     [FoldoutGroup("Refs"), SerializeField] private ParticleSystem boost;
+    [FoldoutGroup("Refs"), SerializeField] private ParticleSystem levelUp;
     [FoldoutGroup("Refs"), SerializeField] public Sprite icon;
 
 
@@ -154,6 +155,7 @@ public class Hero : Character
         level++;
         levelText.text = "lvl " + level.ToString();
         GetValuesFromLevel();
+        levelUp.Play();
     }
     
     void SetUpCircle()
@@ -366,8 +368,8 @@ public class Hero : Character
         countdown.gameObject.SetActive(false);
 
         path.Clear();
-        
 
+        UpdateLifeCircle();
         gun.lamp.gameObject.SetActive(true);
 
         dead = false;
