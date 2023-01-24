@@ -46,7 +46,7 @@ public class Payload : MonoBehaviour
 
         R.get.ui.menuIngame.IndicatePayload(transform.position);
 
-
+        R.get.ui.menuIngame.IndicateProgression(Mathf.RoundToInt(Mathf.Max(0, transform.position.z)));
     }
 
     public void MoveForwardOnPath()

@@ -537,10 +537,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5774558440250469573, guid: c602086d95796744b9e242befefa1d69, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 6594289625909491501, guid: c602086d95796744b9e242befefa1d69, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1426,6 +1422,7 @@ MonoBehaviour:
   lost: 0
   currentLevel: 1
   startXPToNextLevel: 120
+  currentXPMultiplier: 1
 --- !u!114 &1544444010
 MonoBehaviour:
   m_ObjectHideFlags: 0

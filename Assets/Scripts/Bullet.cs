@@ -21,6 +21,7 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] ParticleSystem onKillFx;
 
+    [HideInInspector] public Hero shooter;
 
     float counter;
     // Update is called once per frame

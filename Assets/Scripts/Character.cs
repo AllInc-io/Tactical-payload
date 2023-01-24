@@ -86,8 +86,6 @@ public class Character : MonoBehaviour
         animator.Play("Idle");
 
 
-
-        transform.parent = null;
         col.enabled = false;
         if(rig != null) rig.isKinematic = true;
         animator.enabled = false;
@@ -110,6 +108,32 @@ public class Character : MonoBehaviour
 
     }
 
+    protected void DeactivateRagdoll()
+    {
+        animator.Play("Idle");
+
+
+        col.enabled = true;
+        if (rig != null) rig.isKinematic = true;
+        animator.enabled = true;
+
+        Collider[] arrCol = animator.transform.GetComponentsInChildren<Collider>();
+        for (int i = 0; i < arrCol.Length; i++)
+        {
+            arrCol[i].enabled = false;
+            arrCol[i].isTrigger = false;
+        }
+
+        Rigidbody[] arrRig = animator.transform.GetComponentsInChildren<Rigidbody>();
+        for (int i = 0; i < arrRig.Length; i++)
+        {
+            arrRig[i].velocity = Vector3.zero;
+            arrRig[i].isKinematic = true;
+            arrRig[i].interpolation = RigidbodyInterpolation.Interpolate;
+            
+        }
+
+    }
     public virtual void StopMoving()
     {
 

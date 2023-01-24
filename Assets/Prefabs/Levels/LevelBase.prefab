@@ -348,13 +348,18 @@ MonoBehaviour:
   totalEnemiesKilled: 0
   enemiesAlive: 0
   surface: {fileID: 8308104784448176562}
-  oneRoadBlock: {fileID: 4909774164908011595, guid: 4114aced0d6e7314e8a477d923194d17, type: 3}
+  oneRoadBlocks: []
+  possibleDestructibles: []
+  destructiblesDensity: 0
   enemiesPool: []
   payload: {fileID: 2184733311407107645}
   pauseWaves: 0
   totalPathLength: 0
   nextLevelSpawn: 0
   cameraPos: {x: 0, y: 0, z: 0}
+  ground:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &8308104784448176562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,7 +441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4909774164908011595, guid: 4114aced0d6e7314e8a477d923194d17, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -24.6
       objectReference: {fileID: 0}
     - target: {fileID: 4909774164908011595, guid: 4114aced0d6e7314e8a477d923194d17, type: 3}
       propertyPath: m_LocalRotation.w
@@ -498,7 +503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7168310504541245724, guid: 3113144246abc5d4d90abfa060c12482, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -9.2
       objectReference: {fileID: 0}
     - target: {fileID: 7168310504541245724, guid: 3113144246abc5d4d90abfa060c12482, type: 3}
       propertyPath: m_LocalRotation.w

@@ -244,7 +244,8 @@ public class Level : MonoBehaviour
 
         cameraPos /= amount;
 
-        R.get.mainCamera.transform.position = cameraPos + Vector3.up * 60 - Vector3.forward * 30f; //TEMP
+        Vector3 cameraOffest = new Vector3(0, 60, -30);
+        R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffest, 0.5f); //TEMP
 
         if(cameraPos.z >= nextLevelSpawn - 25f)
         {

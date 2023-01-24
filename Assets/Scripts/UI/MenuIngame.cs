@@ -14,11 +14,8 @@ public class MenuIngame : MonoBehaviour
     [SerializeField] RectTransform pointer;
 
     [SerializeField] TextMeshProUGUI waveIncomingText;
-    [SerializeField] RectTransform waveIncomingArrowsParent;
-    [SerializeField] RectTransform waveIncomingArrowU;
-    [SerializeField] RectTransform waveIncomingArrowR;
-    [SerializeField] RectTransform waveIncomingArrowD;
-    [SerializeField] RectTransform waveIncomingArrowL;
+    [SerializeField] TextMeshProUGUI progressionText;
+
 
     [SerializeField] public ZoneFinishedPopup zoneFinishedPopup;
 
@@ -72,19 +69,10 @@ public class MenuIngame : MonoBehaviour
         Sequence sequence = DOTween.Sequence().SetId("WaveIncomingUI");
 
         waveIncomingText.text = "Wave incoming";
-        Vector3 refPos = R.get.levelManager.level.payload.transform.position;
 
         //waveIncomingArrow.up = new Vector3(direction.x, direction.z, 0);
         //waveIncomingArrow.anchoredPosition = new Vector2(Mathf.RoundToInt(direction.x) * Screen.width * 0.4f, Mathf.RoundToInt(direction.z) * Screen.height * 0.4f);
-        Transform arrow;
-        if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
-        {
-            arrow = direction.x >= refPos.x ? waveIncomingArrowR : waveIncomingArrowL; 
-        }
-        else
-        {
-            arrow = direction.z >= refPos.z ? waveIncomingArrowU : waveIncomingArrowD;
-        }
+
         sequence.Append(waveIncomingText.transform.DOScale(Vector3.one, 0.5f));
        // sequence.Join(arrow.transform.DOScale(Vector3.one, 0.5f));
         
@@ -165,6 +153,28 @@ public class MenuIngame : MonoBehaviour
 
     }
 
+
+    public void IndicatePayload(Vector3 pos)
+    {
+        if (R.get.game.CheckIfEnemyIsInView(pos)) towardsPayloadPointer.gameObject.SetActive(false);
+        else
+        {
+            towardsPayloadPointer.gameObject.SetActive(true);
+            Vector2 newPos = U.WorldToUIPos(pos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
+            newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width);
+            newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
+            towardsPayloadPointer.anchoredPosition = newPos;
+
+            towardsPayloadPointer.rotation = Quaternion.Euler(0, 0, -Vector2.SignedAngle(Vector2.up, new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition));
+        }
+    }
+
+    public void IndicateProgression(int meters)
+    {
+        progressionText.text = meters + "m";
+    }
+
+
     public void ShowAmeliorationMenu()
     {
         ameliorationMenu.gameObject.SetActive(true);
@@ -188,6 +198,7 @@ public class MenuIngame : MonoBehaviour
             else child.gameObject.SetActive(true);
         }
     }
+
 
     public void HideAmeliorationMenu()
     {
@@ -286,11 +297,6 @@ public class MenuIngame : MonoBehaviour
         OnBoostChosen();
     }
 
-    public void ThrowMegaBomb()
-    {
-        
-    }
-
 
 
     void OnBoostChosen()
@@ -302,21 +308,6 @@ public class MenuIngame : MonoBehaviour
         R.get.game.StopPause();
     }
 
-
-    public void IndicatePayload(Vector3 pos)
-    {
-        if (R.get.game.CheckIfEnemyIsInView(pos)) towardsPayloadPointer.gameObject.SetActive(false);
-        else
-        {
-            towardsPayloadPointer.gameObject.SetActive(true);
-            Vector2 newPos = U.WorldToUIPos(pos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
-            newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width);
-            newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
-            towardsPayloadPointer.anchoredPosition = newPos;
-
-            towardsPayloadPointer.rotation = Quaternion.Euler(0,0,-Vector2.SignedAngle(Vector2.up, new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition));
-        }
-    }
 
 
 

@@ -88,6 +88,9 @@ public class Gun : MonoBehaviour
             bullet.explosionRay = data.explosionRay;
             bullet.ennemiesLayerMask = data.ennemiesLayerMask;
             bullet.baseProjectionForce = data.baseProjectionForce;
+
+            bullet.shooter = GetComponentInParent<Hero>();
+
             bullet.Init();
         }
 

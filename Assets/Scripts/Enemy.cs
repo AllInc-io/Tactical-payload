@@ -68,6 +68,9 @@ public class Enemy : Character
 
     string movementString;
 
+    List<Hero> noticedHeroes = new List<Hero>();
+
+
     public void Preinit() //spawns the zombie
     {
 
@@ -198,10 +201,8 @@ public class Enemy : Character
                 else
                 {
 
-
                         agent.SetDestination(transform.position);
                         Attack();
-                    
 
                 }
 
@@ -277,12 +278,21 @@ public class Enemy : Character
         target = R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position);
 
         Collider[] results = Physics.OverlapSphere(transform.position, visionDistance, heroes, QueryTriggerInteraction.Collide);
-            if (results != null && results.Length > 0 &&
-                !results[0].GetComponent<Hero>().dead 
-                && !Physics.Raycast(transform.position + Vector3.up * 0.2f, results[0].transform.position - transform.position, visionDistance * transform.lossyScale.z, obstacles, QueryTriggerInteraction.Collide))
+        if (results != null && results.Length > 0)
+
+        {
+            for (int i = 0; i < results.Length; i++)
             {
-                target = results[0].transform.position;
+                if (!results[i].GetComponent<Hero>().dead
+                && noticedHeroes.Contains(results[i].GetComponent<Hero>())
+                && !Physics.Raycast(transform.position + Vector3.up * 0.2f, results[i].transform.position - transform.position, visionDistance * transform.lossyScale.z, obstacles, QueryTriggerInteraction.Collide)
+                && Vector3.Distance(results[i].transform.position, transform.position) < Vector3.Distance(target, transform.position))
+                {
+                    target = results[i].transform.position;
+                }
             }
+
+        }
         
         return target != null;
 
@@ -437,13 +447,13 @@ public class Enemy : Character
                 //Debug.Log("touché");
                 Bullet bullet = other.GetComponent<Bullet>();
                 TakeDamage(bullet.damage, bullet.transform.forward * bullet.baseProjectionForce);
+                if (!noticedHeroes.Contains(bullet.shooter)) noticedHeroes.Add(bullet.shooter);
                 Instantiate(hitFx, bullet.transform.position, default).gameObject.SetActive(true);
                 if (bullet.setsOnFireCounter > 0) onFireCounter = bullet.setsOnFireCounter;
                 if(!bullet.goesThroughEnemies) bullet.Kill();
             }
 
         }
-
 
     }
 

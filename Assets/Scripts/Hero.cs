@@ -15,7 +15,8 @@ public class Hero : Character
     [FoldoutGroup("Refs")] public DrawnLine line;
     [FoldoutGroup("Refs")] public Shapes.Disc visionCircle; //temp
     [FoldoutGroup("Refs")] public Transform aim;
-    [FoldoutGroup("Refs")] public TextMeshPro countDown;
+    [FoldoutGroup("Refs")] public TextMeshPro levelText;
+    [FoldoutGroup("Refs")] public TextMeshPro countdown;
 
     [FoldoutGroup("Refs"), SerializeField] private ParticleSystem heal;
     [FoldoutGroup("Refs"), SerializeField] private ParticleSystem shield;
@@ -85,6 +86,8 @@ public class Hero : Character
 
 
 
+
+
     public override void Init()
     {
 
@@ -122,6 +125,7 @@ public class Hero : Character
         }
 
         level = 1;
+        levelText.text = "lvl " + level.ToString();
 
         GetValuesFromLevel();
 
@@ -148,6 +152,7 @@ public class Hero : Character
     public void LevelUp()
     {
         level++;
+        levelText.text = "lvl " + level.ToString();
         GetValuesFromLevel();
     }
     
@@ -257,7 +262,7 @@ public class Hero : Character
 
         if (boosts) BoostAround();
 
-        countDown.transform.forward = Vector3.forward + Vector3.down * 0.3f;
+        levelText.transform.forward = Vector3.forward + Vector3.down * 0.3f;
 
         TurnTowardsClosestInterestPoint();
     }
@@ -348,7 +353,29 @@ public class Hero : Character
         }
 
         if (heroCount == 0) R.get.game.Lose();
+
+        StartCoroutine(WaitForResurrectionCoroutine(10));
     }
+
+
+    void Resurrect()
+    {
+
+        PVs = maxPVs / 2f;
+
+        countdown.gameObject.SetActive(false);
+
+        path.Clear();
+        
+
+        gun.lamp.gameObject.SetActive(true);
+
+        dead = false;
+        
+        DeactivateRagdoll();
+    }
+
+
 
     public override void TakeDamage(float amount, Vector3 ragdollForce)
     {
@@ -397,7 +424,7 @@ public class Hero : Character
 
                 }
 
-                interestPoint += Vector3.up * gun.bulletSource.transform.position.y;
+                interestPoint += Vector3.up * 0.75f;
 
             }
             else
@@ -712,7 +739,6 @@ public class Hero : Character
                     if (clignotementCounter > 0.2f)
                     {
                         clignotementCounter = 0;
-                        Debug.Log("Blink");
                         if (renderers[0].enabled) foreach (ParticleSystemRenderer renderer in renderers) renderer.enabled = false;
                         else foreach (ParticleSystemRenderer renderer in renderers) renderer.enabled = true;
 
@@ -731,7 +757,7 @@ public class Hero : Character
     
     public void ResetAllCrateBonuses()
     {
-        countDown.gameObject.SetActive(false);
+        //countDown.gameObject.SetActive(false);
         isInvulnerable = false;
         gun.firerateMultiplier = 1;
 
@@ -740,10 +766,43 @@ public class Hero : Character
         boost.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
+    IEnumerator WaitForResurrectionCoroutine(float duration = 10)
+    {
+        float t = 0;
+        bool resurrected = false;
+        countdown.gameObject.SetActive(true);
+        while (t < duration && ! resurrected)
+        {
+            Collider[] results = Physics.OverlapSphere(transform.position, 2, alliesLayerMask, QueryTriggerInteraction.Collide);
+            if (results.Length > 0)
+            {
+                Resurrect();
+                resurrected = true;
+            }
+            countdown.text = Mathf.RoundToInt(t).ToString();
+            t += Time.deltaTime;
+            yield return null;
+        }
+        if (!resurrected)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+
+#if UNITY_EDITOR
+
+    [Button]
+    //for debug purposes obvi
+    public void Instakill()
+    {
+        TakeDamage(553153, Vector3.zero);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = lineColor;
         Gizmos.DrawLine(transform.position, interestPoint);
     }
-
+#endif
 }
