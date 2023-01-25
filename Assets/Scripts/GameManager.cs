@@ -71,6 +71,8 @@ public class GameManager : SerializedMonoBehaviour
 
         xpToNextLevel = startXPToNextLevel;
         currentXPMultiplier = 1;
+
+        R.get.ui.menuIngame.SetXPBar(0, startXPToNextLevel);
     }
 
     public void MenuInit()
@@ -129,7 +131,8 @@ public class GameManager : SerializedMonoBehaviour
         R.get.ui.menuLose.Show();
     }
 
-    public void GetXP(int amount)
+    //returns the actual amount of exp gained
+    public int GetXP(int amount)
     {
         currentXP += Mathf.RoundToInt(amount * currentXPMultiplier);
         if(currentXP >= xpToNextLevel)
@@ -142,7 +145,9 @@ public class GameManager : SerializedMonoBehaviour
             currentXP = newXP;
         }
 
-        R.get.ui.menuIngame.SetXPBar((float)currentXP / xpToNextLevel);
+        R.get.ui.menuIngame.SetXPBar(currentXP, xpToNextLevel);
+
+        return Mathf.RoundToInt(amount * currentXPMultiplier);
     }
 
     public void SetPause()

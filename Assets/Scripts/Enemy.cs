@@ -5,7 +5,7 @@ using Shapes;
 using Sirenix.OdinInspector;
 using DG.Tweening;
 using UnityEngine.AI;
-
+using TMPro;
 public class Enemy : Character
 {
 
@@ -31,6 +31,7 @@ public class Enemy : Character
     [SerializeField] Zombie[] possibleZombies;
 
     [SerializeField] ParticleSystem onFireFx;
+    [SerializeField] TextMeshPro expGainedText;
 
     public Zombie zombie;
 
@@ -461,7 +462,14 @@ public class Enemy : Character
     {
         base.Die(ragdollForce);
 
-        R.get.game.GetXP(xpWhenKilled);
+        expGainedText.text =  "+" + R.get.game.GetXP(xpWhenKilled) + "xp";
+        expGainedText.gameObject.SetActive(true);
+        expGainedText.transform.forward = Vector3.forward;
+        expGainedText.transform.localScale = Vector3.zero;
+        expGainedText.transform.DOScale(Vector3.one, 0.3f);
+        expGainedText.transform.DOMove(expGainedText.transform.position + Vector3.up, 1f).SetEase(Ease.OutSine).OnComplete(() => expGainedText.gameObject.SetActive(false));
+
+
         StopAllCoroutines();
         col.enabled = false;
         agent.enabled = false;
@@ -489,6 +497,9 @@ public class Enemy : Character
 
     private IEnumerator FullyDisableCoroutine(float delay)
     {
+
+
+
         float t = 0;
         while(t <= 1)
         {
@@ -499,6 +510,8 @@ public class Enemy : Character
             
         }
 
+        expGainedText.gameObject.SetActive(false);
+        
         R.get.levelManager.level.enemiesPool.Add(this);
         gameObject.SetActive(false);
 

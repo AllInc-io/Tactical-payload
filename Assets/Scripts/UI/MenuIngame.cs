@@ -24,9 +24,11 @@ public class MenuIngame : MonoBehaviour
     public GameObject dotProgressionPrefab;
     public Image fillProgression;
 
+
     private List<GameObject> dots;
 
     [SerializeField] Image xpBar;
+    public TextMeshProUGUI xpBarText;
     [SerializeField] RectTransform ameliorationMenu;
 
 
@@ -45,7 +47,7 @@ public class MenuIngame : MonoBehaviour
         HideTutorialText();
         HidePointer();
 
-        SetXPBar(0);
+
 
         ameliorationMenu.gameObject.SetActive(false);
     }
@@ -207,13 +209,20 @@ public class MenuIngame : MonoBehaviour
         ameliorationMenu.gameObject.SetActive(false);
     }
 
-    public void SetXPBar(float fill)
+    public void SetXPBar(int currentAmount, int goal)
     {
+
+        float fill = (float) currentAmount / goal;
+
         xpBar.DOKill();
         if (fill > xpBar.fillAmount) xpBar.DOFillAmount(fill, 0.3f);
         else xpBar.fillAmount = fill;
+
+        xpBarText.text = currentAmount + "/" + goal;
     }
 
+
+    
     public void LevelUpCharacters()
     {
         foreach(Hero hero in R.get.game.heroes)

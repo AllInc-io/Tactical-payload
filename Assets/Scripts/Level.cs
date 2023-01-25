@@ -165,7 +165,7 @@ public class Level : MonoBehaviour
             else entrance.z = payload.transform.position.z + 20;
 
             Vector3 dir = (entrance).normalized;
-                R.get.ui.menuIngame.IndicateWaveIncoming(dir, i + 1, waves.Length);
+                //R.get.ui.menuIngame.IndicateWaveIncoming(dir, i + 1, waves.Length);
 
                 StartCoroutine(EnemyWaveCoroutine(waves[i % waves.Length], totalZombiesAmount, entrance, totalZombiesAmount / 10f));
 

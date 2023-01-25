@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
 using TMPro;
+using UnityEngine.UI;
+using DG.Tweening;
+
 
 public class Payload : MonoBehaviour
 {
@@ -12,6 +15,7 @@ public class Payload : MonoBehaviour
     [SerializeField] float speed = 0.05f;
     [SerializeField] TextMeshPro lifeText;
     [SerializeField] ParticleSystem explosionFX;
+    [SerializeField] Image lifeCircle;
 
     float t = 0;
 
@@ -25,6 +29,8 @@ public class Payload : MonoBehaviour
     [SerializeField] Vector3 boxOffset;
 
     [HideInInspector] public float startZOffset;
+
+
 
     public void Init()
     {
@@ -42,6 +48,8 @@ public class Payload : MonoBehaviour
         StartCoroutine(UpdateProgressionCoroutine());
 
         isInit = true;
+
+        UpdateLifeCircle();
     }
 
 
@@ -80,7 +88,14 @@ public class Payload : MonoBehaviour
             Explode();
         }
 
+        UpdateLifeCircle();
+    }
 
+
+    protected void UpdateLifeCircle()
+    {
+        DOTween.Kill(lifeCircle, "FillLifeCircle");
+        lifeCircle.DOFillAmount(PVs / (float)maxPvs, 0.3f).SetId("FillLifeCircle");
     }
 
     private void OnDrawGizmos()
@@ -100,6 +115,8 @@ public class Payload : MonoBehaviour
         PVs += Mathf.RoundToInt(maxPvs * (multiplier - 1));
 
         lifeText.text = PVs.ToString();
+
+        
     }
 
     public void Explode()
