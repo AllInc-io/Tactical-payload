@@ -17,6 +17,9 @@ public class CharacterSelectionMenu : MonoBehaviour
     [SerializeField] public Image listBG;
     public int currentlySelectedCharacterSlot = 0;
 
+    public PayloadUpgradeButton payloadLifeButton;
+    public PayloadUpgradeButton payloadSpeedButton;
+
     [SerializeField] public Transform[] heroParents;
 
     List<int> fullSpots = new List<int>();
@@ -39,6 +42,11 @@ public class CharacterSelectionMenu : MonoBehaviour
         {
             slots[i].index = i;
         }
+
+
+        payloadLifeButton.Init(5, 12, "PayloadLife", PlayerPrefs.GetInt("PayloadLifeLevel"));
+        payloadSpeedButton.Init(1, 12, "PayloadSpeed", PlayerPrefs.GetInt("PayloadSpeedLevel"));
+
 
         SetListParentSize();
         buttonsListParent.parent.gameObject.SetActive(false);
@@ -94,6 +102,8 @@ public class CharacterSelectionMenu : MonoBehaviour
                 renderer.material = lockedCharaMat;
             }
         }
+
+
         
     }
 
@@ -134,6 +144,8 @@ public class CharacterSelectionMenu : MonoBehaviour
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localScale = Vector3.one;
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localRotation = Quaternion.Euler(Vector3.zero);
         R.get.game.heroes[currentlySelectedCharacterSlot].lifeCircle.gameObject.SetActive(false);
+        R.get.game.heroes[currentlySelectedCharacterSlot].countdown.gameObject.SetActive(false);
+        R.get.game.heroes[currentlySelectedCharacterSlot].levelText.gameObject.SetActive(false);
 
         buttonsList.Where(button => button.chara == chara).FirstOrDefault().SetSelected();
 
@@ -165,6 +177,11 @@ public class CharacterSelectionMenu : MonoBehaviour
         //slots[slot].transform.Find("Level").GetComponentInChildren<TextMeshProUGUI>().text = "lvl " + (PlayerPrefs.GetInt("Level" + R.get.game.heroes[slot].heroName) + 1);
 
         if (!fullSpots.Contains(slot)) fullSpots.Add(slot);
+    }
+
+    void InitPayloadButtons()
+    {
+        
     }
 
     void SaveTeamInPlayerPrefs()

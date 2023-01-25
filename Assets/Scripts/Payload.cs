@@ -29,7 +29,10 @@ public class Payload : MonoBehaviour
     public void Init()
     {
 
-        isInit = true;
+
+
+        maxPvs = R.get.levelDesign.GetPayloadLife(PlayerPrefs.GetInt("PayloadLifeLevel"));
+        speed = R.get.levelDesign.GetPayloadSpeed(PlayerPrefs.GetInt("PayloadSpeedLevel"));
 
         PVs = maxPvs;
         lifeText.text = PVs.ToString();
@@ -38,7 +41,7 @@ public class Payload : MonoBehaviour
 
         StartCoroutine(UpdateProgressionCoroutine());
 
-        
+        isInit = true;
     }
 
 

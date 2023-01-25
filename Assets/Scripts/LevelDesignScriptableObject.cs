@@ -19,6 +19,10 @@ public class LevelDesignScriptableObject : ScriptableObject
     [FoldoutGroup("General Settings")] public int[] firstLandmarks;
     [FoldoutGroup("General Settings")] public int landmarksEveryXAfter = 100;
 
+
+    [FoldoutGroup("General Settings")] public int payloadLifeBaseValue = 5;
+    [FoldoutGroup("General Settings")] public float payloadSpeedBaseValue = 1;
+
     [FoldoutGroup("General Settings")] public float payloadLifeLevelUpMultiplier = 1.3f;
     [FoldoutGroup("General Settings")] public float payloadSpeedMultiplier = 1.3f;
 
@@ -87,5 +91,15 @@ public class LevelDesignScriptableObject : ScriptableObject
         int indexAfterFirstLandmarks = landmarkIndex - firstLandmarks.Length;
 
         return landmarkIndex >= firstLandmarks.Length ? firstLandmarks[firstLandmarks.Length - 1] + indexAfterFirstLandmarks * landmarksEveryXAfter : firstLandmarks[landmarkIndex];
+    }
+
+    public int GetPayloadLife(int level)
+    {
+        return Mathf.RoundToInt(payloadLifeBaseValue * Mathf.Pow(payloadLifeLevelUpMultiplier, level - 1));
+    }
+
+    public float GetPayloadSpeed(int level)
+    {
+        return Mathf.RoundToInt(payloadSpeedBaseValue * Mathf.Pow(payloadSpeedMultiplier, level - 1));
     }
 }
