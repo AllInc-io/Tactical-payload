@@ -302,7 +302,7 @@ public class Level : MonoBehaviour
             for(int z = 0; z < length; z+= step)
             {
                 float value = Random.value;
-                if (value < destructiblesDensity) Instantiate(possibleDestructibles[0], new Vector3(x + startPos.x, 0.5f, z + startPos.z), default);
+                if (value < destructiblesDensity) Instantiate(possibleDestructibles[Random.Range(0, possibleDestructibles.Length)], new Vector3(x + startPos.x, 0.5f, z + startPos.z), default);
             }
 
         }

@@ -360,7 +360,7 @@ public class Hero : Character
     }
 
 
-    void Resurrect()
+    public void Revive()
     {
 
         PVs = maxPVs / 2f;
@@ -405,6 +405,7 @@ public class Hero : Character
 
             float currentDistance = gun.isGrenade ? 0 : visionRay * 2f;
 
+            bool thereIsAnEnemyInSight = false;
             Collider[] results = Physics.OverlapSphere(transform.position, visionRay, ennemisLayerMask, QueryTriggerInteraction.Collide);
             if (results.Length > 0)
             {
@@ -422,6 +423,7 @@ public class Hero : Character
                         interestPoint = collider.transform.position;
                         currentDistance = Vector3.Distance(interestPoint, transform.position);
                         noTarget = false;
+                        thereIsAnEnemyInSight = true;
                     }
 
                 }
@@ -429,32 +431,34 @@ public class Hero : Character
                 interestPoint += Vector3.up * 0.75f;
 
             }
-            else
-            {
-
 
                 results = Physics.OverlapSphere(transform.position, visionRay, destructiblesLayerMask, QueryTriggerInteraction.Collide);
-                if (results.Length > 0)
-                {
-                    float distanceToCollider;
+            if (results.Length > 0)
+            {
+                float distanceToCollider;
 
-                    foreach (Collider collider in results)
+                foreach (Collider collider in results)
+                {
+                    distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
+                    Vector3 direction = collider.transform.position - gun.transform.position;
+                    //direction.y = 0;
+                    if (collider.TryGetComponent(out Destructible destructible) && R.get.game.CheckIfEnemyIsInView(destructible.transform.position) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
                     {
-                        distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
-                        Vector3 direction = collider.transform.position - gun.transform.position;
-                        //direction.y = 0;
-                        if (collider.TryGetComponent(out Destructible destructible) && R.get.game.CheckIfEnemyIsInView(destructible.transform.position) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                        if (destructible.explodes || (!thereIsAnEnemyInSight && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance)))
                         {
                             if (collider == previousTarget) previousColliderIn = true;
                             interestCollider = collider;
                             interestPoint = collider.transform.position;
                             currentDistance = Vector3.Distance(interestPoint, transform.position);
                             noTarget = false;
+
                         }
 
                     }
 
                 }
+
+            }
 
 
                 //avoids "flickering" of rotation when two targets are about the same distance by favoring the one it was targeting previously even if it's a little further
@@ -472,7 +476,7 @@ public class Hero : Character
                 //pauseOnPath = !noTarget;
 
 
-            }
+            
 
             if(results.Length > 0)
             {
@@ -778,7 +782,7 @@ public class Hero : Character
             Collider[] results = Physics.OverlapSphere(transform.position, 2, alliesLayerMask, QueryTriggerInteraction.Collide);
             if (results.Length > 0)
             {
-                Resurrect();
+                Revive();
                 resurrected = true;
             }
             countdown.text = Mathf.RoundToInt(t).ToString();
@@ -801,7 +805,7 @@ public class Hero : Character
         TakeDamage(553153, Vector3.zero);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = lineColor;
         Gizmos.DrawLine(transform.position, interestPoint);

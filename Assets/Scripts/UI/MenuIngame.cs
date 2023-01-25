@@ -30,7 +30,7 @@ public class MenuIngame : MonoBehaviour
     [SerializeField] Image xpBar;
     public TextMeshProUGUI xpBarText;
     [SerializeField] RectTransform ameliorationMenu;
-
+    [SerializeField] RectTransform resurectionButton;
 
     [SerializeField] RectTransform towardsPayloadPointer;
     [SerializeField] Transform buttonsParent;
@@ -183,6 +183,9 @@ public class MenuIngame : MonoBehaviour
     {
         ameliorationMenu.gameObject.SetActive(true);
 
+        if (R.get.game.heroes[0].dead || R.get.game.heroes[1].dead) resurectionButton.gameObject.SetActive(true);
+        else resurectionButton.gameObject.SetActive(false);
+
         List<int> buttonsActivated = new List<int>();
         int newButton;
         for (int i = 0; i < 3; i++)
@@ -308,6 +311,15 @@ public class MenuIngame : MonoBehaviour
         OnBoostChosen();
     }
 
+    public void RevivePartner()
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            if (R.get.game.heroes[i].dead) R.get.game.heroes[i].Revive();
+        }
+
+        OnBoostChosen();
+    }
 
 
     void OnBoostChosen()

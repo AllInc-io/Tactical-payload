@@ -518,7 +518,7 @@ public class Enemy : Character
 
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         /*if (Vector3.Distance(agent.destination, transform.position) < 0.3f) return;
 

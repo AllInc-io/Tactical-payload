@@ -98,7 +98,7 @@ public class Payload : MonoBehaviour
         lifeCircle.DOFillAmount(PVs / (float)maxPvs, 0.3f).SetId("FillLifeCircle");
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 1, 0, 0.3f);
         Gizmos.DrawCube(transform.position + boxOffset, boxSize * 2f);

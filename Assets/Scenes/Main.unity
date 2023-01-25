@@ -481,14 +481,6 @@ PrefabInstance:
       propertyPath: oneRoadBlocks.Array.data[2]
       value: 
       objectReference: {fileID: 5003430899288452131, guid: 33e7321e7ecd25247adcf1fb04d60ca3, type: 3}
-    - target: {fileID: 4890024971760046968, guid: c602086d95796744b9e242befefa1d69, type: 3}
-      propertyPath: possibleDestructibles.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4890024971760046968, guid: c602086d95796744b9e242befefa1d69, type: 3}
-      propertyPath: possibleDestructibles.Array.data[0]
-      value: 
-      objectReference: {fileID: 2395313814734105557, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
     - target: {fileID: 4890024971760046970, guid: c602086d95796744b9e242befefa1d69, type: 3}
       propertyPath: m_Name
       value: LevelTest

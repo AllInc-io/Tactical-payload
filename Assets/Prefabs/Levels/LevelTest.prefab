@@ -595,6 +595,22 @@ PrefabInstance:
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: possibleDestructibles.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: possibleDestructibles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5183485931449532490, guid: c3e2435e5d0f3094d88082c639021579, type: 3}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: possibleDestructibles.Array.data[1]
+      value: 
+      objectReference: {fileID: 2859370964916617336, guid: 83831323db6d0534396e47681d239d84, type: 3}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
+      propertyPath: possibleDestructibles.Array.data[2]
+      value: 
+      objectReference: {fileID: 4718506030764972207, guid: 593871cb1b7fbb34787c9ed8b8afb263, type: 3}
+    - target: {fileID: 8309030940635548027, guid: 1756654246dcf104bad02562e2c4d995, type: 3}
       propertyPath: waves.Array.data[0].zombieMaxAmount
       value: 4
       objectReference: {fileID: 0}
