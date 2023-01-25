@@ -562,7 +562,7 @@ public class DrawController : Controller
         forcedDestinationMargin = margin;
     }
 
-    bool CheckIfCanPassBetweenTwoPoints(Vector3 point1, Vector3 point2, float charaWidth, out RaycastHit hitPoint)
+    public bool CheckIfCanPassBetweenTwoPoints(Vector3 point1, Vector3 point2, float charaWidth, out RaycastHit hitPoint)
     {
 
         hitPoint = new RaycastHit();

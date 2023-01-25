@@ -71,6 +71,8 @@ public class Enemy : Character
 
     List<Hero> noticedHeroes = new List<Hero>();
 
+    bool wasAttacking = false;
+
 
     public void Preinit() //spawns the zombie
     {
@@ -191,6 +193,12 @@ public class Enemy : Character
                 
                 if (Vector3.Distance(transform.position, goal) >= attackRange)
                 {
+                    if (wasAttacking)
+                    {
+
+                        animator.SetTrigger(movementString);
+                    }
+                    
                     //Debug.LogWarning("1");
                     if (Vector3.Distance(agent.destination, goal) > 0.2f)
                     {
@@ -224,6 +232,8 @@ public class Enemy : Character
 
         if (attackCounter < attackEveryXSeconds || R.get.game.lost) return;
 
+        wasAttacking = true;
+        
         attackCounter = 0;
         //hurts every character in range
         animator.SetTrigger(isCrawling ? "AttackGround" : "Attack");
@@ -464,7 +474,7 @@ public class Enemy : Character
 
         expGainedText.text =  "+" + R.get.game.GetXP(xpWhenKilled) + "xp";
         expGainedText.gameObject.SetActive(true);
-        expGainedText.transform.forward = Vector3.forward;
+        expGainedText.transform.forward = R.get.mainCamera.transform.forward;
         expGainedText.transform.localScale = Vector3.zero;
         expGainedText.transform.DOScale(Vector3.one, 0.3f);
         expGainedText.transform.DOMove(expGainedText.transform.position + Vector3.up, 1f).SetEase(Ease.OutSine).OnComplete(() => expGainedText.gameObject.SetActive(false));

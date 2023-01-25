@@ -191,13 +191,24 @@ public class Hero : Character
         line.gameObject.SetActive(true);
         float speed = 2f;
         canShoot = canShootWhileWalking;
-        while (!dead && path.Count > 0)
+
+        bool stop = false;
+        while (!dead && path.Count > 0 && !stop)
         {
             float t = 0;
-            while (!dead && path.Count > 0 && Vector3.Distance(path[0], transform.position) > 0.01f)
+            while (!dead && path.Count > 0 && Vector3.Distance(path[0], transform.position) > 0.01f && !stop) 
             {
+                Vector3 previousPos = transform.position;
 
                 MoveTowards(path[0],  1);
+
+                if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < (col as CapsuleCollider).radius)
+                {
+                    transform.position = previousPos;
+                    stop = true;
+                    break;
+                }
+
                 nextGoal = path[path.Count > 1  ? 1 : 0];
 
                 /*// rotation
@@ -264,7 +275,7 @@ public class Hero : Character
 
         if (boosts) BoostAround();
 
-        levelText.transform.forward = Vector3.forward + Vector3.down * 0.3f;
+        levelText.transform.forward = R.get.mainCamera.transform.forward;
 
         TurnTowardsClosestInterestPoint();
     }
@@ -432,7 +443,7 @@ public class Hero : Character
 
             }
 
-                results = Physics.OverlapSphere(transform.position, visionRay, destructiblesLayerMask, QueryTriggerInteraction.Collide);
+            results = Physics.OverlapSphere(transform.position, visionRay, destructiblesLayerMask, QueryTriggerInteraction.Collide);
             if (results.Length > 0)
             {
                 float distanceToCollider;
@@ -448,7 +459,7 @@ public class Hero : Character
                         {
                             if (collider == previousTarget) previousColliderIn = true;
                             interestCollider = collider;
-                            interestPoint = collider.transform.position;
+                            interestPoint = collider.transform.position + Vector3.up * 0.75f;
                             currentDistance = Vector3.Distance(interestPoint, transform.position);
                             noTarget = false;
 
@@ -461,8 +472,9 @@ public class Hero : Character
             }
 
 
-                //avoids "flickering" of rotation when two targets are about the same distance by favoring the one it was targeting previously even if it's a little further
-                if (!gun.isGrenade && !noTarget && interestCollider != previousTarget && previousColliderIn && Vector3.Distance(previousTarget.transform.position, transform.position) <= currentDistance * 2f)
+
+            //avoids "flickering" of rotation when two targets are about the same distance by favoring the one it was targeting previously even if it's a little further
+            if (!gun.isGrenade && !noTarget && interestCollider != previousTarget && previousColliderIn)
                 {
                     Debug.Log("Anti flickering");
                     interestCollider = previousTarget;
@@ -478,7 +490,7 @@ public class Hero : Character
 
             
 
-            if(results.Length > 0)
+            if(!noTarget)
             {
                 if (gun != null)
                 {
@@ -492,8 +504,10 @@ public class Hero : Character
                     }
                     else if (canShoot && !noTarget && Vector3.Distance(interestPoint, transform.position) < Vector3.Distance(transform.position, gun.bulletSource.position))
                     {
+                        Vector3 shootingDir = interestPoint - transform.position;
+                        shootingDir.y = 0;
                         //inflict damage and triggers the firing animation
-                        if (Physics.Raycast(transform.position, interestPoint - transform.position, out RaycastHit hit, gun.bulletRange, canShootLayerMask)) if (gun.TryShoot(true)) animator.SetTrigger("Fire");
+                        if (Physics.Raycast(transform.position, shootingDir, out RaycastHit hit, gun.bulletRange, canShootLayerMask)) if (gun.TryShoot(true)) animator.SetTrigger("Fire");
 
                     }
                 }
@@ -777,6 +791,7 @@ public class Hero : Character
         float t = 0;
         bool resurrected = false;
         countdown.gameObject.SetActive(true);
+        countdown.transform.forward = R.get.mainCamera.transform.forward;
         while (t < duration && ! resurrected)
         {
             Collider[] results = Physics.OverlapSphere(transform.position, 2, alliesLayerMask, QueryTriggerInteraction.Collide);
@@ -785,7 +800,7 @@ public class Hero : Character
                 Revive();
                 resurrected = true;
             }
-            countdown.text = Mathf.RoundToInt(t).ToString();
+            countdown.text = Mathf.RoundToInt(duration - t).ToString();
             t += Time.deltaTime;
             yield return null;
         }
