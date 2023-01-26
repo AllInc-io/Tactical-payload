@@ -161,20 +161,31 @@ public class MenuIngame : MonoBehaviour
         if (R.get.game.CheckIfEnemyIsInView(pos)) towardsPayloadPointer.gameObject.SetActive(false);
         else
         {
+            CanvasScaler canvasScaler = GetComponentInParent<CanvasScaler>();
+            Vector2 res = canvasScaler.referenceResolution;
+            //Vector2 ratio = new Vector2(res.x / canvasScaler.matchWidthOrHeight * Screen.width, res.y / Screen.height);
+
+            //because it's in matchHeight fully !!
+            float ratioFloat = res.y / Screen.height;
+            Vector2 resPos = new Vector2(Screen.width, Screen.height);
+            resPos *= ratioFloat;
+
+
             towardsPayloadPointer.gameObject.SetActive(true);
-            Vector2 newPos = U.WorldToUIPos(pos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
-            newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width);
-            newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
+            Vector2 newPos = U.WorldToUIPos(pos, R.get.mainCamera, canvasScaler);
+            newPos.x = Mathf.Clamp(newPos.x, 0, resPos.x);
+            newPos.y = Mathf.Clamp(newPos.y, 0, resPos.y);
             towardsPayloadPointer.anchoredPosition = newPos;
 
             Vector2 angleEuler = new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition * new Vector2(-1, 1);
 
             Debug.Log(angleEuler);
 
-            //if (angleEuler.y < 0) angleEuler.y = -angleEuler.y;
-            //if (angleEuler.x > 0) angleEuler.x = -angleEuler.x;
+            float angle = Vector2.SignedAngle(Vector2.up, angleEuler);
 
-            towardsPayloadPointer.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, angleEuler));
+            if (angleEuler.x > 0) angle = 180 - angle;
+
+            towardsPayloadPointer.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
@@ -192,10 +203,18 @@ public class MenuIngame : MonoBehaviour
 
     public Vector2 GetIndicatorPos(Vector3 worldPos)
     {
+        CanvasScaler canvasScaler = GetComponentInParent<CanvasScaler>();
+        Vector2 res = canvasScaler.referenceResolution;
+        //Vector2 ratio = new Vector2(res.x / canvasScaler.matchWidthOrHeight * Screen.width, res.y / Screen.height);
+
+        //because it's in matchHeight fully !!
+        float ratioFloat = res.y / Screen.height;
+        Vector2 resPos = new Vector2(Screen.width, Screen.height);
+        resPos *= ratioFloat;
 
         Vector2 newPos = U.WorldToUIPos(worldPos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
-        newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width - 100);
-        newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height - 100);
+        newPos.x = Mathf.Clamp(newPos.x, 0, resPos.x - 100);
+        newPos.y = Mathf.Clamp(newPos.y, 0, resPos.y - 100);
         return newPos;
 
 
