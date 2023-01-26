@@ -167,8 +167,38 @@ public class MenuIngame : MonoBehaviour
             newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
             towardsPayloadPointer.anchoredPosition = newPos;
 
-            towardsPayloadPointer.rotation = Quaternion.Euler(0, 0, -Vector2.SignedAngle(Vector2.up, new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition));
+            Vector2 angleEuler = new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition * new Vector2(-1, 1);
+
+            Debug.Log(angleEuler);
+
+            //if (angleEuler.y < 0) angleEuler.y = -angleEuler.y;
+            //if (angleEuler.x > 0) angleEuler.x = -angleEuler.x;
+
+            towardsPayloadPointer.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.up, angleEuler));
         }
+    }
+
+
+    public RectTransform SpawnIndicator(RectTransform prefab)
+    {
+        RectTransform indicator = Instantiate(prefab, transform.Find("EnemyIndicators"));
+
+        indicator.transform.localScale = Vector3.zero;
+        indicator.DOScale(Vector3.one, 0.5f);
+
+        return indicator;
+    }
+
+
+    public Vector2 GetIndicatorPos(Vector3 worldPos)
+    {
+
+        Vector2 newPos = U.WorldToUIPos(worldPos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
+        newPos.x = Mathf.Clamp(newPos.x, 0, Screen.width - 100);
+        newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height - 100);
+        return newPos;
+
+
     }
 
     public void IndicateProgression(int meters, bool passingLandmark)

@@ -123,7 +123,7 @@ public class GameManager : SerializedMonoBehaviour
         R.get.lastLevelFinished++;
         PlayerPrefs.SetInt("LastLevelFinished", R.get.lastLevelFinished);
 
-        winFX.SetActive(true);
+        //winFX.SetActive(true);
         controls.OnWin();
 
         R.get.levelManager.level.OnWin();

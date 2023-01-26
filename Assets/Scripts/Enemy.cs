@@ -11,6 +11,8 @@ public class Enemy : Character
 
 
 
+    [SerializeField] RectTransform UIPositionIndicatorPrefab;
+
     [OnValueChanged("SetUpVisionCone")] [SerializeField, Range(1, 180)] float visionAngle = 90f;
     [OnValueChanged("SetUpVisionCone")] [SerializeField] float visionDistance = 8;
     [SerializeField] Polygon visionCone;
@@ -76,6 +78,8 @@ public class Enemy : Character
     Color expTextColor;
 
     bool frozen;
+
+    RectTransform inGameUIIndicator;
 
     public void Preinit() //spawns the zombie
     {
@@ -152,6 +156,12 @@ public class Enemy : Character
 
         isInit = true;
 
+        if(inGameUIIndicator == null) inGameUIIndicator = R.get.ui.menuIngame.SpawnIndicator(UIPositionIndicatorPrefab);
+        else
+        {
+            inGameUIIndicator.transform.localScale = Vector3.zero;
+            inGameUIIndicator.DOScale(Vector3.one, 0.5f);
+        }
         
     }
 
@@ -189,6 +199,7 @@ public class Enemy : Character
 
         attackCounter += Time.deltaTime;
 
+        IndicatePositionOnUI();
 
     }
 
@@ -454,6 +465,7 @@ public class Enemy : Character
         expGainedText.transform.DOMove(expGainedText.transform.position + Vector3.up, 1f).SetEase(Ease.OutSine).OnComplete(() => expGainedText.gameObject.SetActive(false));
         expGainedText.DOColor(new Color(0, 0, 0, 0), 0.5f).SetDelay(0.5f);
 
+        inGameUIIndicator.transform.DOScale(Vector3.zero, 0.5f);
 
         StopAllCoroutines();
         col.enabled = false;
@@ -502,6 +514,20 @@ public class Enemy : Character
         gameObject.SetActive(false);
 
 
+    }
+
+    public void IndicatePositionOnUI()
+    {
+        if(R.get.game.CheckIfEnemyIsInView(transform.position))
+        {
+            inGameUIIndicator.gameObject.SetActive(false);
+        }
+
+        else
+        {
+            inGameUIIndicator.anchoredPosition = R.get.ui.menuIngame.GetIndicatorPos(transform.position);
+        }
+        
     }
 
     private void OnDrawGizmosSelected()
