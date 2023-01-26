@@ -459,7 +459,7 @@ public class Hero : Character
 
                 }
 
-                interestPoint += (enemyIsCrawling ? Vector3.up * 1f : Vector3.up * Random.Range(2.5f, 3f));
+                interestPoint += (enemyIsCrawling ? Vector3.up * 1f : Vector3.up * 2.75f);
 
             }
 
