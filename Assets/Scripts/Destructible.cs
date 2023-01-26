@@ -16,6 +16,7 @@ public class Destructible : MonoBehaviour
     [SerializeField, ShowIf("explodes")] float explosionRadius;
     [SerializeField, ShowIf("explodes")] int explosionDamage;
     [SerializeField, ShowIf("explodes")] LayerMask ennemiesLayermask;
+    [SerializeField, ShowIf("explodes")] LayerMask destructiblesLayermask;
 
 
 
@@ -51,13 +52,34 @@ public class Destructible : MonoBehaviour
         if(explodes)
         {
             Collider[] results = Physics.OverlapSphere(transform.position, explosionRadius, ennemiesLayermask, QueryTriggerInteraction.Collide);
+
+            //kill ennemies
             foreach(Collider hit in results)
             {
                 hit.GetComponent<Enemy>().TakeDamage(explosionDamage, (hit.transform.position - transform.position).normalized * Vector3.Distance(hit.transform.position,transform.position));
             }
+
+            //destroy destructibles in radius
+            results = Physics.OverlapSphere(transform.position, explosionRadius, destructiblesLayermask, QueryTriggerInteraction.Collide);
+            foreach (Collider hit in results)
+            {
+                hit.GetComponent<Destructible>().DestroyByExplosion(0.3f);
+            }
         }
         Instantiate(destructionFXPrefab, transform.position, default);
         Destroy(this.gameObject);
+    }
+
+
+    public void DestroyByExplosion(float delay)
+    {
+        StartCoroutine(DestroyByExplosionCoroutine(delay));
+    }
+
+    IEnumerator DestroyByExplosionCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnDestroyed();
     }
 
     public void OnDrawGizmosSelected()

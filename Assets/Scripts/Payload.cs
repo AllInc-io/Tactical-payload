@@ -30,7 +30,15 @@ public class Payload : MonoBehaviour
 
     [HideInInspector] public float startZOffset;
 
+    bool isExploding;
 
+    public int progression
+    {
+        get
+        {
+            return Mathf.RoundToInt(transform.position.z - startZOffset);
+        }
+    }
 
     public void Init()
     {
@@ -55,7 +63,7 @@ public class Payload : MonoBehaviour
 
     public void Update()
     {
-        if (!isInit) return;
+        if (!isInit || !R.get.game.isOn) return;
 
         bool canMove = true;
 
@@ -84,8 +92,8 @@ public class Payload : MonoBehaviour
         lifeText.text = PVs.ToString();
         if (PVs <= 0)
         {
-            R.get.game.Lose();
-            Explode();
+            R.get.game.Win();
+            //Explode();
         }
 
         UpdateLifeCircle();
@@ -119,11 +127,18 @@ public class Payload : MonoBehaviour
         
     }
 
-    public void Explode()
+    public void Explode(float delay)
     {
+        isExploding = true;
         Instantiate(explosionFX, transform.position, default);
+
+
+        R.get.ui.menuWin.Show(delay);
+
         gameObject.SetActive(false);
     }
+
+
 
     IEnumerator UpdateProgressionCoroutine()
     {

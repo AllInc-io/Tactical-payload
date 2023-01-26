@@ -116,6 +116,9 @@ MonoBehaviour:
   ennemiesLayermask:
     serializedVersion: 2
     m_Bits: 512
+  destructiblesLayermask:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!208 &3101519228179335791
 NavMeshObstacle:
   m_ObjectHideFlags: 0

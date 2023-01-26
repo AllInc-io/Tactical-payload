@@ -298,7 +298,7 @@ public class MenuIngame : MonoBehaviour
 
     public void PauseWavess()
     {
-        R.get.levelManager.level.PauseWaves(10);
+        R.get.levelManager.level.PauseEnemies(10);
 
         OnBoostChosen();
 
@@ -332,6 +332,19 @@ public class MenuIngame : MonoBehaviour
     }
 
 
+    public void SetPause()
+    {
+        Time.timeScale = 0;
+    }
 
+    public void StopPause()
+    {
+        Time.timeScale = 1;
+    }
+
+    public void GoToStartMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+    }
 
 }

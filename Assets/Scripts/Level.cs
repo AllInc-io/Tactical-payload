@@ -4,8 +4,9 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.AI;
 using System.Linq;
-using PathCreation;
+
 using TMPro;
+using DG.Tweening;
 
 public class Level : MonoBehaviour
 {
@@ -48,6 +49,8 @@ public class Level : MonoBehaviour
 
     public int nextProgressionLandmark;
     int landmarkIndex;
+
+    bool gameOver;
 
     public void Init()
     {
@@ -123,11 +126,23 @@ public class Level : MonoBehaviour
     public void Update()
     {
         //if(isOn) MoveCamera();
-        SetUpCamera();
+        if(!gameOver) SetUpCamera();
         
     }
 
     bool stop = false;
+
+    /// <summary>
+    /// Tween the camera to show the payload, then show game over ui
+    /// </summary>
+    public void OnWin()
+    {
+        gameOver = true;
+        
+        Vector3 cameraOffest = new Vector3(0, 60, -30);
+        R.get.mainCamera.transform.DOMove(payload.transform.position + cameraOffest, 1f).SetEase(Ease.InOutSine).OnComplete(() => payload.Explode(0.5f)); //TEMP
+
+    }
 
     IEnumerator EnemyWavesCoroutine()
     {
@@ -223,7 +238,16 @@ public class Level : MonoBehaviour
             }
             else Debug.Log("Enemy not spawned because it was inside an obstacle at " + points[i]);
             enemiesToSpawn--;
-            yield return new WaitForSeconds((float)(i * waveSpawningDuration) / amount);
+
+            float t = 0;
+
+            float duration = (float)(i * waveSpawningDuration) / amount;
+            while (t < duration)
+            {
+                if(!pauseWaves) t += Time.deltaTime;
+                yield return null;
+            }
+
         }
 
     }
@@ -312,9 +336,14 @@ public class Level : MonoBehaviour
 
     }
 
-    public void PauseWaves(float duration)
+    public void PauseEnemies(float duration)
     {
         StartCoroutine(PauseWavesCoroutine(duration));
+
+        foreach(Enemy enemy in GetComponentsInChildren<Enemy>(false))
+        {
+            enemy.Freeze(duration);
+        }
     }
 
     IEnumerator PauseWavesCoroutine(float duration)

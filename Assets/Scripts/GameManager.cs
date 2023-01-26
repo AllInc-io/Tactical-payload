@@ -14,10 +14,18 @@ public class GameManager : SerializedMonoBehaviour
     [HideInInspector] public Vector3 startCameraPos;
     [HideInInspector] public Hero[] heroes;
 
-    public bool isOn = false;
+    bool isStarted = false;
 
     bool won = false;
-    public bool lost = false;
+    bool lost = false;
+
+    public bool isOn
+    {
+        get
+        {
+            return (isStarted && !won && !lost);
+        }
+    }
 
     public int currentLevel = 1;
     public int currentXP { get; private set; }
@@ -104,21 +112,23 @@ public class GameManager : SerializedMonoBehaviour
 
         R.get.levelManager.level.StartLevel();
 
-        isOn = true;
+        isStarted = true;
     }
 
     public void Win()
     {
         if (won) return;
         won = true;
+        lost = true;
         R.get.lastLevelFinished++;
         PlayerPrefs.SetInt("LastLevelFinished", R.get.lastLevelFinished);
 
         winFX.SetActive(true);
         controls.OnWin();
 
+        R.get.levelManager.level.OnWin();
         R.get.ui.menuIngame.Hide();
-        R.get.ui.menuWin.Show();
+
     }
 
     public void Lose()

@@ -85,7 +85,7 @@ public class Hero : Character
 
     int level = 1;
 
-
+    Shapes.Disc secondaryVisionCircle;
 
 
 
@@ -115,7 +115,7 @@ public class Hero : Character
         lifeCircle.color = lineColor;
         lifeCircle.fillAmount = 1;
 
-        SetUpCircle();
+        SetUpVisionCircle();
 
         if (gun != null)
         {
@@ -157,18 +157,36 @@ public class Hero : Character
         GetValuesFromLevel();
         levelUp.Play();
     }
-    
-    void SetUpCircle()
+    void SetUpVisionCircle()
     {
-        visionCircle.Radius = visionRay*1.2f;
-        visionCircle.transform.GetChild(0).GetComponent<Shapes.Disc>().Radius = visionRay * 1.2f;
+        visionCircle.Radius = visionRay;
+        visionCircle.transform.GetChild(0).GetComponent<Shapes.Disc>().Radius = visionRay;
         visionCircle.Color = lineColor;
 
-        Color insideColor = lineColor;
-        insideColor.a = insideCircleTransparency;
-        visionCircle.transform.GetChild(0).GetComponent<Shapes.Disc>().Color = insideColor;
-    }
 
+        if (gun.isGrenade)
+        {
+
+            visionCircle.transform.GetChild(0).GetComponent<Shapes.Disc>().Color =  new Color(0, 0, 0, 0);
+
+            secondaryVisionCircle = Instantiate(visionCircle, visionCircle.transform);
+            secondaryVisionCircle.gameObject.SetActive(true);
+            secondaryVisionCircle.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            secondaryVisionCircle.transform.localPosition = Vector3.zero;
+            secondaryVisionCircle.Radius = visionRay + startGunData.explosionRay * 0.5f;
+            secondaryVisionCircle.Thickness = startGunData.explosionRay;
+            Color insideColor = lineColor;
+            insideColor.a = insideCircleTransparency;
+            secondaryVisionCircle.Color = insideColor;
+        }
+        else
+        {
+            Color insideColor = lineColor;
+            insideColor.a = insideCircleTransparency;
+            visionCircle.transform.GetChild(0).GetComponent<Shapes.Disc>().Color = insideColor;
+        }
+
+    }
     public void SetPath(List<Vector3> points)
     {
         path.Clear();
@@ -421,7 +439,7 @@ public class Hero : Character
             if (results.Length > 0)
             {
                 float distanceToCollider;
-
+                bool enemyIsCrawling = false;
                 foreach (Collider collider in results)
                 {
                     distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
@@ -435,11 +453,13 @@ public class Hero : Character
                         currentDistance = Vector3.Distance(interestPoint, transform.position);
                         noTarget = false;
                         thereIsAnEnemyInSight = true;
+                        if (enemy.isCrawling) enemyIsCrawling = true;
+                        else enemyIsCrawling = false;
                     }
 
                 }
 
-                interestPoint += Vector3.up * 0.75f;
+                interestPoint += (enemyIsCrawling ? Vector3.up * 1f : Vector3.up * Random.Range(2.5f, 3f));
 
             }
 

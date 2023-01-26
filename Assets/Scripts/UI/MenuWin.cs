@@ -26,24 +26,40 @@ public class MenuWin : MonoBehaviour
 
     }
 
-    public void Show()
+    public void Show(float delay)
     {
+
         gameObject.SetActive(true);
 
-        textRating.enabled = false;
-
-        StartCoroutine(AnimRessource(R.get.levelDesign.moneyWonPerLevel * R.get.lastLevelFinished));
-
-        if(crown  != null) crown.DOLocalMoveY(crown.transform.localPosition.y+80f, 0.6f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
-        halo.DOLocalRotate(new Vector3(0f, 0f, 360f), 2.8f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
-
-
-        if ((R.get.lastLevelFinished) % R.get.levelDesign.newCharacterEveryX == 0 && R.get.lastLevelFinished/R.get.levelDesign.newCharacterEveryX < R.get.levelDesign.possibleCharactersPrefabs.Length - 2)
+        StartCoroutine(ShowCoroutine(delay));
+        /*if ((R.get.lastLevelFinished) % R.get.levelDesign.newCharacterEveryX == 0 && R.get.lastLevelFinished/R.get.levelDesign.newCharacterEveryX < R.get.levelDesign.possibleCharactersPrefabs.Length - 2)
         {
             Debug.Log("Unlocked new character");
             charaUnlockedPopup.gameObject.SetActive(true);
             charaUnlockedPopup.Show(R.get.levelDesign.possibleCharactersPrefabs[Mathf.FloorToInt((float)R.get.lastLevelFinished / R.get.levelDesign.newCharacterEveryX) + 2]);
-        }
+        }*/
+    }
+
+    IEnumerator ShowCoroutine(float delay)
+    {
+
+
+        transform.localScale = Vector3.zero;
+        
+        yield return new WaitForSeconds(delay);
+
+
+        transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+
+
+        int amountWon = R.get.levelManager.level.payload.progression;
+
+        textRating.text = amountWon + "meters";
+        StartCoroutine(AnimRessource(amountWon));
+
+        if (crown != null) crown.DOLocalMoveY(crown.transform.localPosition.y + 80f, 0.6f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
+        halo.DOLocalRotate(new Vector3(0f, 0f, 360f), 2.8f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
+
     }
 
     IEnumerator AnimRessource(int nb)

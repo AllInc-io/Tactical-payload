@@ -73,6 +73,9 @@ public class Enemy : Character
 
     bool wasAttacking = false;
 
+    Color expTextColor;
+
+    bool frozen;
 
     public void Preinit() //spawns the zombie
     {
@@ -93,11 +96,17 @@ public class Enemy : Character
         dead = false;
         onFireCounter = 0;
         col.enabled = true;
+
+
+
         if (lifeCircle != null) lifeCircle.transform.localScale = Vector3.one;
 
         if (animator == null) Preinit();
 
         animator.enabled = true;
+
+        frozen = false;
+        animator.speed = 1;
 
         foreach (Collider collider in GetComponentsInChildren<Collider>())
         {
@@ -139,6 +148,8 @@ public class Enemy : Character
 
         zombie.ResetVisuals();
 
+        expTextColor = expGainedText.color;
+
         isInit = true;
 
         
@@ -151,7 +162,7 @@ public class Enemy : Character
 
         if (dead || !R.get.game.isOn || !isInit) return;
 
-        if (Vector3.Distance(previousPos, transform.position) < 0.1f) //a set value of "min movement"
+        if (!frozen && Vector3.Distance(previousPos, transform.position) < 0.1f) //a set value of "min movement"
         {
             noMovingCounter += Time.deltaTime;
             if (noMovingCounter > 8f)
@@ -230,7 +241,7 @@ public class Enemy : Character
     void Attack()
     {
 
-        if (attackCounter < attackEveryXSeconds || R.get.game.lost) return;
+        if (attackCounter < attackEveryXSeconds || !R.get.game.isOn) return;
 
         wasAttacking = true;
         
@@ -248,6 +259,33 @@ public class Enemy : Character
         if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < attackRange) R.get.levelManager.level.payload.TakeDamage(1);
 
     }
+
+    public void Freeze(float duration)
+    {
+        StartCoroutine(FreezeCoroutine(duration));
+    }
+
+    IEnumerator FreezeCoroutine(float duration)
+    {
+        frozen = true;
+        agent.enabled = false;
+        animator.speed = 0;
+
+        float t = 0;
+        while(t < duration && !dead)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        if(!dead)
+        {
+            frozen = false;
+            animator.speed = 1;
+            agent.enabled = true;
+        }
+    }
+
 
 
     void InitVisionCone()
@@ -326,44 +364,7 @@ public class Enemy : Character
         agent.SetDestination(origin);
         yield return new WaitUntil(() => Vector3.Distance(transform.position, origin) <= 0.05f);
 
-        /*
-        while (t <= 1)
-        {
-            transform.forward = Vector3.Lerp(startForward, (goal - origin).normalized, t);
-            t += Time.deltaTime * 2f;
-            yield return null;
-        }
-        t = 0;
-        while (Vector3.Distance(transform.position, goal) >= 0.01f && t <= 5f)
-        {
-            MoveTowards(goal);
-            transform.forward = goal - transform.position;
-            t += Time.deltaTime;
-            yield return null;
-        }
-        t = 0;
-        while(t <= 1)
-        {
-            transform.forward = Vector3.Lerp(startForward, (origin - goal).normalized, t);
-            t += Time.deltaTime * 2f;
-            yield return null;
-        }
-        yield return new WaitForSeconds(lookAroundEveryXSeconds);
-        t = 0;
-        while (Vector3.Distance(transform.position, origin) >= 0.01f && t <= 5f)
-        {
-            MoveTowards(origin);
-            transform.forward = origin - goal;
-            t += Time.deltaTime;
-            yield return null;
-        }
-        t = 0;
-        while (t <= 1)
-        {
-            transform.forward = Vector3.Lerp((origin - goal).normalized, startForward, t);
-            t += Time.deltaTime * 2f;
-            yield return null;
-        }*/
+
         lookingAround = false;
         SetIdle();
     }
@@ -396,11 +397,7 @@ public class Enemy : Character
 
         }
 
-        //visionCone.SetPoints(points);
-        //float angle = visionAngle / 2f;
-        //visionCone.innerSpotAngle = visionDistance * Mathf.Tan(((angle) * Mathf.Deg2Rad) / 2f) * 2f;
 
-        //visionCone.transform.localPosition = new Vector3(0, visionCone.transform.position.y, visionDistance);
     }
 
     void LookAround(float duration)
@@ -420,32 +417,7 @@ public class Enemy : Character
         if(type != EnemyType.Crawler) animator.SetTrigger("Run");
         Debug.LogWarning("Im calling movetowards :(");
         agent.SetDestination(goal);
-        /*
-        //check if there is an obstacle in front
-        if (Physics.Raycast(transform.position + (goal - transform.position).normalized * transform.localScale.y, goal - transform.position, out RaycastHit hit, Time.deltaTime * (speed * speedMultiplier) + 0.3f, obstacles))
-        {
-            Vector3 dir = hit.normal;
 
-
-            dir = new Vector3(favoriteWay * dir.z, 0, -favoriteWay * dir.x);
-            //dir = Vector3.Angle(dir, goal - transform.position) < 10f || Vector3.Angle(goal - transform.position, dir1) <= Vector3.Angle(goal - transform.position, dir2) ? dir1: dir2;
-            transform.position += (dir * Time.deltaTime * (speed * speedMultiplier));
-            transform.forward = dir;
-        }
-        else
-        {
-            if (Vector3.Distance(transform.position, goal) <= Time.deltaTime * (speed * speedMultiplier))
-            {
-                transform.position = goal;
-            }
-            else
-            {
-
-                transform.position += (goal - transform.position).normalized * Time.deltaTime * (speed * speedMultiplier);
-            }
-            transform.forward = goal - transform.position;
-        }
-        */
         speedMultiplier = 1; 
     }
 
@@ -472,12 +444,15 @@ public class Enemy : Character
     {
         base.Die(ragdollForce);
 
+        expGainedText.color = expTextColor;
+
         expGainedText.text =  "+" + R.get.game.GetXP(xpWhenKilled) + "xp";
         expGainedText.gameObject.SetActive(true);
         expGainedText.transform.forward = R.get.mainCamera.transform.forward;
         expGainedText.transform.localScale = Vector3.zero;
         expGainedText.transform.DOScale(Vector3.one, 0.3f);
         expGainedText.transform.DOMove(expGainedText.transform.position + Vector3.up, 1f).SetEase(Ease.OutSine).OnComplete(() => expGainedText.gameObject.SetActive(false));
+        expGainedText.DOColor(new Color(0, 0, 0, 0), 0.5f).SetDelay(0.5f);
 
 
         StopAllCoroutines();
@@ -485,6 +460,7 @@ public class Enemy : Character
         agent.enabled = false;
         //zombie.Explode();
         onFireFx.gameObject.SetActive(false);
+
 
 
         if (Random.value <= 0.1f)
