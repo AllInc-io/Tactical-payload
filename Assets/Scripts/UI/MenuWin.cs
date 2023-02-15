@@ -45,16 +45,18 @@ public class MenuWin : MonoBehaviour
 
 
         transform.localScale = Vector3.zero;
-        
+
+        int amountWon = R.get.levelManager.level.payload.progression;
+
+        textRating.text = amountWon + "meters";
+        textAmount.text = "+ " + amountWon;
+
         yield return new WaitForSeconds(delay);
 
 
         transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
 
 
-        int amountWon = R.get.levelManager.level.payload.progression;
-
-        textRating.text = amountWon + "meters";
         StartCoroutine(AnimRessource(amountWon));
 
         if (crown != null) crown.DOLocalMoveY(crown.transform.localPosition.y + 80f, 0.6f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
@@ -64,7 +66,7 @@ public class MenuWin : MonoBehaviour
 
     IEnumerator AnimRessource(int nb)
     {
-        textAmount.text = "+ " + nb;
+
 
 
         int max = 30;
