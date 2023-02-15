@@ -460,7 +460,7 @@ public class Hero : Character
 
                 }
 
-                interestPoint += (enemyIsCrawling ? Vector3.up * 1f : Vector3.up * 2.75f);
+                interestPoint += (enemyIsCrawling ? Vector3.up * 1f : Vector3.up * 2f);
 
             }
 
@@ -493,7 +493,6 @@ public class Hero : Character
             }
 
 
-
             //avoids "flickering" of rotation when two targets are about the same distance by favoring the one it was targeting previously even if it's a little further
             if (!gun.isGrenade && !noTarget && interestCollider != previousTarget && previousColliderIn)
             {
@@ -501,64 +500,85 @@ public class Hero : Character
                 interestCollider = previousTarget;
                 interestPoint = previousTarget.transform.position;
                 interestPoint.y = previousInterestPoint.y;
+                noTarget = false;
             }
                 previousTarget = interestCollider;
 
 
                 isShooting = !noTarget;
-                //pauseOnPath = !noTarget;
 
-
-            
-
-            if(!noTarget)
-            {
-                if (gun != null)
-                {
-                    //if there is a target they can shoot, player will try to shoot (which will only happen if there is a bullet ready)
-                    if (shootsConstantly || (canShoot && !noTarget && (Physics.Raycast(gun.bulletSource.position, gun.bulletSource.forward - gun.bulletSource.forward.y * Vector3.up, visionRay, canShootLayerMask))))
-                    {
-                        gun.lamp.DOKill();
-                        gun.lamp.DOIntensity(initLampIntensity, 0.3f);
-                        //inflict damage and triggers the firing animation
-                        if (gun.TryShoot()) animator.SetTrigger("Fire");
-                    }
-                    else if (canShoot && !noTarget && Vector3.Distance(interestPoint, transform.position) < Vector3.Distance(transform.position, gun.bulletSource.position))
-                    {
-                        Vector3 shootingDir = interestPoint - transform.position;
-                        shootingDir.y = 0;
-                        //inflict damage and triggers the firing animation
-                        if (Physics.Raycast(transform.position, shootingDir, out RaycastHit hit, gun.bulletRange, canShootLayerMask)) if (gun.TryShoot(true)) animator.SetTrigger("Fire");
-
-                    }
-                }
-            }
+            //pauseOnPath = !noTarget;
 
             //Vector3 dir = (interestPoint - transform.position).normalized;
             Vector3 dir = (interestPoint - gun.bulletSource.position).normalized;
             Vector3 horizontalDir = dir;
             horizontalDir.y = 0;
 
+
             if (!noTarget)
             {
+                bool enemyTooClose = false;
 
+                Vector3 fromTransformToBulletSource = gun.bulletSource.position - transform.position;
+                Vector3 fromTransformToInterestPoint = interestCollider.ClosestPoint(transform.position) - transform.position;
+
+                //flatten em
+                fromTransformToBulletSource.y = 0;
+                fromTransformToInterestPoint.y = 0;
+
+
+                if (fromTransformToBulletSource.magnitude > fromTransformToInterestPoint.magnitude) enemyTooClose = true;
+
+
+                //the shooting part
+                bool shot = false;
+                if (gun != null)
+                {
+
+                    //if there is a target they can shoot, player will try to shoot (which will only happen if there is a bullet ready)
+                    if (shootsConstantly || (!enemyTooClose && canShoot && !noTarget && (Physics.Raycast(gun.bulletSource.position, gun.bulletSource.forward - gun.bulletSource.forward.y * Vector3.up, visionRay, canShootLayerMask))))
+                    {
+                        gun.lamp.DOKill();
+                        gun.lamp.DOIntensity(initLampIntensity, 0.3f);
+                        //inflict damage and triggers the firing animation
+                        if (gun.TryShoot())
+                        {
+                            shot = true;
+                            animator.SetTrigger("Fire");
+                        }
+                    }
+                    else if (canShoot && !noTarget && enemyTooClose)
+                    {
+
+                        //inflict damage and triggers the firing animation
+                        if (gun.TryShoot(true))
+                        {
+                            shot = false;
+                            animator.SetTrigger("Fire");
+                        }
+                        
+
+                    }
+                }
+
+
+                if(enemyTooClose)
+                {
+                    Debug.Log("Enemy too close, fixing forward");
+                    dir = (interestPoint - transform.position).normalized;
+                    dir.y = 0;
+                    horizontalDir = dir;
+
+                }
+
+                //the turning part
                 targetGO.transform.position = interestPoint;
-                /*
-                   Vector3 _direction = (aim.position - transform.position).normalized;
 
-                   //create the rotation we need to be in to look at the target
-                   Quaternion _lookRotation = Quaternion.LookRotation(interestPoint);
 
-                   //rotate us over time according to speed until we are in the required rotation
-                   aim.rotation = Quaternion.Slerp(aim.rotation, _lookRotation, Time.deltaTime * 90f);
-
-                   */
-
-                animator.SetTrigger("Aim");
+                if(!shot) animator.SetTrigger("Aim");
 
 
                 //turns the aim towards the target, and the legs follow if there is a big enough rotation to avoid breaking the poor guy's spine
-                //Debug.Log(Vector3.SignedAngle(transform.forward, aim.forward, Vector3.up));
 
                 if (Vector3.Angle(horizontalDir.normalized, transform.forward) > 60) transform.forward = Vector3.Lerp(transform.forward, Vector3.RotateTowards(transform.forward, horizontalDir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
                 else aim.forward = Vector3.Lerp(aim.forward, Vector3.RotateTowards(aim.forward, Quaternion.Euler(0, rigAimOffsetDegrees, 0) * dir.normalized, Mathf.Deg2Rad * maxDegTurnPerFrame, default), 0.8f);
@@ -566,6 +586,8 @@ public class Hero : Character
             else
             {
                 //aim.rotation = transform.rotation * Quaternion.Euler(0, 33, 0);
+
+                animator.ResetTrigger("Aim");
                 animator.SetTrigger("Down");
                 gun.lamp.DOKill();
                 gun.lamp.DOIntensity(0, 0.3f);
