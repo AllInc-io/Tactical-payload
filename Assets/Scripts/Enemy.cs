@@ -442,8 +442,16 @@ public class Enemy : Character
                 Bullet bullet = other.GetComponent<Bullet>();
                 TakeDamage(bullet.damage, bullet.transform.forward * bullet.baseProjectionForce);
                 if (!noticedHeroes.Contains(bullet.shooter)) noticedHeroes.Add(bullet.shooter);
-                Instantiate(hitFx, bullet.transform.position, default).gameObject.SetActive(true);
-                if (bullet.setsOnFireCounter > 0) onFireCounter = bullet.setsOnFireCounter;
+
+                if (bullet.setsOnFireCounter > 0)
+                {
+                    onFireCounter = bullet.setsOnFireCounter;
+                }
+                else
+                {
+                    Instantiate(hitFx, bullet.transform.position, default).gameObject.SetActive(true);
+                }
+
                 if(!bullet.goesThroughEnemies) bullet.Kill();
             }
 
