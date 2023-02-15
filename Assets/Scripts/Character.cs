@@ -53,6 +53,7 @@ public class Character : MonoBehaviour
         }
     }
 
+
     public virtual void Init()
     {
 
@@ -80,6 +81,10 @@ public class Character : MonoBehaviour
         speedMultiplier = multiplier;
     }
 
+    public bool IsAtMaxLife()
+    {
+        return PVs == maxPVs;
+    }
 
     public void ActivateRagdoll(Vector3 force)
     {

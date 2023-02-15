@@ -422,6 +422,7 @@ public class Hero : Character
     void TurnTowardsClosestInterestPoint()
     {
 
+        Vector3 previousInterestPoint = interestPoint;
 
         interestPoint = nextGoal == transform.position ? transform.position + transform.forward : transform.position + (nextGoal - transform.position).normalized;
         bool noTarget = true;
@@ -495,12 +496,12 @@ public class Hero : Character
 
             //avoids "flickering" of rotation when two targets are about the same distance by favoring the one it was targeting previously even if it's a little further
             if (!gun.isGrenade && !noTarget && interestCollider != previousTarget && previousColliderIn)
-                {
-                    Debug.Log("Anti flickering");
-                    interestCollider = previousTarget;
-                    interestPoint = previousTarget.transform.position;
-
-                }
+            {
+                Debug.Log("Anti flickering");
+                interestCollider = previousTarget;
+                interestPoint = previousTarget.transform.position;
+                interestPoint.y = previousInterestPoint.y;
+            }
                 previousTarget = interestCollider;
 
 

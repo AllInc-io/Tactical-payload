@@ -6721,7 +6721,7 @@ GameObject:
   - component: {fileID: 2398365428542645818}
   m_Layer: 0
   m_Name: button (3)
-  m_TagString: Untagged
+  m_TagString: HealButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

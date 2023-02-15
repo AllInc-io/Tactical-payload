@@ -172,7 +172,7 @@ public class Level : MonoBehaviour
 
 
             int maxSlope = 45;
-            Vector3 entrance = payload.transform.position + Vector3.right * 10f * Random.Range(-1, 1);
+            Vector3 entrance = payload.transform.position + Vector3.right * 10f * Random.Range(-1, 2);
 
             Ray ray = R.get.mainCamera.ViewportPointToRay(new Vector2(0.5f, 1.25f));
 

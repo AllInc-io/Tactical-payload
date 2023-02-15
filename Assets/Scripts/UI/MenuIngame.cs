@@ -230,6 +230,14 @@ public class MenuIngame : MonoBehaviour
 
     public void ShowAmeliorationMenu()
     {
+
+        bool needHeal = false;
+
+        foreach(Hero hero in R.get.game.heroes)
+        {
+            if (!hero.IsAtMaxLife()) needHeal = true;
+        }
+
         ameliorationMenu.gameObject.SetActive(true);
 
         if (R.get.game.heroes[0].dead || R.get.game.heroes[1].dead) resurectionButton.gameObject.SetActive(true);
@@ -243,7 +251,7 @@ public class MenuIngame : MonoBehaviour
             {
                 newButton = Random.Range(0, buttonsParent.childCount);
 
-            } while (buttonsActivated.Contains(newButton));
+            } while (buttonsActivated.Contains(newButton) || (!needHeal && buttonsParent.GetChild(i).CompareTag("HealButton")));
             buttonsActivated.Add(newButton);
 
 
