@@ -70,10 +70,10 @@ MonoBehaviour:
   lockedCharaMat: {fileID: 2100000, guid: 4f26d9083e4151943be90b1c428c6854, type: 2}
   buttonsListParent: {fileID: 2629367038958605829}
   buttonsList: []
-  listBG: {fileID: 0}
+  listBG: {fileID: 4888002304076211795}
   currentlySelectedCharacterSlot: 0
   payloadLifeButton: {fileID: 2449225136882854717}
-  payloadSpeedButton: {fileID: 0}
+  payloadSpeedButton: {fileID: 7402855646712566910}
   heroParents:
   - {fileID: 0}
   - {fileID: 0}
@@ -3155,7 +3155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533548257243440581, guid: 339f257f53f0b2b488a0081c459c383c, type: 3}
       propertyPath: m_text
-      value: Character level
+      value: Payload speed
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 339f257f53f0b2b488a0081c459c383c, type: 3}
@@ -3164,3 +3164,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3483100114200903134, guid: 339f257f53f0b2b488a0081c459c383c, type: 3}
   m_PrefabInstance: {fileID: 7347238556243784706}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7402855646712566910 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 237172866753945724, guid: 339f257f53f0b2b488a0081c459c383c, type: 3}
+  m_PrefabInstance: {fileID: 7347238556243784706}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3244b98f51128964eaaa40bd43287de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

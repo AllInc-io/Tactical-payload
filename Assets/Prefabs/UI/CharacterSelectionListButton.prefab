@@ -1272,12 +1272,12 @@ MonoBehaviour:
   lockedText: {fileID: 3943552350646315529}
   lockedIcon: {fileID: 3885250401098609030}
   unlockedLevelText: {fileID: 3653620534619731173}
-  selected: {fileID: 0}
+  selected: {fileID: 1720017560263024754}
   selectButton: {fileID: 1554226733532728679}
   speedText: {fileID: 5658941350679037373}
   firerateText: {fileID: 7366972073546687314}
   damageText: {fileID: 1213274613576880736}
-  bg: {fileID: 0}
+  bg: {fileID: 3254912169884475189}
   chara: {fileID: 5620198467259125731, guid: bee3a520791b1ab44a50e378ece9ab08, type: 3}
 --- !u!114 &764024659886914227
 MonoBehaviour:
