@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c808134228f9c644b832be2d5fc23ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destructionFXPrefab: {fileID: 305378426027902160, guid: 2583913263c651f46ad0bc364af1778f, type: 3}
+  destructionFXPrefab: {fileID: 3978568406777741947, guid: 92f5e3f9a32dc5c4b9503f8cc6b5488b, type: 3}
   PVs: 500
   boostDropProbability: 0.2
   possibleBoosts:
