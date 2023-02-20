@@ -448,7 +448,7 @@ public class Hero : Character
                     distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
                     Vector3 direction = collider.transform.position - gun.transform.position;
                     //direction.y = 0;
-                    if (collider.TryGetComponent(out Enemy enemy) && R.get.game.CheckIfEnemyIsInView(enemy.transform.position) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !enemy.dead && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                    if (collider.TryGetComponent(out Enemy enemy) && R.get.game.CheckIfPositionIsInView(enemy.transform.position) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !enemy.dead && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
                     {
                         if (collider == previousTarget) previousColliderIn = true;
                         interestCollider = collider;
@@ -476,7 +476,7 @@ public class Hero : Character
                     distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
                     Vector3 direction = collider.transform.position - gun.transform.position;
                     //direction.y = 0;
-                    if (collider.TryGetComponent(out Destructible destructible) && R.get.game.CheckIfEnemyIsInView(destructible.transform.position) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                    if (collider.TryGetComponent(out Destructible destructible) && R.get.game.CheckIfPositionIsInView(destructible.transform.position) && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
                     {
                         if (destructible.explodes || (!thereIsAnEnemyInSight && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance)))
                         {

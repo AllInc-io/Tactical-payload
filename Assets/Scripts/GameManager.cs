@@ -169,9 +169,11 @@ public class GameManager : SerializedMonoBehaviour
         R.get.ui.menuIngame.HideAmeliorationMenu();
     }
 
-    public bool CheckIfEnemyIsInView(Vector3 enemyPos)
+    public bool CheckIfPositionIsInView(Vector3 pos)
     {
-        Vector2 viewportPos = R.get.mainCamera.WorldToViewportPoint(enemyPos);
+        Vector2 viewportPos = R.get.mainCamera.WorldToViewportPoint(pos);
         return (viewportPos.x >= 0.05f && viewportPos.x <= 0.995f && viewportPos.y >= -0.05f && viewportPos.y <= 0.995f);
     }
+
+
 }

@@ -278,27 +278,57 @@ public class Level : MonoBehaviour
 
     }
 
+    float cameraLerpValue = 0;
 
     public void SetUpCamera()
     {
         
+        Vector3 idealCameraOffset = new Vector3(0, 60, -30);
+
+        Vector3 maxCameraOffset = new Vector3(0, 90, -50);
         cameraPos = Vector3.zero;
         int amount = 0;
+
+        bool zoomOut = false;
+        bool everyoneInSafeZone = false;
+
         foreach (Hero hero in R.get.game.heroes)
         {
             if (!hero.dead)
             {
                 cameraPos += hero.transform.position;
                 amount++;
+
+                Vector2 viewportPos = R.get.mainCamera.WorldToViewportPoint(hero.transform.position);
+                if (viewportPos.x > 0.9f || viewportPos.x < 0.1f || viewportPos.y < 0 || viewportPos.y > 0.8f)
+                {
+                    zoomOut = true;
+                }
+                
+                if(viewportPos.x > 0.8f || viewportPos.x < 0.2f || viewportPos.y < 0.2 || viewportPos.y > 0.7f)
+                {
+                    everyoneInSafeZone = false;
+                }
             }
+        
         }
 
         if (amount == 0) return;
 
         cameraPos /= amount;
 
-        Vector3 cameraOffest = new Vector3(0, 60, -30);
-        R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffest, 0.5f); //TEMP
+        if (zoomOut) cameraLerpValue += 0.1f;
+        else if(everyoneInSafeZone)
+        {
+            cameraLerpValue -= 0.1f;
+        }
+
+        cameraLerpValue = Mathf.Clamp(cameraLerpValue, 0, 1);
+
+        Vector3 cameraOffset = Vector3.Lerp(idealCameraOffset, maxCameraOffset, cameraLerpValue);
+
+
+        R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, 0.5f); //TEMP
 
         if(cameraPos.z >= nextLevelSpawn - 25f)
         {
