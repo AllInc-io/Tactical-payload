@@ -70,7 +70,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2395313814734105514, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
       propertyPath: m_Name
-      value: Barril 3
+      value: palets
       objectReference: {fileID: 0}
     - target: {fileID: 2395313814734105553, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
       propertyPath: m_RootOrder
@@ -139,6 +139,22 @@ PrefabInstance:
     - target: {fileID: 2395313814734105556, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
       propertyPath: m_Center.z
       value: 0.015651226
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101519228179335791, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
+      propertyPath: m_Center.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101519228179335791, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
+      propertyPath: m_Extents.x
+      value: 1.195
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101519228179335791, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
+      propertyPath: m_Extents.y
+      value: 1.345
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101519228179335791, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}
+      propertyPath: m_Extents.z
+      value: 0.89
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f86d1ebf46c0ce740932c0466f294a8e, type: 3}

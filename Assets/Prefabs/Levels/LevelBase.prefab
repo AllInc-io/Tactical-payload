@@ -350,7 +350,12 @@ MonoBehaviour:
   surface: {fileID: 8308104784448176562}
   oneRoadBlocks: []
   landmarkIndicator: {fileID: 2980465415036663745, guid: b341ae3d0304c814782feb65d19bf73f, type: 3}
-  possibleDestructibles: []
+  possibleDestructibles:
+  - {fileID: 5183485931449532490, guid: c3e2435e5d0f3094d88082c639021579, type: 3}
+  - {fileID: 4718506030764972207, guid: 593871cb1b7fbb34787c9ed8b8afb263, type: 3}
+  - {fileID: 4718506030764972207, guid: dcae73c97987fbc47b9e38c4830e6d1c, type: 3}
+  - {fileID: 4718506030764972207, guid: 783d6257f2d9a394c922333bf3810008, type: 3}
+  - {fileID: 4718506030764972207, guid: b216e6fdac31f874cb4953306e40fefe, type: 3}
   destructiblesDensity: 0
   enemiesPool: []
   payload: {fileID: 2184733311407107645}
