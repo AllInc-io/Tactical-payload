@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18385628, g: 0.33614403, b: 0.5612142, a: 1}
+  m_IndirectSpecularColor: {r: 0.18473165, g: 0.33700734, b: 0.55697334, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -492,7 +492,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919878329
 GameObject:
@@ -1148,7 +1148,7 @@ Transform:
   - {fileID: 58455645}
   - {fileID: 1797542477}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1797542476
 GameObject:
@@ -1633,10 +1633,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4380029226227703421, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7625761344038529716, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1647,7 +1643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7625761344038529716, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7625761344038529716, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1724,10 +1720,6 @@ PrefabInstance:
     - target: {fileID: 7625761344038529719, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
       propertyPath: m_Name
       value: MenuStart
-      objectReference: {fileID: 0}
-    - target: {fileID: 7625761344038529719, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9203481064593756813, guid: d14531ca9c4c5d749ba2add604ac9008, type: 3}
       propertyPath: heroParents.Array.data[0]
@@ -2204,7 +2196,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1601406236424162297}
-  - component: {fileID: 3471795172462779968}
   - component: {fileID: 5517716661220901942}
   m_Layer: 0
   m_Name: ZoneBase
@@ -3229,18 +3220,6 @@ Transform:
   m_Father: {fileID: 1024320927036515187}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3471795172462779968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601406236424162296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70a6899459fbe1a4e8a0580ed354f952, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &3536209899152283947
 BoxCollider:
   m_ObjectHideFlags: 0

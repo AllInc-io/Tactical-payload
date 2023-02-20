@@ -102,9 +102,6 @@ public class Enemy : Character
         col.enabled = true;
 
 
-
-        if (lifeCircle != null) lifeCircle.transform.localScale = Vector3.one;
-
         if (animator == null) Preinit();
 
         animator.enabled = true;
@@ -162,6 +159,8 @@ public class Enemy : Character
             inGameUIIndicator.transform.localScale = Vector3.zero;
             inGameUIIndicator.DOScale(Vector3.one, 0.5f);
         }
+
+        lifeBar.transform.parent.gameObject.SetActive(false);
         
     }
 
@@ -206,6 +205,8 @@ public class Enemy : Character
 
     IEnumerator UpdateDestinationCoroutine()
     {
+
+        float step = 0.3f;
         while(!dead)
         {
             if (type == EnemyType.Crawler)
@@ -244,7 +245,7 @@ public class Enemy : Character
 
             //resets speedMultiplier because it was "used", will be re-set to another value if still in a modifier's range
             speedMultiplier = 1;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(step);
         }
         
     }

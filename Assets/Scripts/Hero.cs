@@ -112,8 +112,8 @@ public class Hero : Character
 
         nextGoal = transform.position;
 
-        lifeCircle.color = lineColor;
-        lifeCircle.fillAmount = 1;
+        //lifeBar.color = lineColor;
+        lifeBar.fillAmount = 1;
 
         SetUpVisionCircle();
 
@@ -304,7 +304,7 @@ public class Hero : Character
     {
         heal.Play();
         PVs = Mathf.Clamp(PVs + amount, 0, maxPVs);
-        UpdateLifeCircle();
+        UpdateLifeBar();
     }
 
     public void TeleportTo(Vector3 point)
@@ -398,7 +398,7 @@ public class Hero : Character
 
         path.Clear();
 
-        UpdateLifeCircle();
+        UpdateLifeBar();
         gun.lamp.gameObject.SetActive(true);
 
         dead = false;
@@ -715,7 +715,7 @@ public class Hero : Character
 
             yield return new WaitWhile(() => Vector3.Distance(point, transform.position) >= margin);
 
-            UpdateLifeCircle();
+            UpdateLifeBar();
             animator.SetFloat("WalkingSpeed", speed / 3f);
 
             col.enabled = true;

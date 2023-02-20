@@ -13,6 +13,7 @@ public class CharacterSelectionMenu : MonoBehaviour
     [SerializeField] CharacterSelectionSlot[] slots;
     [SerializeField] Material lockedCharaMat;
     public RectTransform buttonsListParent;
+    public RectTransform characterSelectionListMenu;
     public List<CharacterSelectionButton> buttonsList;
     [SerializeField] public Image listBG;
     public int currentlySelectedCharacterSlot = 0;
@@ -49,7 +50,7 @@ public class CharacterSelectionMenu : MonoBehaviour
 
 
         SetListParentSize();
-        buttonsListParent.parent.gameObject.SetActive(false);
+       characterSelectionListMenu.gameObject.SetActive(false);
 
         //inits the team with the 3 heroes we previously selected
 
@@ -74,7 +75,7 @@ public class CharacterSelectionMenu : MonoBehaviour
         catch(System.Exception e)
         {
             heroesSelected = new string[3];
-            Debug.Log("Exception occured when trying to restore previous team. Details : " + e.Message);
+            Debug.LogError("Exception occured when trying to restore previous team. Details : " + e.Message);
             for (int i = 0; i < 3; i++)
             {
                 currentlySelectedCharacterSlot = i;
@@ -91,7 +92,7 @@ public class CharacterSelectionMenu : MonoBehaviour
             R.get.game.heroes[1].transform.localPosition = Vector3.zero;
             R.get.game.heroes[1].transform.localScale = Vector3.one;
             R.get.game.heroes[1].transform.localRotation = Quaternion.Euler(Vector3.zero);
-            R.get.game.heroes[1].lifeCircle.gameObject.SetActive(false);
+            R.get.game.heroes[1].lifeBar.transform.parent.gameObject.SetActive(false);
             R.get.game.heroes[1].gun.gameObject.SetActive(false);
             R.get.game.heroes[1].animator.SetLayerWeight(1, 0);
 
@@ -113,14 +114,15 @@ public class CharacterSelectionMenu : MonoBehaviour
 
         float height = 550;
         int activeButtonsCount = buttonsList.Count;
-        buttonsListParent.sizeDelta = new Vector2(buttonsListParent.sizeDelta.x, activeButtonsCount * height);
-        buttonsListParent.anchoredPosition = new Vector2(buttonsListParent.anchoredPosition.x, activeButtonsCount * height / 2f);
+        buttonsListParent.sizeDelta = new Vector2(buttonsListParent.sizeDelta.x, activeButtonsCount * height + 260);
+        buttonsListParent.anchoredPosition = new Vector2(buttonsListParent.anchoredPosition.x, -activeButtonsCount * (height / 2f));
+        buttonsListParent.GetComponent<VerticalLayoutGroup>().padding.top = 260;
     }
 
     public void ChangeSelectedChara(int value)
     {
         currentlySelectedCharacterSlot = value;
-        buttonsListParent.parent.gameObject.SetActive(true);
+        characterSelectionListMenu.gameObject.SetActive(true);
 
         //listBG.gameObject.SetActive(true);
 
@@ -143,13 +145,13 @@ public class CharacterSelectionMenu : MonoBehaviour
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localPosition = Vector3.zero;
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localScale = Vector3.one;
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localRotation = Quaternion.Euler(Vector3.zero);
-        R.get.game.heroes[currentlySelectedCharacterSlot].lifeCircle.gameObject.SetActive(false);
+        R.get.game.heroes[currentlySelectedCharacterSlot].lifeBar.transform.parent.gameObject.SetActive(false);
         R.get.game.heroes[currentlySelectedCharacterSlot].countdown.gameObject.SetActive(false);
         R.get.game.heroes[currentlySelectedCharacterSlot].levelText.gameObject.SetActive(false);
 
         buttonsList.Where(button => button.chara == chara).FirstOrDefault().SetSelected();
 
-        buttonsListParent.parent.gameObject.SetActive(false);
+        characterSelectionListMenu.gameObject.SetActive(false);
 
         InitSlot(currentlySelectedCharacterSlot);
 

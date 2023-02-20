@@ -121,7 +121,7 @@ MonoBehaviour:
   col: {fileID: 7452583843991013592}
   meshRenderer: {fileID: 0}
   deathFX: {fileID: 3978568406777741947, guid: 63b160dddd16bb74ea99e7bf9d320bb3, type: 3}
-  lifeCircle: {fileID: 5548486525092127434}
+  lifeBar: {fileID: 1399589302927270843}
   agent: {fileID: 982245823248205828}
   gun: {fileID: 0}
   hitFx: {fileID: 3978568406777741947, guid: f4b1236d5634da94b9f0eba8edd72e25, type: 3}
@@ -576,7 +576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7759474772284518580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1010,6 +1010,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d25b3b17f95241d419e633928eb4ca59, type: 3}
+--- !u!114 &1399589302927270843 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3813253667109039907, guid: d25b3b17f95241d419e633928eb4ca59, type: 3}
+  m_PrefabInstance: {fileID: 2848299234025262232}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1734909948523838208 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4581447696402495384, guid: d25b3b17f95241d419e633928eb4ca59, type: 3}

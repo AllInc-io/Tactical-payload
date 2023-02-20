@@ -178,7 +178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2793564631311430989
 RectTransform:
   m_ObjectHideFlags: 0
@@ -358,7 +358,7 @@ MonoBehaviour:
   col: {fileID: 2246661359967389816}
   meshRenderer: {fileID: 9123757125599852205}
   deathFX: {fileID: 3978568406777741947, guid: 04361bd458a0f344eb620d2fc0a98e52, type: 3}
-  lifeCircle: {fileID: 2906899496211653321}
+  lifeBar: {fileID: 2185512319791059006}
   agent: {fileID: 1409068886665570871}
   gun: {fileID: 3704696367137876975}
   hitFx: {fileID: 3978568406777741947, guid: 63b160dddd16bb74ea99e7bf9d320bb3, type: 3}
@@ -1676,6 +1676,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4581447696402495384, guid: d25b3b17f95241d419e633928eb4ca59, type: 3}
   m_PrefabInstance: {fileID: 3080209126905593629}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2185512319791059006 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3813253667109039907, guid: d25b3b17f95241d419e633928eb4ca59, type: 3}
+  m_PrefabInstance: {fileID: 3080209126905593629}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3524008987534408325
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ public class CharacterSelectionButton : MonoBehaviour
         {
             charaName.text = chara.heroName;
             bg.gameObject.SetActive(true);
-            bg.color = chara.lineColor;
+            //bg.color = chara.lineColor;
             icon.sprite = chara.icon;
 
             //if (charaLevelText != null) charaLevelText.text = (PlayerPrefs.GetInt("Level" + chara.heroName) + 1).ToString();
@@ -71,8 +71,10 @@ public class CharacterSelectionButton : MonoBehaviour
     public void SetSelected()
     {
         selected.gameObject.SetActive(true);
+        selected.GetComponentInChildren<TextMeshProUGUI>().text = chara.heroName;
         selectButton.gameObject.SetActive(false);
         selectButton.transform.Find("Locked").gameObject.SetActive(true);
+
         
     }
 

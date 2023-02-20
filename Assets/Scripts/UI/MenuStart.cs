@@ -13,6 +13,7 @@ public class MenuStart : MonoBehaviour
     [FoldoutGroup("Refs")] public CharacterSelectionMenu characterSelectionMenu;
     [FoldoutGroup("Refs")] public Transform startButton;
 
+    [FoldoutGroup("Settings"), SerializeField] float skyboxPanSpeed = 0.2f; 
     public void Init()
     {
         
@@ -31,6 +32,11 @@ public class MenuStart : MonoBehaviour
             buttonHaptic.SetON();
         else
             buttonHaptic.SetOFF();
+    }
+
+    private void Update()
+    {
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * skyboxPanSpeed);
     }
 
     public void Hide()

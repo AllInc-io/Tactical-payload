@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
     [FoldoutGroup("Refs")] public Collider col;
     [FoldoutGroup("Refs")] public Renderer meshRenderer;
     [FoldoutGroup("Refs"), SerializeField] ParticleSystem deathFX;
-    [FoldoutGroup("Refs"), SerializeField] public Image lifeCircle;
+    [FoldoutGroup("Refs"), SerializeField] public Image lifeBar;
     [FoldoutGroup("Refs"), SerializeField] protected NavMeshAgent agent;
 
 
@@ -46,10 +46,10 @@ public class Character : MonoBehaviour
 
     public void Awake()
     {
-        if (lifeCircle != null)
+        if (lifeBar != null)
         {
-            lifeCircle.transform.localScale = Vector3.zero;
-            lifeCircle.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack);
+            lifeBar.transform.parent.localScale = Vector3.zero;
+            lifeBar.transform.parent.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack);
         }
     }
 
@@ -174,7 +174,7 @@ public class Character : MonoBehaviour
     protected virtual void Update()
     {
         //if (dead) return;
-        lifeCircle.transform.eulerAngles = new Vector3(lifeCircle.transform.eulerAngles.x, 0, lifeCircle.transform.eulerAngles.z);
+        lifeBar.transform.parent.forward = -R.get.mainCamera.transform.forward;
     }
 
     
@@ -189,7 +189,7 @@ public class Character : MonoBehaviour
     {
 
         PVs -= amount;
-        UpdateLifeCircle();
+        UpdateLifeBar();
 
 
         if (PVs <= 0) Die(ragdollForce * Mathf.Min(amount, R.get.levelDesign.maxZombiesProjectionForceWhenKilled));
@@ -204,10 +204,12 @@ public class Character : MonoBehaviour
     }
 
 
-    protected void UpdateLifeCircle()
+    protected void UpdateLifeBar()
     {
-        DOTween.Kill(lifeCircle, "FillLifeCircle");
-        lifeCircle.DOFillAmount(PVs /(float)maxPVs, 0.3f).SetId("FillLifeCircle");
+
+        if ( !lifeBar.transform.parent.gameObject.activeInHierarchy) lifeBar.transform.parent.gameObject.SetActive(true);
+        DOTween.Kill(lifeBar, "FillLifeCircle");
+        lifeBar.DOFillAmount(PVs /(float)maxPVs, 0.3f).SetId("FillLifeCircle");
     }
 
 
@@ -222,9 +224,9 @@ public class Character : MonoBehaviour
  
         ActivateRagdoll(ragdollForce);
 
-        if (lifeCircle != null)
+        if (lifeBar != null)
         {
-            lifeCircle.transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
+            lifeBar.transform.parent.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
         }
 
     }
