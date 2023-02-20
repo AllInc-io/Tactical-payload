@@ -37,8 +37,8 @@ public class LeaderboardItem : MonoBehaviour
 
     public void SetupForPlayer()
     {
-        textRank.text = "" + R.get.leaderboard.GetCurrentPlayerRank(R.get.score);
-        textScore.text = "" + R.get.score;
+        textRank.text = "" + R.get.leaderboard.GetCurrentPlayerRank(R.get.money);
+        textScore.text = "" + R.get.money;
         textName.text = "YOU";
 
         backNPC.SetActive(false);

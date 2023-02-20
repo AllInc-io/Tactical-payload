@@ -173,6 +173,14 @@ PrefabInstance:
       value: 0.7396073
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: scoreUnlock
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: yardsTravelledUnlock
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: startGunData.damagePerBullet
       value: 50
       objectReference: {fileID: 0}
@@ -319,6 +327,10 @@ PrefabInstance:
     - target: {fileID: 3686806497859783737, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3704696367137876975, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: muzzleFX
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3932650964908704266, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder

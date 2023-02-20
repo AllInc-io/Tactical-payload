@@ -29,7 +29,7 @@ public class MenuBank : MonoBehaviour
 
     public void UpdateGold()
     {
-        ressourcePanel.UpdateValue(R.get.score);
+        ressourcePanel.UpdateValue(R.get.money);
     }
 
 
@@ -42,7 +42,7 @@ public class MenuBank : MonoBehaviour
     {
 
         int max = 30;
-        if (nb > max) R.get.AddScore(nb - max);
+        if (nb > max) R.get.AddMoney(nb - max);
         nb = max;
         for (int i = nb - 1; i >= 0; i--)
         {
@@ -79,7 +79,7 @@ public class MenuBank : MonoBehaviour
     void EndAnimRessource(RectTransform ress)
     {
         ress.gameObject.SetActive(false);
-        R.get.AddScore();
+        R.get.AddMoney();
     }
 
 }

@@ -26,7 +26,7 @@ public class MenuStart : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        levelText.text = "LEVEL " + (R.get.lastLevelFinished+1);
+        levelText.text = "Yards travelled : " + (R.get.score);
 
         if(HapticManager.instance.HapticActived)
             buttonHaptic.SetON();

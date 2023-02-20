@@ -28,7 +28,7 @@ public class CharacterSelectionSlot : MonoBehaviour
     public void Init(Hero chara)
     {
         this.chara = chara;
-        charaName.text = chara.heroName.ToUpper();
+        //charaName.text = chara.heroName.ToUpper();
 
 
 
@@ -56,9 +56,9 @@ public class CharacterSelectionSlot : MonoBehaviour
 
     public void TryPurchaseLevelUp()
     {
-        if (R.get.score >= upgradePrice)
+        if (R.get.money >= upgradePrice)
         {
-            R.get.AddScore(-upgradePrice);
+            R.get.AddMoney(-upgradePrice);
             OnLevelUp();
         }
     }

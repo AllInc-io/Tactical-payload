@@ -42,20 +42,21 @@ public class GameManager : SerializedMonoBehaviour
 
         //R.get.levelManager.level.currentZone.SpawnCharas(heroes);
 
-        heroes = new Hero[3];
+        heroes = new Hero[2];
 
         string[] heroesNames = PlayerPrefs.GetString("Team").Split(',');
-        if (heroesNames.Length <= 3)
+        if (heroesNames.Length <= 2)
         {
-            heroesNames = new string[3];
+            Hero[] orderedHeroes = R.get.levelDesign.possibleCharactersPrefabs.OrderBy(hero => hero.scoreUnlock).ToArray();
+            heroesNames = new string[2];
             for(int i = 0; i< 3; i++)
             {
-                heroesNames[i] = R.get.levelDesign.possibleCharactersPrefabs[i].heroName;
+                heroesNames[i] = orderedHeroes[i].heroName;
             }
 
         }
 
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 2; i++)
         {
             Vector3 pos = Vector3.forward * i * -2f - Vector3.forward * 2f;
             Vector3 scale = Vector3.one * R.get.levelDesign.charactersScale;
@@ -71,11 +72,7 @@ public class GameManager : SerializedMonoBehaviour
             heroes[1].dead = true;
             heroes[1].gameObject.SetActive(false);
         }
-        if (R.get.lastLevelFinished < R.get.levelDesign.levelUnlockThirdChara - 1)
-        {
-            heroes[2].dead = true;
-            heroes[2].gameObject.SetActive(false);
-        }
+
 
         xpToNextLevel = startXPToNextLevel;
         currentXPMultiplier = 1;
@@ -85,7 +82,7 @@ public class GameManager : SerializedMonoBehaviour
 
     public void MenuInit()
     {
-        heroes = new Hero[3];
+        heroes = new Hero[2];
     }
 
     public void Update()

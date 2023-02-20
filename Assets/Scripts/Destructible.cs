@@ -66,7 +66,8 @@ public class Destructible : MonoBehaviour
                 hit.GetComponent<Destructible>().DestroyByExplosion(0.3f);
             }
         }
-        Instantiate(destructionFXPrefab, transform.position, default);
+        destructionFXPrefab.transform.SetParent(null);
+        destructionFXPrefab.gameObject.SetActive(true);
         Destroy(this.gameObject);
     }
 

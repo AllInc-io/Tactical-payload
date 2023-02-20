@@ -394,6 +394,8 @@ public class Hero : Character
 
         PVs = maxPVs / 2f;
 
+        lifeBar.transform.parent.gameObject.SetActive(true);
+
         countdown.gameObject.SetActive(false);
 
         path.Clear();

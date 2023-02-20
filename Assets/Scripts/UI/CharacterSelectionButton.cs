@@ -63,7 +63,9 @@ public class CharacterSelectionButton : MonoBehaviour
             lockedText.text = chara.heroName;
             lockedIcon.sprite = chara.icon;
             lockedIcon.color = Color.black;
-            unlockedLevelText.text = "Unlocked at level " + ((transform.GetSiblingIndex() - 2) * R.get.levelDesign.newCharacterEveryX);
+
+            selectButton.gameObject.SetActive(false);
+            unlockedLevelText.text = "Travel " + chara.scoreUnlock + " yards to unlock";
         }
 
     }
@@ -101,9 +103,9 @@ public class CharacterSelectionButton : MonoBehaviour
 
     public void TryPurchaseLevelUp()
     {
-        if(R.get.score >= upgradePrice)
+        if(R.get.money >= upgradePrice)
         {
-            R.get.AddScore(-upgradePrice);
+            R.get.AddMoney(-upgradePrice);
             OnLevelUp();
         }
     }
