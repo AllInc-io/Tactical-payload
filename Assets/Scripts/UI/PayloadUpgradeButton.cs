@@ -37,7 +37,7 @@ public class PayloadUpgradeButton : MonoBehaviour
         this.baseValue = baseValue;
         this.basePrice = basePrice;
 
-        valueText.text = (characteristics.Equals("PayloadLife") ?  R.get.levelDesign.GetPayloadLife(level) + "HP" : (R.get.levelDesign.GetPayloadSpeed(level) * 5f) + "mph").ToString();
+        valueText.text = (characteristics.Equals("PayloadLife") ?  R.get.levelDesign.GetPayloadLife(level) + " hp" : (R.get.levelDesign.GetPayloadSpeed(level) * 5f) + " mph").ToString();
         upgradePrice = Mathf.RoundToInt(basePrice * Mathf.Pow(2, level));
         upgradePriceText.text = upgradePrice.ToString();
 
@@ -73,7 +73,7 @@ public class PayloadUpgradeButton : MonoBehaviour
 
 
 
-        valueText.text = (characteristics.Equals("PayloadLife") ? R.get.levelDesign.GetPayloadLife(level) + "HP" : (R.get.levelDesign.GetPayloadSpeed(level) * 5f) + "mph").ToString();
+        valueText.text = (characteristics.Equals("PayloadLife") ? R.get.levelDesign.GetPayloadLife(level) + " hp" : (R.get.levelDesign.GetPayloadSpeed(level) * 5f) + " mph").ToString();
         upgradePrice = Mathf.RoundToInt(basePrice * Mathf.Pow(2, level));
 
         upgradePriceText.text = upgradePrice.ToString();

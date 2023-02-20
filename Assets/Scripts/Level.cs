@@ -90,7 +90,7 @@ public class Level : MonoBehaviour
         nextProgressionLandmark = R.get.levelDesign.firstLandmarks[landmarkIndex];
 
         Transform landmark = Instantiate(landmarkIndicator, (payload.transform.position.z + nextProgressionLandmark) * Vector3.forward, default);
-        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + "yards";
+        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + " yards";
 
         //zones[0].SetUpCamera();
         payload.Init();

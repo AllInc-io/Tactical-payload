@@ -46,7 +46,7 @@ public class LoadingScreenManager : MonoBehaviour {
 		}*/
 	}
 
-	IEnumerator LoadingScene(int index) 
+	IEnumerator LoadingScene(int index)
 	{
 		Debug.Log("Before Wait");
 		yield return new WaitForSeconds(waitTime);
@@ -57,12 +57,21 @@ public class LoadingScreenManager : MonoBehaviour {
 		//SceneManager.LoadScene(1);
 		AsyncOperation async = SceneManager.LoadSceneAsync(index);
 		async.allowSceneActivation = false;
-		while ( !voodooInitDone && timer < 5)
+#if UNITY_EDITOR
+		while (!voodooInitDone)
 		{
 			timer += Time.deltaTime;
 			yield return null;
 		}
 		async.allowSceneActivation = true;
+#else
+		while ((!voodooInitDone && timer < 5) || !Voodoo.Tiny.Sauce.Privacy.PrivacyManager.ConsentReady)
+		{
+			timer += Time.deltaTime;
+			yield return null;
+		}
+		async.allowSceneActivation = true;
+#endif
 	}
 
 	public void OnVoodooInitFinished()
