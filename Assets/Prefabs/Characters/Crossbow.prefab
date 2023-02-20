@@ -552,6 +552,10 @@ PrefabInstance:
       propertyPath: colorOuterStart.r
       value: 0.7396073
       objectReference: {fileID: 0}
+    - target: {fileID: 7528427150825862738, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8054836055141387153, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_IsActive
       value: 1
