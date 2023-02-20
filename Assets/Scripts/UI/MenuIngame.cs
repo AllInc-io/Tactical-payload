@@ -179,7 +179,6 @@ public class MenuIngame : MonoBehaviour
 
             Vector2 angleEuler = new Vector2(Screen.width / 2f, Screen.height / 2f) - towardsPayloadPointer.anchoredPosition * new Vector2(-1, 1);
 
-            Debug.Log(angleEuler);
 
             float angle = Vector2.SignedAngle(Vector2.up, angleEuler);
 
@@ -217,12 +216,11 @@ public class MenuIngame : MonoBehaviour
         newPos.y = Mathf.Clamp(newPos.y, 0, resPos.y - 100);
         return newPos;
 
-
     }
 
     public void IndicateProgression(int meters, bool passingLandmark)
     {
-        progressionText.text = meters + "m";
+        progressionText.text = meters + " yards";
 
         if (passingLandmark) progressionText.transform.DOPunchScale(Vector3.one * 1.5f, 0.5f);
     }
@@ -278,7 +276,7 @@ public class MenuIngame : MonoBehaviour
         if (fill > xpBar.fillAmount) xpBar.DOFillAmount(fill, 0.3f);
         else xpBar.fillAmount = fill;
 
-        xpBarText.text = currentAmount + "/" + goal;
+        xpBarText.text = currentAmount + "/" + goal + "xp";
     }
 
 

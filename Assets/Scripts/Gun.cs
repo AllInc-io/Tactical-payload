@@ -73,7 +73,7 @@ public class Gun : MonoBehaviour
     public void ShootForward(bool fromOrigin)
     {
         timeSinceLastShot = 0;
-        muzzleFX.Play();
+        if(muzzleFX != null) muzzleFX.Play();
         for(int i = 0; i< data.bulletsPerShot; i++)
         {
 

@@ -230,6 +230,14 @@ PrefabInstance:
       value: 0.352064
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: scoreUnlock
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: yardsTravelledUnlock
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: startGunData.bulletSpeed
       value: 15
       objectReference: {fileID: 0}

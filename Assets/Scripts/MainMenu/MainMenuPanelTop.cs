@@ -11,7 +11,7 @@ public class MainMenuPanelTop : MonoBehaviour
     {
         ressourcePanel.Init();
         ressourcePanel.Show();
-        ressourcePanel.UpdateValue(R.get.score);
+        ressourcePanel.UpdateValue(R.get.money);
     }
 
 

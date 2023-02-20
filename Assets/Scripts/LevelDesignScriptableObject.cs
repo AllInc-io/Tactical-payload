@@ -16,8 +16,8 @@ public class LevelDesignScriptableObject : ScriptableObject
     [FoldoutGroup("General settings")] public int moneyWonPerLevel = 500;
     [FoldoutGroup("General settings")] public int moneyWonPerZombieKilled = 3;
 
-    [FoldoutGroup("General Settings")] public int[] firstLandmarks;
-    [FoldoutGroup("General Settings")] public int landmarksEveryXAfter = 100;
+    [FoldoutGroup("General settings")] public int[] firstLandmarks;
+    [FoldoutGroup("General settings")] public int landmarksEveryXAfter = 100;
 
 
     [FoldoutGroup("General Settings")] public int payloadLifeBaseValue = 5;

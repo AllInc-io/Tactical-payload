@@ -11,7 +11,7 @@ public class MainMenuLeaderboard : MonoBehaviour
 
     public void Init()
     {
-        int playerRank = R.get.leaderboard.GetCurrentPlayerRank(R.get.score);
+        int playerRank = R.get.leaderboard.GetCurrentPlayerRank(R.get.money);
         int k = 7;
 
         if(playerRank-7<=0)

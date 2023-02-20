@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 public class R : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class R : MonoBehaviour
     [HideInInspector] public MainMenu mainMenu;
     [HideInInspector] public int lastLevelFinished;
     [HideInInspector] public Camera mainCamera;
+    [HideInInspector] public int money;
     [HideInInspector] public int score;
 
     [HideInInspector] public bool hasMusic;
@@ -46,12 +48,15 @@ public class R : MonoBehaviour
             PlayerPrefs.SetInt("HasMusic", 1);
             PlayerPrefs.SetInt("HasSFX", 1);
             PlayerPrefs.SetInt("Score", 0);
+            PlayerPrefs.SetInt("Money", 0);
             PlayerPrefs.SetInt("LastLevelFinished", 0);
 
             string team = "";
-            for(int i = 0; i < 3; i++)
+            for(int i = 0; i < 2; i++)
             {
-                team += levelDesign.possibleCharactersPrefabs[i].heroName;
+                Hero[] orderedHeroes = R.get.levelDesign.possibleCharactersPrefabs.OrderBy(hero => hero.scoreUnlock).ToArray();
+
+                team += orderedHeroes[i].heroName;
                 if(i < 2) team += ",";
             }
             PlayerPrefs.SetString("Team", team);
@@ -67,6 +72,7 @@ public class R : MonoBehaviour
 
         lastLevelFinished = PlayerPrefs.GetInt("LastLevelFinished", 0);
         score = PlayerPrefs.GetInt("Score", 0);
+        money = PlayerPrefs.GetInt("Money", 0);
         hasMusic = PlayerPrefs.GetInt("HasMusic", 0)==0?false:true;
         hasSFX = PlayerPrefs.GetInt("HasSFX", 0)==0?false:true;
 
@@ -110,9 +116,9 @@ public class R : MonoBehaviour
         SceneManager.LoadScene("DrawController");
     }
 
-    public void AddScore(int scoreToAdd=1)
+    public void AddMoney(int moneyToAdd=1)
     {
-        score += scoreToAdd;
+        money += moneyToAdd;
 
         if (mode == Mode.Game)
         {
@@ -122,14 +128,21 @@ public class R : MonoBehaviour
 
         else if (mode == Mode.Menu)
         {
-            FindObjectOfType<MenuBank>().ressourcePanel.UpdateValue(score);
+            FindObjectOfType<MenuBank>().ressourcePanel.UpdateValue(money);
             startMenu.characterSelectionMenu.CheckAllScoreUpdateButton();
         }
 
-        PlayerPrefs.SetInt("Score", score);
+        PlayerPrefs.SetInt("Money", money);
     }
 
+    public void AddToScore(int amountToAdd)
+    {
+        score += amountToAdd;
 
+        //change something in UI if needed (likely)
+
+        PlayerPrefs.SetInt("Score", score);
+    }
 
 
 

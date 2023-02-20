@@ -58,9 +58,9 @@ public class PayloadUpgradeButton : MonoBehaviour
 
     public void TryPurchaseLevelUp()
     {
-        if (R.get.score >= upgradePrice)
+        if (R.get.money >= upgradePrice)
         {
-            R.get.AddScore(-upgradePrice);
+            R.get.AddMoney(-upgradePrice);
             OnLevelUp();
         }
     }
@@ -81,14 +81,14 @@ public class PayloadUpgradeButton : MonoBehaviour
         CheckScoreForUpdateButton();
 
 
-        if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
+        if (upgradePrice > R.get.money) upgradeButton.Find("Locked").gameObject.SetActive(true);
         else upgradeButton.Find("Locked").gameObject.SetActive(false);
     }
 
     public void CheckScoreForUpdateButton()
     {
 
-        if (upgradePrice > R.get.score) upgradeButton.Find("Locked").gameObject.SetActive(true);
+        if (upgradePrice > R.get.money) upgradeButton.Find("Locked").gameObject.SetActive(true);
         else upgradeButton.Find("Locked").gameObject.SetActive(false);
 
     }

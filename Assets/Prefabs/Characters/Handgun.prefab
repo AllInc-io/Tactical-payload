@@ -202,6 +202,10 @@ PrefabInstance:
       value: 0.5377358
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: scoreUnlock
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: rigAimOffsetDegrees
       value: 17
       objectReference: {fileID: 0}

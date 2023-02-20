@@ -15,7 +15,7 @@ public class CollectibleCoin : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             DOTween.Kill(this.transform);
-            R.get.AddScore(10);
+            R.get.AddMoney(10);
             Destroy(this.gameObject);
         }
     }

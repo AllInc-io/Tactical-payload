@@ -27,15 +27,20 @@ public class CharacterSelectionMenu : MonoBehaviour
 
     string[] heroesSelected;
 
+    Hero[] possiblesCharacterPrefabsOrdered;
+
     public void Init()
     {
         buttonsList = new List<CharacterSelectionButton>();
 
+
+        possiblesCharacterPrefabsOrdered =  R.get.levelDesign.possibleCharactersPrefabs.OrderBy(chara => chara.scoreUnlock).ToArray();
+
         int unlockedCharactersAmount = Mathf.Clamp(Mathf.FloorToInt((float)R.get.lastLevelFinished / R.get.levelDesign.newCharacterEveryX) + 3, 3, R.get.levelDesign.possibleCharactersPrefabs.Length);
-        for(int i = 0; i < R.get.levelDesign.possibleCharactersPrefabs.Length; i++)
+        for(int i = 0; i < possiblesCharacterPrefabsOrdered.Length; i++)
         {
             CharacterSelectionButton button = Instantiate(listButtonPrefab, buttonsListParent);
-            button.Init(R.get.levelDesign.possibleCharactersPrefabs[i], true);
+            button.Init(possiblesCharacterPrefabsOrdered[i], R.get.score >= possiblesCharacterPrefabsOrdered[i].scoreUnlock);
             buttonsList.Add(button);
         }
 
@@ -54,11 +59,11 @@ public class CharacterSelectionMenu : MonoBehaviour
 
         //inits the team with the 3 heroes we previously selected
 
-        heroesSelected = new string[3];
+        heroesSelected = new string[2];
 
         int max = 1;
         if (R.get.lastLevelFinished >= R.get.levelDesign.levelUnlockSecondChara - 1) max++;
-        if (R.get.lastLevelFinished >= R.get.levelDesign.levelUnlockThirdChara - 1) max++;
+
 
 
         try
@@ -74,9 +79,9 @@ public class CharacterSelectionMenu : MonoBehaviour
         }
         catch(System.Exception e)
         {
-            heroesSelected = new string[3];
+            heroesSelected = new string[2];
             Debug.LogError("Exception occured when trying to restore previous team. Details : " + e.Message);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 currentlySelectedCharacterSlot = i;
                 ClickOnList(R.get.levelDesign.possibleCharactersPrefabs[i]);
@@ -112,7 +117,7 @@ public class CharacterSelectionMenu : MonoBehaviour
     void SetListParentSize()
     {
 
-        float height = 550;
+        float height = 600;
         int activeButtonsCount = buttonsList.Count;
         buttonsListParent.sizeDelta = new Vector2(buttonsListParent.sizeDelta.x, activeButtonsCount * height + 260);
         buttonsListParent.anchoredPosition = new Vector2(buttonsListParent.anchoredPosition.x, -activeButtonsCount * (height / 2f));

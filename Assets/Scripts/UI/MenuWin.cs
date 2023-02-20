@@ -46,10 +46,13 @@ public class MenuWin : MonoBehaviour
 
         transform.localScale = Vector3.zero;
 
-        int amountWon = R.get.levelManager.level.payload.progression;
+        int yardsTravelled = R.get.levelManager.level.payload.progression;
 
-        textRating.text = amountWon + "meters";
-        textAmount.text = "+ " + amountWon;
+        textRating.text = yardsTravelled + "yards";
+        textAmount.text = "+ " + yardsTravelled;
+
+        R.get.AddToScore(yardsTravelled);
+
 
         yield return new WaitForSeconds(delay);
 
@@ -57,7 +60,7 @@ public class MenuWin : MonoBehaviour
         transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
 
 
-        StartCoroutine(AnimRessource(amountWon));
+        StartCoroutine(AnimRessource(yardsTravelled));
 
         if (crown != null) crown.DOLocalMoveY(crown.transform.localPosition.y + 80f, 0.6f).SetEase(Ease.InOutQuad).SetLoops(-1, LoopType.Yoyo);
         halo.DOLocalRotate(new Vector3(0f, 0f, 360f), 2.8f, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
@@ -70,7 +73,7 @@ public class MenuWin : MonoBehaviour
 
 
         int max = 30;
-        if (nb > max) R.get.AddScore(nb - max);
+        if (nb > max) R.get.AddMoney(nb - max);
         nb = max;
 
 
@@ -123,7 +126,7 @@ public class MenuWin : MonoBehaviour
     void EndAnimRessource(RectTransform ress)
     {
         ress.gameObject.SetActive(false);
-        R.get.AddScore();
+        R.get.AddMoney();
         ressourceAdding--;
     }
 
@@ -136,7 +139,7 @@ public class MenuWin : MonoBehaviour
     {
         ReloadSceneSettings.clickedHomeAfterWinningLevel = true;
         SceneManager.LoadScene(1);
-        R.get.AddScore(ressourceAdding);
+        R.get.AddMoney(ressourceAdding);
     }
 
 }

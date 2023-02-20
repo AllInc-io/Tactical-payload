@@ -43,6 +43,7 @@ public class Character : MonoBehaviour
 
     protected float speedMultiplier = 1;
 
+    public int scoreUnlock = 0;
 
     public void Awake()
     {
