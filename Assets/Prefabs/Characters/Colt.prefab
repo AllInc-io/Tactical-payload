@@ -231,7 +231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: rigAimOffsetDegrees
-      value: 17
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: yardsTravelledUnlock
@@ -592,6 +592,18 @@ PrefabInstance:
     - target: {fileID: 6760300862599981253, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123454060400413448, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123454060400413448, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.072
+      objectReference: {fileID: 0}
+    - target: {fileID: 7123454060400413448, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.189
       objectReference: {fileID: 0}
     - target: {fileID: 7127373762915069081, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: radius
