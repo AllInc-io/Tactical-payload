@@ -227,7 +227,8 @@ public class Character : MonoBehaviour
 
         if (lifeBar != null)
         {
-            lifeBar.transform.parent.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack);
+            DOTween.Kill("LifeBarScaleTween");
+            lifeBar.transform.parent.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).SetId("LifeBarScaleTween");
         }
 
     }

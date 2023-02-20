@@ -158,7 +158,7 @@ public class MenuIngame : MonoBehaviour
 
     public void IndicatePayload(Vector3 pos)
     {
-        if (R.get.game.CheckIfEnemyIsInView(pos)) towardsPayloadPointer.gameObject.SetActive(false);
+        if (R.get.game.CheckIfPositionIsInView(pos)) towardsPayloadPointer.gameObject.SetActive(false);
         else
         {
             CanvasScaler canvasScaler = GetComponentInParent<CanvasScaler>();
@@ -200,7 +200,7 @@ public class MenuIngame : MonoBehaviour
     }
 
 
-    public Vector2 GetIndicatorPos(Vector3 worldPos)
+    public Vector2 GetIndicatorPos(Vector3 worldPos, Vector2 sizeDelta)
     {
         CanvasScaler canvasScaler = GetComponentInParent<CanvasScaler>();
         Vector2 res = canvasScaler.referenceResolution;
@@ -212,8 +212,8 @@ public class MenuIngame : MonoBehaviour
         resPos *= ratioFloat;
 
         Vector2 newPos = U.WorldToUIPos(worldPos, R.get.mainCamera, GetComponentInParent<CanvasScaler>());
-        newPos.x = Mathf.Clamp(newPos.x, 0, resPos.x - 100);
-        newPos.y = Mathf.Clamp(newPos.y, 0, resPos.y - 100);
+        newPos.x = Mathf.Clamp(newPos.x, 0, resPos.x - sizeDelta.x);
+        newPos.y = Mathf.Clamp(newPos.y, 0, resPos.y - sizeDelta.y);
         return newPos;
 
     }

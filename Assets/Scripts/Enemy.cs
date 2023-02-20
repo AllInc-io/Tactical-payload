@@ -527,14 +527,14 @@ public class Enemy : Character
 
     public void IndicatePositionOnUI()
     {
-        if(R.get.game.CheckIfEnemyIsInView(transform.position))
+        if(R.get.game.CheckIfPositionIsInView(transform.position))
         {
             inGameUIIndicator.gameObject.SetActive(false);
         }
 
         else
         {
-            inGameUIIndicator.anchoredPosition = R.get.ui.menuIngame.GetIndicatorPos(transform.position);
+            inGameUIIndicator.anchoredPosition = R.get.ui.menuIngame.GetIndicatorPos(transform.position, inGameUIIndicator.sizeDelta);
         }
         
     }
