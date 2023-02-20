@@ -90,7 +90,7 @@ public class Level : MonoBehaviour
         nextProgressionLandmark = R.get.levelDesign.firstLandmarks[landmarkIndex];
 
         Transform landmark = Instantiate(landmarkIndicator, (payload.transform.position.z + nextProgressionLandmark) * Vector3.forward, default);
-        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + "m";
+        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + "yards";
 
         //zones[0].SetUpCamera();
         payload.Init();
@@ -114,7 +114,7 @@ public class Level : MonoBehaviour
         nextProgressionLandmark = R.get.levelDesign.GetNextLandmark(landmarkIndex);
 
         Transform landmark = Instantiate(landmarkIndicator, (payload.startZOffset + nextProgressionLandmark) * Vector3.forward, default);
-        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + "m";
+        landmark.GetComponentInChildren<TextMeshPro>().text = nextProgressionLandmark + " yards";
 
         foreach (Hero hero in R.get.game.heroes)
         {
@@ -290,7 +290,7 @@ public class Level : MonoBehaviour
         int amount = 0;
 
         bool zoomOut = false;
-        bool everyoneInSafeZone = false;
+        bool everyoneInSafeZone = true;
 
         foreach (Hero hero in R.get.game.heroes)
         {
@@ -317,10 +317,10 @@ public class Level : MonoBehaviour
 
         cameraPos /= amount;
 
-        if (zoomOut) cameraLerpValue += 0.1f;
+        if (zoomOut) cameraLerpValue += Time.deltaTime;
         else if(everyoneInSafeZone)
         {
-            cameraLerpValue -= 0.1f;
+            cameraLerpValue -= Time.deltaTime;
         }
 
         cameraLerpValue = Mathf.Clamp(cameraLerpValue, 0, 1);
@@ -328,7 +328,7 @@ public class Level : MonoBehaviour
         Vector3 cameraOffset = Vector3.Lerp(idealCameraOffset, maxCameraOffset, cameraLerpValue);
 
 
-        R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, 0.5f); //TEMP
+        R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, 0.3f); 
 
         if(cameraPos.z >= nextLevelSpawn - 25f)
         {

@@ -396,6 +396,8 @@ public class Hero : Character
 
         lifeBar.transform.parent.gameObject.SetActive(true);
 
+        DOTween.Kill("LifeBarScaleTween");
+        lifeBar.transform.parent.DOScale(Vector3.one, 0.5f).SetId("LifeBarScaleTween");
         countdown.gameObject.SetActive(false);
 
         path.Clear();
