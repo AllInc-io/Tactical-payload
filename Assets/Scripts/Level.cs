@@ -292,6 +292,9 @@ public class Level : MonoBehaviour
         bool zoomOut = false;
         bool everyoneInSafeZone = true;
 
+        bool cannotGoFurtherInXAxis = false;
+
+        Vector2 viewportPos;
         foreach (Hero hero in R.get.game.heroes)
         {
             if (!hero.dead)
@@ -299,19 +302,32 @@ public class Level : MonoBehaviour
                 cameraPos += hero.transform.position;
                 amount++;
 
-                Vector2 viewportPos = R.get.mainCamera.WorldToViewportPoint(hero.transform.position);
-                if (viewportPos.x > 0.9f || viewportPos.x < 0.1f || viewportPos.y < 0 || viewportPos.y > 0.8f)
+                viewportPos = R.get.mainCamera.WorldToViewportPoint(hero.transform.position);
+                if (viewportPos.x > 0.8f || viewportPos.x < 0.2f || viewportPos.y < 0.1f || viewportPos.y > 0.8f)
                 {
                     zoomOut = true;
                 }
                 
-                if(viewportPos.x > 0.8f || viewportPos.x < 0.2f || viewportPos.y < 0.2 || viewportPos.y > 0.7f)
+                if(viewportPos.x > 0.75f || viewportPos.x < 0.25f || viewportPos.y < 0.25f || viewportPos.y > 0.75f)
                 {
                     everyoneInSafeZone = false;
                 }
             }
         
         }
+
+        viewportPos = R.get.mainCamera.WorldToViewportPoint(payload.transform.position);
+        if (viewportPos.x > 0.8f || viewportPos.x < 0.2f)
+        {
+            zoomOut = true;
+            if (cameraLerpValue >= 1) cannotGoFurtherInXAxis = true;
+        }
+        if (viewportPos.x > 0.75f || viewportPos.x < 0.25f)
+        {
+            everyoneInSafeZone = false;
+        }
+
+
 
         if (amount == 0) return;
 
@@ -328,7 +344,7 @@ public class Level : MonoBehaviour
         Vector3 cameraOffset = Vector3.Lerp(idealCameraOffset, maxCameraOffset, cameraLerpValue);
 
 
-        R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, 0.3f); 
+        if(!cannotGoFurtherInXAxis || (Mathf.Abs(cameraPos.x) < Mathf.Abs(R.get.mainCamera.transform.position.x))) R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, 0.3f); 
 
         if(cameraPos.z >= nextLevelSpawn - 25f)
         {

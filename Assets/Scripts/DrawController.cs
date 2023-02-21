@@ -59,7 +59,7 @@ public class DrawController : Controller
     private void Update()
     {
 
-        if (!isOn || !R.get.game.isOn) return;
+        if (!isOn || !R.get.game.isOn || Time.timeScale == 0) return;
          float characterWidth = currentlySelectedCharacter != null ? currentlySelectedCharacter.transform.lossyScale.z * 0.5f * (currentlySelectedCharacter.col as CapsuleCollider).radius : 0;
         if (Input.GetMouseButtonDown(0))
         {

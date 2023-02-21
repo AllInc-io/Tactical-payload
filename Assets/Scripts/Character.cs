@@ -212,7 +212,7 @@ public class Character : MonoBehaviour
     protected void UpdateLifeBar()
     {
 
-        if ( !lifeBarParent.gameObject.activeInHierarchy) lifeBarParent.gameObject.SetActive(true);
+        if ( !lifeBarParent.gameObject.activeInHierarchy && PVs > 0) lifeBarParent.gameObject.SetActive(true);
         DOTween.Kill(lifeBar, "FillLifeBar");
         lifeBar.DOFillAmount(PVs /(float)maxPVs, 0.3f).SetId("FillLifeBar");
     }
@@ -231,7 +231,7 @@ public class Character : MonoBehaviour
 
         if (lifeBar != null)
         {
-            DOTween.Kill("LifeBarScaleTween");
+            DOTween.Kill(lifeBar, "LifeBarScaleTween");
             lifeBarParent.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).SetId("LifeBarScaleTween");
         }
 

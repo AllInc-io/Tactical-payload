@@ -162,6 +162,9 @@ public class Enemy : Character
         }
 
         lifeBarParent.gameObject.SetActive(false);
+        lifeBarParent.transform.localScale = Vector3.one;
+        lifeBar.fillAmount = 1;
+        
         
     }
 
@@ -210,12 +213,12 @@ public class Enemy : Character
         float step = 0.3f;
         while(!dead)
         {
-            if (type == EnemyType.Crawler)
+            if (type == EnemyType.Crawler && agent.isActiveAndEnabled)
             {
                 agent.speed = speed * speedMultiplier * speedRandomMultiplier;
                 LookForInterestPoint(out Vector3 goal);
                 
-                if (Vector3.Distance(transform.position, goal) >= attackRange && !frozen)
+                if (Vector3.Distance(transform.position, goal) >= attackRange)
                 {
                     if (wasAttacking)
                     {
@@ -511,8 +514,6 @@ public class Enemy : Character
 
     private IEnumerator FullyDisableCoroutine(float delay)
     {
-
-
 
         float t = 0;
         while(t <= 1)
