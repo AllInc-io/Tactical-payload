@@ -106,7 +106,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 521745396380485986, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: gun
@@ -192,17 +192,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bouclier
       objectReference: {fileID: 0}
+    - target: {fileID: 1525466321972988037, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2793564631311430989, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3755598323213746667, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4760642933822018360, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6398373099037173368, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7127373762915069081, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: radius
@@ -260,17 +268,21 @@ PrefabInstance:
       propertyPath: colorOuterStart.r
       value: 0.15566039
       objectReference: {fileID: 0}
+    - target: {fileID: 7769442427857331823, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8156902973153282419, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8690587384266494995, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8871726116083682009, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9123757125599852205, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_Materials.Array.data[0]
