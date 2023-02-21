@@ -97,7 +97,7 @@ public class CharacterSelectionMenu : MonoBehaviour
             R.get.game.heroes[1].transform.localPosition = Vector3.zero;
             R.get.game.heroes[1].transform.localScale = Vector3.one;
             R.get.game.heroes[1].transform.localRotation = Quaternion.Euler(Vector3.zero);
-            R.get.game.heroes[1].lifeBar.transform.parent.gameObject.SetActive(false);
+            R.get.game.heroes[1].lifeBarParent.gameObject.SetActive(false);
             R.get.game.heroes[1].gun.gameObject.SetActive(false);
             R.get.game.heroes[1].animator.SetLayerWeight(1, 0);
 
@@ -150,7 +150,7 @@ public class CharacterSelectionMenu : MonoBehaviour
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localPosition = Vector3.zero;
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localScale = Vector3.one;
         R.get.game.heroes[currentlySelectedCharacterSlot].transform.localRotation = Quaternion.Euler(Vector3.zero);
-        R.get.game.heroes[currentlySelectedCharacterSlot].lifeBar.transform.parent.gameObject.SetActive(false);
+        R.get.game.heroes[currentlySelectedCharacterSlot].lifeBarParent.gameObject.SetActive(false);
         R.get.game.heroes[currentlySelectedCharacterSlot].countdown.gameObject.SetActive(false);
         R.get.game.heroes[currentlySelectedCharacterSlot].levelText.gameObject.SetActive(false);
 

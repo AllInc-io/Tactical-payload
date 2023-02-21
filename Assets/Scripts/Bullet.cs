@@ -62,6 +62,10 @@ public class Bullet : MonoBehaviour
 
                 transform.position += transform.forward * speed * Time.deltaTime;
             }
+            else
+            {
+                transform.position = hit.point;
+            }
         }
         else Kill();
 
@@ -87,6 +91,7 @@ public class Bullet : MonoBehaviour
     {
         return Physics.Raycast(transform.position, transform.forward, out collidedWith, speed * Time.deltaTime, canCollideWith);
     }
+
     private void OnCollisionEnter(Collision collision)
     {
 

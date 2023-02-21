@@ -394,10 +394,10 @@ public class Hero : Character
 
         PVs = maxPVs / 2f;
 
-        lifeBar.transform.parent.gameObject.SetActive(true);
+        lifeBarParent.gameObject.SetActive(true);
 
         DOTween.Kill("LifeBarScaleTween");
-        lifeBar.transform.parent.DOScale(Vector3.one, 0.5f).SetId("LifeBarScaleTween");
+        lifeBarParent.DOScale(Vector3.one, 0.5f).SetId("LifeBarScaleTween");
         countdown.gameObject.SetActive(false);
 
         path.Clear();
@@ -450,16 +450,34 @@ public class Hero : Character
                     distanceToCollider = Vector3.Distance(collider.transform.position, transform.position);
                     Vector3 direction = collider.transform.position - gun.transform.position;
                     //direction.y = 0;
-                    if (collider.TryGetComponent(out Enemy enemy) && R.get.game.CheckIfPositionIsInView(enemy.transform.position) && (gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance) && !enemy.dead && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
+                    if (collider.TryGetComponent(out Enemy enemy) && R.get.game.CheckIfPositionIsInView(enemy.transform.position)  && !enemy.dead && !Physics.Raycast(gun.transform.position, direction.normalized, distanceToCollider, obstacles, QueryTriggerInteraction.Collide))
                     {
-                        if (collider == previousTarget) previousColliderIn = true;
-                        interestCollider = collider;
-                        interestPoint = collider.transform.position;
-                        currentDistance = Vector3.Distance(interestPoint, transform.position);
-                        noTarget = false;
-                        thereIsAnEnemyInSight = true;
-                        if (enemy.isCrawling) enemyIsCrawling = true;
-                        else enemyIsCrawling = false;
+                        if (enemy.currentlyAttackingPayload)
+                        {
+                            previousColliderIn = false;
+                            interestCollider = collider;
+                            interestPoint = collider.transform.position;
+                            currentDistance = Vector3.Distance(interestPoint, transform.position);
+                            noTarget = false;
+                            thereIsAnEnemyInSight = true;
+                            if (enemy.isCrawling) enemyIsCrawling = true;
+                            else enemyIsCrawling = false;
+                            break;
+
+                        }
+                        else if ((gun.isGrenade ? distanceToCollider > currentDistance : distanceToCollider < currentDistance))
+                        {
+
+                            if (collider == previousTarget) previousColliderIn = true;
+                            interestCollider = collider;
+                            interestPoint = collider.transform.position;
+                            currentDistance = Vector3.Distance(interestPoint, transform.position);
+                            noTarget = false;
+                            thereIsAnEnemyInSight = true;
+                            if (enemy.isCrawling) enemyIsCrawling = true;
+                            else enemyIsCrawling = false;
+                        }
+
                     }
 
                 }
@@ -506,10 +524,11 @@ public class Hero : Character
                 interestPoint.y = previousInterestPoint.y;
                 noTarget = false;
             }
-                previousTarget = interestCollider;
+
+            previousTarget = interestCollider;
 
 
-                isShooting = !noTarget;
+           isShooting = !noTarget;
 
             //pauseOnPath = !noTarget;
 
@@ -545,7 +564,7 @@ public class Hero : Character
                         gun.lamp.DOKill();
                         gun.lamp.DOIntensity(initLampIntensity, 0.3f);
                         //inflict damage and triggers the firing animation
-                        if (gun.TryShoot())
+                        if (gun.TryShoot(dir))
                         {
                             shot = true;
                             animator.SetTrigger("Fire");
@@ -555,7 +574,7 @@ public class Hero : Character
                     {
 
                         //inflict damage and triggers the firing animation
-                        if (gun.TryShoot(true))
+                        if (gun.TryShoot(dir, true))
                         {
                             shot = false;
                             animator.SetTrigger("Fire");

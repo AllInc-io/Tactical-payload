@@ -123,6 +123,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   deathFX: {fileID: 3978568406777741947, guid: 63b160dddd16bb74ea99e7bf9d320bb3, type: 3}
   lifeBar: {fileID: 1399589302927270843}
+  lifeBarParent: {fileID: 1734909948523838208}
   agent: {fileID: 982245823248205828}
   gun: {fileID: 0}
   hitFx: {fileID: 3978568406777741947, guid: f4b1236d5634da94b9f0eba8edd72e25, type: 3}

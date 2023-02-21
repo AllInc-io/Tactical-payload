@@ -21,7 +21,7 @@ public class Enemy : Character
     [SerializeField] EnemyType type;
     [SerializeField, ShowIf("type", EnemyType.Tourelle)] float lookAroundEveryXSeconds = 5f;
 
-    [SerializeField] float attackRange = 2f;
+    [SerializeField] public float attackRange = 2f;
     [SerializeField] float attackEveryXSeconds = 2f;
 
     [SerializeField] bool isRunner;
@@ -81,6 +81,7 @@ public class Enemy : Character
 
     RectTransform inGameUIIndicator;
 
+    public bool currentlyAttackingPayload;
     public void Preinit() //spawns the zombie
     {
 
@@ -160,7 +161,7 @@ public class Enemy : Character
             inGameUIIndicator.DOScale(Vector3.one, 0.5f);
         }
 
-        lifeBar.transform.parent.gameObject.SetActive(false);
+        lifeBarParent.gameObject.SetActive(false);
         
     }
 
@@ -214,7 +215,7 @@ public class Enemy : Character
                 agent.speed = speed * speedMultiplier * speedRandomMultiplier;
                 LookForInterestPoint(out Vector3 goal);
                 
-                if (Vector3.Distance(transform.position, goal) >= attackRange)
+                if (Vector3.Distance(transform.position, goal) >= attackRange && !frozen)
                 {
                     if (wasAttacking)
                     {
@@ -268,7 +269,11 @@ public class Enemy : Character
                 if(result.GetComponent<Hero>() != null) result.GetComponent<Hero>().TakeDamage(damagePerHit, Vector3.zero);
             }
         }
-        if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < attackRange) R.get.levelManager.level.payload.TakeDamage(1);
+        if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < attackRange)
+        {
+            currentlyAttackingPayload = true;
+            R.get.levelManager.level.payload.TakeDamage(1);
+        }
 
     }
 
@@ -462,6 +467,8 @@ public class Enemy : Character
 
     protected override void Die(Vector3 ragdollForce)
     {
+        StopAllCoroutines();
+
         base.Die(ragdollForce);
 
         expGainedText.color = expTextColor;
@@ -476,7 +483,7 @@ public class Enemy : Character
 
         inGameUIIndicator.transform.DOScale(Vector3.zero, 0.5f);
 
-        StopAllCoroutines();
+
         col.enabled = false;
         agent.enabled = false;
         //zombie.Explode();

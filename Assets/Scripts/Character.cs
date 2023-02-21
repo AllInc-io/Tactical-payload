@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     [FoldoutGroup("Refs")] public Renderer meshRenderer;
     [FoldoutGroup("Refs"), SerializeField] ParticleSystem deathFX;
     [FoldoutGroup("Refs"), SerializeField] public Image lifeBar;
+    [FoldoutGroup("Refs"), SerializeField] public Transform lifeBarParent;
     [FoldoutGroup("Refs"), SerializeField] protected NavMeshAgent agent;
 
 
@@ -49,8 +50,9 @@ public class Character : MonoBehaviour
     {
         if (lifeBar != null)
         {
-            lifeBar.transform.parent.localScale = Vector3.zero;
-            lifeBar.transform.parent.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack);
+            lifeBarParent.localScale = Vector3.zero;
+            lifeBarParent.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBack);
+            lifeBarParent.SetParent(null);
         }
     }
 
@@ -175,7 +177,9 @@ public class Character : MonoBehaviour
     protected virtual void Update()
     {
         //if (dead) return;
-        lifeBar.transform.parent.forward = -R.get.mainCamera.transform.forward;
+
+        lifeBarParent.transform.position = transform.position + Vector3.up * 5f;
+        lifeBarParent.forward = R.get.mainCamera.transform.forward;
     }
 
     
@@ -208,9 +212,9 @@ public class Character : MonoBehaviour
     protected void UpdateLifeBar()
     {
 
-        if ( !lifeBar.transform.parent.gameObject.activeInHierarchy) lifeBar.transform.parent.gameObject.SetActive(true);
-        DOTween.Kill(lifeBar, "FillLifeCircle");
-        lifeBar.DOFillAmount(PVs /(float)maxPVs, 0.3f).SetId("FillLifeCircle");
+        if ( !lifeBarParent.gameObject.activeInHierarchy) lifeBarParent.gameObject.SetActive(true);
+        DOTween.Kill(lifeBar, "FillLifeBar");
+        lifeBar.DOFillAmount(PVs /(float)maxPVs, 0.3f).SetId("FillLifeBar");
     }
 
 
@@ -228,7 +232,7 @@ public class Character : MonoBehaviour
         if (lifeBar != null)
         {
             DOTween.Kill("LifeBarScaleTween");
-            lifeBar.transform.parent.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).SetId("LifeBarScaleTween");
+            lifeBarParent.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).SetId("LifeBarScaleTween");
         }
 
     }

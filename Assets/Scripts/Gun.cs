@@ -52,12 +52,12 @@ public class Gun : MonoBehaviour
 
     //will shoot a bullet forward if timesincelastshot > rate
     //and returns wether it did shoot or not
-    public bool TryShoot(bool tooClose = false)
+    public bool TryShoot(Vector3 dir, bool tooClose = false)
     {
 
         if (data.bulletPrefab != null && data.bulletsPerSecond > 0 && timeSinceLastShot > 1f / (data.bulletsPerSecond * damageMultiplier))
         {
-            ShootForward(tooClose);
+            ShootForward(dir, tooClose);
             return true;
         }
         else return false;
@@ -70,7 +70,7 @@ public class Gun : MonoBehaviour
     }
 
 
-    public void ShootForward(bool fromOrigin)
+    public void ShootForward(Vector3 dir, bool fromOrigin)
     {
         timeSinceLastShot = 0;
         if(muzzleFX != null) muzzleFX.Play();
@@ -81,7 +81,7 @@ public class Gun : MonoBehaviour
 
             
             bullet.transform.position = fromOrigin ? transform.position : bulletSource.transform.position;
-            bullet.transform.forward = Quaternion.Euler(0,Mathf.Lerp(-data.spread /2f, data.spread /2f, (float)i/ data.bulletsPerShot),0) * bulletSource.forward;
+            bullet.transform.forward = Quaternion.Euler(0,Mathf.Lerp(-data.spread /2f, data.spread /2f, (float)i/ data.bulletsPerShot),0) * dir;
             bullet.speed = data.bulletSpeed;
             bullet.damage = Mathf.RoundToInt(data.damagePerBullet * damageMultiplier);
             bullet.lifetime = data.bulletLifetime;
