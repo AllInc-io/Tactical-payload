@@ -34,7 +34,8 @@ public class GameManager : SerializedMonoBehaviour
 
     int xpToNextLevel;
     [HideInInspector] public float currentXPMultiplier = 1;
-    
+
+    public bool gameFullyPaused = false;
 
     public void Init()
     {
@@ -160,12 +161,14 @@ public class GameManager : SerializedMonoBehaviour
     public void SetPause()
     {
         Time.timeScale = 0;
+        gameFullyPaused = true;
         R.get.ui.menuIngame.ShowAmeliorationMenu();
     }
 
     public void StopPause()
     {
         Time.timeScale = 1;
+        gameFullyPaused = false;
         R.get.ui.menuIngame.HideAmeliorationMenu();
     }
 

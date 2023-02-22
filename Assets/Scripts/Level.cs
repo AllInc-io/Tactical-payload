@@ -25,6 +25,9 @@ public class Level : MonoBehaviour
     [SerializeField] public NavMeshSurface surface;
 
     [SerializeField] Transform[] oneRoadBlocks;
+
+    [SerializeField] TutorialBlock tutorialBlock;
+
     [SerializeField] Transform landmarkIndicator;
 
     [SerializeField] Destructible[] possibleDestructibles;
@@ -51,6 +54,8 @@ public class Level : MonoBehaviour
     int landmarkIndex;
 
     bool gameOver;
+
+
 
     public void Init()
     {
@@ -79,7 +84,8 @@ public class Level : MonoBehaviour
 
         //apply weather to level : TODO
 
-        SpawnNewBlockInFront();
+
+        SpawnNewBlockInFront(R.get.score == 0);
 
         surface.BuildNavMesh();
 
@@ -104,7 +110,7 @@ public class Level : MonoBehaviour
 
     public void StartLevel()
     {
-
+        SetUpCamera(true);
     }
 
     public void PassLandmark()
@@ -280,7 +286,7 @@ public class Level : MonoBehaviour
 
     float cameraLerpValue = 0;
 
-    public void SetUpCamera()
+    public void SetUpCamera(bool instant = false)
     {
         
         Vector3 idealCameraOffset = new Vector3(0, 60, -30);
@@ -344,7 +350,7 @@ public class Level : MonoBehaviour
         Vector3 cameraOffset = Vector3.Lerp(idealCameraOffset, maxCameraOffset, cameraLerpValue);
 
 
-        if(!cannotGoFurtherInXAxis || (Mathf.Abs(cameraPos.x) < Mathf.Abs(R.get.mainCamera.transform.position.x))) R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, 0.3f); 
+        if(!cannotGoFurtherInXAxis || (Mathf.Abs(cameraPos.x) < Mathf.Abs(R.get.mainCamera.transform.position.x))) R.get.mainCamera.transform.position = Vector3.Lerp(R.get.mainCamera.transform.position, cameraPos + cameraOffset, instant ? 1 : 0.3f); 
 
         if(cameraPos.z >= nextLevelSpawn - 25f)
         {
@@ -352,33 +358,42 @@ public class Level : MonoBehaviour
         }
     }
 
-    void SpawnNewBlockInFront()
+    void SpawnNewBlockInFront(bool isTuto = false)
     {
+        Transform newBlock;
 
-        Transform newBlock = Instantiate(oneRoadBlocks[Random.Range(0, oneRoadBlocks.Length)], transform);
-        newBlock.transform.position = Vector3.forward * (nextLevelSpawn + 25f);
+        if(isTuto) newBlock = Instantiate(tutorialBlock, transform).transform;
+        else newBlock = Instantiate(oneRoadBlocks[Random.Range(0, oneRoadBlocks.Length)], transform);
+
+        newBlock.transform.position = Vector3.forward * (nextLevelSpawn + (isTuto ? newBlock.GetComponent<TutorialBlock>().length / 2f : 25f));
         surface.BuildNavMesh();
 
-        int length = 50;
+        int length = (isTuto ? newBlock.GetComponent<TutorialBlock>().length: 50);
         int width = 30;
 
-        int step = 2;
-
-        Vector3 startPos = new Vector3(-width/2f, 0, (nextLevelSpawn));
-
-        //spawn crates
-        for (int x = 0; x < width; x+= step)
+        if (isTuto) newBlock.GetComponent<TutorialBlock>().StartTuto();
+        else
         {
-            for(int z = 0; z < length; z+= step)
-            {
-                float value = Random.value;
-                if (value < destructiblesDensity) Instantiate(possibleDestructibles[Random.Range(0, possibleDestructibles.Length)], new Vector3(x + startPos.x, 0f, z + startPos.z), default);
-            }
+            int step = 2;
 
+            Vector3 startPos = new Vector3(-width / 2f, 0, (nextLevelSpawn));
+
+            //spawn crates
+            for (int x = 0; x < width; x += step)
+            {
+                for (int z = 0; z < length; z += step)
+                {
+                    float value = Random.value;
+                    if (value < destructiblesDensity) Instantiate(possibleDestructibles[Random.Range(0, possibleDestructibles.Length)], new Vector3(x + startPos.x, 0f, z + startPos.z), default);
+                }
+
+            }
         }
 
 
-        nextLevelSpawn += 50f;
+
+
+        nextLevelSpawn += length;
 
     }
 

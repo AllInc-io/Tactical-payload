@@ -349,6 +349,7 @@ MonoBehaviour:
   enemiesAlive: 0
   surface: {fileID: 8308104784448176562}
   oneRoadBlocks: []
+  tutorialBlock: {fileID: 3246766115513102079, guid: a515fa062a2782a4faa0ceeacb487681, type: 3}
   landmarkIndicator: {fileID: 2980465415036663745, guid: b341ae3d0304c814782feb65d19bf73f, type: 3}
   possibleDestructibles:
   - {fileID: 5183485931449532490, guid: c3e2435e5d0f3094d88082c639021579, type: 3}

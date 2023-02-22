@@ -219,7 +219,7 @@ public class Enemy : Character
         float step = 0.3f;
         while(!dead)
         {
-            if (type == EnemyType.Crawler && agent.isActiveAndEnabled)
+            if (type == EnemyType.Crawler && agent.isActiveAndEnabled && agent.isOnNavMesh)
             {
                 agent.speed = speed * speedMultiplier * speedRandomMultiplier;
                 LookForInterestPoint(out Vector3 goal);
