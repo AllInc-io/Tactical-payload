@@ -9,7 +9,13 @@ using TMPro;
 public class Enemy : Character
 {
 
-
+    [FoldoutGroup("Materials"), SerializeField] List<Renderer> bodiesToChange;
+    [FoldoutGroup("Materials"), SerializeField] List<Renderer> skinsToChange;
+    [FoldoutGroup("Materials"), SerializeField] Material normalSkin;
+    [FoldoutGroup("Materials"), SerializeField] Material freezedSkin;
+    [FoldoutGroup("Materials"), SerializeField] Material normalBody;
+    [FoldoutGroup("Materials"), SerializeField] Material freezedBody;
+    [SerializeField] GameObject FreezeFX;
 
     [SerializeField] RectTransform UIPositionIndicatorPrefab;
 
@@ -291,6 +297,8 @@ public class Enemy : Character
         agent.enabled = false;
         animator.speed = 0;
 
+        SetFreezed();
+
         float t = 0;
         while(t < duration && !dead)
         {
@@ -300,11 +308,49 @@ public class Enemy : Character
 
         if(!dead)
         {
+            SetNormal();
             frozen = false;
             animator.speed = 1;
             agent.enabled = true;
+
+
         }
     }
+
+    void SetFreezed()
+    {
+        Debug.Log("SETFREEZED");
+        FreezeFX.SetActive(true);
+        foreach (Renderer r in bodiesToChange)
+        {
+            Debug.Log(r.ToString());
+
+            r.material = freezedBody;
+        }
+
+        foreach (Renderer r in skinsToChange)
+        {
+            r.material = freezedSkin;
+        }
+    }
+
+    void SetNormal()
+    {
+        Debug.Log("SETNORMAL");
+        FreezeFX.SetActive(false);
+        foreach (Renderer r in bodiesToChange)
+        {
+            Debug.Log(r.ToString());
+
+            r.material = normalBody;
+        }
+
+        foreach (Renderer r in skinsToChange)
+        {
+            r.material = normalSkin;
+        }
+    }
+
 
 
 
@@ -447,7 +493,7 @@ public class Enemy : Character
         {
             if (other.CompareTag("Bullet"))
             {
-                //Debug.Log("touché");
+                //Debug.Log("touch?");
                 Bullet bullet = other.GetComponent<Bullet>();
                 TakeDamage(bullet.damage, bullet.transform.forward * bullet.baseProjectionForce);
                 if (!noticedHeroes.Contains(bullet.shooter)) noticedHeroes.Add(bullet.shooter);
@@ -491,7 +537,7 @@ public class Enemy : Character
         agent.enabled = false;
         //zombie.Explode();
         onFireFx.gameObject.SetActive(false);
-
+        SetNormal();
 
 
         if (Random.value <= 0.1f)

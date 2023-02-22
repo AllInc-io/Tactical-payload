@@ -149,6 +149,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 27e28f5d44702e644a6f4eb7d3b11ce7, type: 3}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: heroName
       value: Crossbow
       objectReference: {fileID: 0}

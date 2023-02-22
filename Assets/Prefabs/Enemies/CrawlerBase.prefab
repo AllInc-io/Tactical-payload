@@ -151,6 +151,13 @@ MonoBehaviour:
   dead: 0
   maxPVs: 500
   scoreUnlock: 0
+  bodiesToChange: []
+  skinsToChange: []
+  normalSkin: {fileID: 0}
+  freezedSkin: {fileID: 0}
+  normalBody: {fileID: 0}
+  freezedBody: {fileID: 0}
+  FreezeFX: {fileID: 1211431544336617439}
   UIPositionIndicatorPrefab: {fileID: 8193512717836294711, guid: 6f08e25945a906a4d8de3af4598840cd, type: 3}
   visionAngle: 69
   visionDistance: 15
@@ -181,6 +188,7 @@ MonoBehaviour:
   isCrawling: 0
   entranceLight: {fileID: 0}
   onFireCounter: 0
+  currentlyAttackingPayload: 0
 --- !u!136 &7452583843991013592
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1389,6 +1397,11 @@ PrefabInstance:
 --- !u!4 &702715079539573985 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6225406175116785859, guid: 558e60f3499c53641ae19c775c0d798e, type: 3}
+  m_PrefabInstance: {fileID: 6892088847641852962}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1211431544336617439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5722457575970878461, guid: 558e60f3499c53641ae19c775c0d798e, type: 3}
   m_PrefabInstance: {fileID: 6892088847641852962}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8112369704977479635
