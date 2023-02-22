@@ -222,7 +222,7 @@ public class MenuIngame : MonoBehaviour
     {
         progressionText.text = meters + " yards";
 
-        if (passingLandmark) progressionText.transform.DOPunchScale(Vector3.one * 1.5f, 0.5f);
+        //if (passingLandmark) progressionText.transform.DOPunchScale(Vector3.one * 1.5f, 0.5f);
     }
 
 
