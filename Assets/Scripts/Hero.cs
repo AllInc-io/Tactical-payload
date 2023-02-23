@@ -220,7 +220,7 @@ public class Hero : Character
 
                 MoveTowards(path[0],  1);
 
-                if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < (col as CapsuleCollider).radius)
+                if (Vector3.Distance(R.get.levelManager.level.payload.GetComponent<Collider>().ClosestPoint(transform.position), transform.position) < transform.lossyScale.z * 0.5f * (col as CapsuleCollider).radius)
                 {
                     transform.position = previousPos;
                     stop = true;
@@ -403,7 +403,8 @@ public class Hero : Character
         path.Clear();
 
         UpdateLifeBar();
-        gun.lamp.gameObject.SetActive(true);
+        //gun.lamp.gameObject.SetActive(true);
+        gun.lamp.intensity = initLampIntensity;
 
         dead = false;
         
@@ -502,7 +503,7 @@ public class Hero : Character
                         {
                             if (collider == previousTarget) previousColliderIn = true;
                             interestCollider = collider;
-                            interestPoint = collider.transform.position + Vector3.up * 0.75f;
+                            interestPoint = collider.transform.position + Vector3.up * 0.5f;
                             currentDistance = Vector3.Distance(interestPoint, transform.position);
                             noTarget = false;
 

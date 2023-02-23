@@ -155,6 +155,7 @@ public class Enemy : Character
         //StartCoroutine(LookAroundCoroutine());
 
         zombie.ResetVisuals();
+        animator.transform.localPosition = Vector3.zero;
 
         expTextColor = expGainedText.color;
 

@@ -59,5 +59,6 @@ public class Zombie : MonoBehaviour
         {
             bodyPart.Ressucitate();
         }
+        transform.localPosition = Vector3.zero;
     }
 }
