@@ -179,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: maxPVs
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: heroName
@@ -207,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: scoreUnlock
-      value: 0
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: rigAimOffsetDegrees
@@ -215,7 +215,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1278082198548641613, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: startGunData.damagePerBullet
-      value: 50
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 1446226376840908153, guid: 43f93c0e52ad88a41bd7987341693b02, type: 3}
       propertyPath: m_RootOrder

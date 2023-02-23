@@ -77,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5528936052802613134, guid: 4a1a122a7fc50564683f38f30ac498b0, type: 3}
       propertyPath: maxPVs
-      value: 300
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5528936052802613134, guid: 4a1a122a7fc50564683f38f30ac498b0, type: 3}
       propertyPath: zombie
